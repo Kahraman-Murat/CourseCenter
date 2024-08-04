@@ -53,7 +53,7 @@ namespace CourseCenter.Business.Concrete
 
         public void TUpdate(T entity)
         {
-            throw new NotImplementedException();
+            _repository.Update(entity);
         }
     }
 }

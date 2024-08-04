@@ -1,9 +1,21 @@
+using CourseCenter.Business.Abstract;
+using CourseCenter.Business.Concrete;
+using CourseCenter.DataAccess.Abstract;
 using CourseCenter.DataAccess.Context;
+using CourseCenter.DataAccess.Repositories;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+// Add AutoMapper
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
+// Add Repositories
+builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped(typeof(IGenericService<>), typeof(GenericManager<>));
 
 // Add DbContext
 builder.Services.AddDbContext<CourseCenterContext>(options =>
