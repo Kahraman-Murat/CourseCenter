@@ -16,7 +16,7 @@ namespace CourseCenter.DTO.DTOs.BlogDtos
         public DateTime CreatedDate { get; set; }
 
 
-        public bool IsShown { get; set; }
+        public bool IsShown { get => false; }
         public int BlogCategoryId { get; set; }
     }
 }
