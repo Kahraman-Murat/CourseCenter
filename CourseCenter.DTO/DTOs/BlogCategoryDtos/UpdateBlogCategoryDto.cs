@@ -12,7 +12,5 @@ namespace CourseCenter.DTO.DTOs.BlogCategoryDtos
     {
         public int Id { get; set; }
         public string Name { get; set; }
-
-        public List<ResultBlogDto> Blogs { get; set; }
     }
 }
