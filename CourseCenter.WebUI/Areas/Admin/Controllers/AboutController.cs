@@ -1,5 +1,7 @@
 ﻿using CourseCenter.WebUI.DTOs.AboutDtos;
 using CourseCenter.WebUI.Helpers;
+using CourseCenter.WebUI.Validators;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Json;
 
@@ -31,6 +33,18 @@ namespace CourseCenter.WebUI.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateAbout(CreateAboutDto createAboutDto)
         {
+            var validator = new CreateAboutValidator();
+            var result = await validator.ValidateAsync(createAboutDto);
+            if (!result.IsValid)
+            {
+                ModelState.Clear();
+                foreach (var x in result.Errors)
+                {
+                    ModelState.AddModelError(x.PropertyName, x.ErrorMessage);
+                }
+                return View(result);
+            }
+
             await _client.PostAsJsonAsync("abouts", createAboutDto);
             return RedirectToAction(nameof(Index));
         }
@@ -45,6 +59,18 @@ namespace CourseCenter.WebUI.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateAbout(UpdateAboutDto updateAboutDto)
         {
+            var validator = new UpdateAboutValidator();
+            var result = await validator.ValidateAsync(updateAboutDto);
+            if (!result.IsValid)
+            {
+                ModelState.Clear();
+                foreach (var x in result.Errors)
+                {
+                    ModelState.AddModelError(x.PropertyName, x.ErrorMessage);
+                }
+                return View(result);
+            }
+
             await _client.PutAsJsonAsync("abouts", updateAboutDto);
             return RedirectToAction(nameof(Index));
         }
