@@ -352,6 +352,32 @@
     <!-- this page js -->
     <script src="~/matrix-admin-master/assets/libs/magnific-popup/dist/jquery.magnific-popup.min.js"></script>
     <script src="~/matrix-admin-master/assets/libs/magnific-popup/meg.init.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function DeleteRecord(deleteRecordLink) {
+            //debugger;
+            //alert(deleteRecordLink)
+            Swal.fire({
+                title: "Emin misiniz ?", //Are you sure?
+                text: "Islemi Geri Almayacaksiniz !", //You won't be able to revert this!
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Evet, Sil !", //Yes, delete it!
+                cancelButtonText: "Iptal"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = deleteRecordLink;
+                    Swal.fire({
+                        title: "Silindi!", //Deleted!
+                        text: "Istenen Veri Silindi.", //Your file has been deleted.
+                        icon: "success"
+                    });
+                }
+            });
+        }
+    </script>
 </body>
 
 </html>
