@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CourseCenter.WebUI.DTOs.AboutDtos;
+using CourseCenter.WebUI.Helpers;
+using Microsoft.AspNetCore.Mvc;
+using System.Net.Http.Json;
 
 namespace CourseCenter.WebUI.Areas.Admin.Controllers
 {
@@ -6,9 +9,44 @@ namespace CourseCenter.WebUI.Areas.Admin.Controllers
     [Route("[area]/[controller]/[action]/{id?}")]
     public class AboutController : Controller
     {
-        public IActionResult Index()
+        private readonly HttpClient _client = HttpClientInstance.CreateClient();
+        public async Task<IActionResult> Index()
         {
+            var datas = await _client.GetFromJsonAsync<List<ResultAboutDto>>("abouts");
+            return View(datas);
+        }
+
+        public async Task<IActionResult> DeleteAbout(int id)
+        {
+            await _client.DeleteAsync($"abouts/{id}");
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CreateAbout()
+        {            
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateAbout(CreateAboutDto createAboutDto)
+        {
+            await _client.PostAsJsonAsync("abouts", createAboutDto);
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> UpdateAbout(int id)
+        {
+            var datas = await _client.GetFromJsonAsync<UpdateAboutDto>($"abouts/{id}");
+            return View(datas);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateAbout(UpdateAboutDto updateAboutDto)
+        {
+            await _client.PutAsJsonAsync("abouts", updateAboutDto);
+            return RedirectToAction(nameof(Index));
         }
     }
 }
