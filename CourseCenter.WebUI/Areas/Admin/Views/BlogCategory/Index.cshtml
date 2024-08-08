@@ -1,0 +1,36 @@
+﻿@model List<ResultBlogCategoryDto>
+@{
+    ViewData["Title"] = "Blog Kategorileri";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@{
+    int count = 0;
+}
+<table class="table table-hover">
+    <tr>
+        <th>#</th>
+        <th>Blog Kategori Adi</th>
+        <th>islemler</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        count++;
+        <tr>
+            <th>@count</th>
+            <td>@item.Name</td>
+            <td>
+                <button onclick="DeleteRecord('/Admin/BlogCategory/DeleteBlogCategory/@item.Id')" class="btn btn-outline-danger">Sil</button>
+
+                <a asp-action="UpdateBlogCategory" asp-controller="BlogCategory" asp-area="Admin" asp-route-id="@item.Id" class="btn btn-outline-info">Güncelle</a>
+
+            </td>
+        </tr>
+    }
+</table>
+<br />
+<a asp-action="CreateBlogCategory" asp-controller="BlogCategory" asp-area="Admin" class="btn btn-outline-primary">Yeni Blog Kategorisi Ekle</a>
+
+
+
+
