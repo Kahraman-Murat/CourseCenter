@@ -41,7 +41,8 @@ namespace CourseCenter.WebUI.Areas.Admin.Controllers
                 {
                     ModelState.AddModelError(x.PropertyName, x.ErrorMessage);
                 }
-                return View(result);
+
+                return View(createBannerDto);
             }
 
             await _client.PostAsJsonAsync("Banners", createBannerDto);
@@ -67,7 +68,8 @@ namespace CourseCenter.WebUI.Areas.Admin.Controllers
                 {
                     ModelState.AddModelError(x.PropertyName, x.ErrorMessage);
                 }
-                return View(result);
+
+                return View(updateBannerDto);
             }
 
             await _client.PutAsJsonAsync("Banners", updateBannerDto);

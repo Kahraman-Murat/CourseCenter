@@ -3,6 +3,7 @@ using CourseCenter.WebUI.Helpers;
 using CourseCenter.WebUI.Validators;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Net.Http.Json;
 
 namespace CourseCenter.WebUI.Areas.Admin.Controllers
@@ -42,7 +43,8 @@ namespace CourseCenter.WebUI.Areas.Admin.Controllers
                 {
                     ModelState.AddModelError(x.PropertyName, x.ErrorMessage);
                 }
-                return View(result);
+
+                return View(createAboutDto);
             }
 
             await _client.PostAsJsonAsync("abouts", createAboutDto);
@@ -68,7 +70,8 @@ namespace CourseCenter.WebUI.Areas.Admin.Controllers
                 {
                     ModelState.AddModelError(x.PropertyName, x.ErrorMessage);
                 }
-                return View(result);
+
+                return View(updateAboutDto);
             }
 
             await _client.PutAsJsonAsync("abouts", updateAboutDto);
