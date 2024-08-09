@@ -10,5 +10,7 @@ namespace CourseCenter.Business.Abstract
     public interface IBlogService : IGenericService<Blog>
     {
         List<Blog> TGetBlogsWithCategories();
+
+        void TSetBlogDisplayStatus(int id);
     }
 }

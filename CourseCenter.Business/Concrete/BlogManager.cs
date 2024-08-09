@@ -17,6 +17,11 @@ namespace CourseCenter.Business.Concrete
             _blogRepository = blogRepository;
         }
 
+        public void TSetBlogDisplayStatus(int id)
+        {
+            _blogRepository.SetBlogDisplayStatus(id);
+        }
+
         public List<Blog> TGetBlogsWithCategories()
         {
             return _blogRepository.GetBlogsWithCategories();

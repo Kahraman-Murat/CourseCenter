@@ -50,5 +50,12 @@ namespace CourseCenter.API.Controllers
             _blogService.TUpdate(newData);
             return Ok();
         }
+
+        [HttpGet("SetBlogDisplayStatus/{id}")]
+        public IActionResult SetBlogDisplayStatus(int id)
+        {
+            _blogService.TSetBlogDisplayStatus(id);
+            return Ok();
+        }
     }
 }

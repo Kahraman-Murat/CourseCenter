@@ -97,5 +97,12 @@ namespace CourseCenter.WebUI.Areas.Admin.Controllers
             await _client.PutAsJsonAsync("Blogs", updateBlogDto);
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> SetBlogDisplayStatus(int id)
+        {
+            await _client.GetAsync($"Blogs/SetBlogDisplayStatus/{id}");
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

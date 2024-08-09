@@ -10,5 +10,7 @@ namespace CourseCenter.DataAccess.Abstract
     public interface IBlogRepository : IRepository<Blog>
     {
         List<Blog> GetBlogsWithCategories();
+
+        void SetBlogDisplayStatus(int id);
     }
 }

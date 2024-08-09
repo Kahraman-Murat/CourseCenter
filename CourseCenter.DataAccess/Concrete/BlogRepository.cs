@@ -23,5 +23,12 @@ namespace CourseCenter.DataAccess.Concrete
         {
             return _context.Blogs.Include(x => x.BlogCategory).ToList();
         }
+
+        public void SetBlogDisplayStatus(int id)
+        {
+            var blog = _context.Blogs.Find(id);
+            blog.IsShown = !blog.IsShown;
+            _context.SaveChanges();
+        }
     }
 }
