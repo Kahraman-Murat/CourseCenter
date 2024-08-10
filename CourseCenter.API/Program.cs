@@ -22,6 +22,9 @@ builder.Services.AddScoped(typeof(IGenericService<>), typeof(GenericManager<>));
 builder.Services.AddScoped<IBlogRepository, BlogRepository>();
 builder.Services.AddScoped<IBlogService, BlogManager>();
 
+builder.Services.AddScoped<ICourseCategoryRepository, CourseCategoryRepository>();
+builder.Services.AddScoped<ICourseCategoryService, CourseCategoryManager>();
+
 // Add DbContext
 builder.Services.AddDbContext<CourseCenterContext>(options =>
 {

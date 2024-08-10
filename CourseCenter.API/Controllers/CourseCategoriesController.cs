@@ -10,7 +10,7 @@ namespace CourseCenter.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CourseCategoriesController(IGenericService<CourseCategory> _courseCategoryService, IMapper _mapper) : ControllerBase
+    public class CourseCategoriesController(ICourseCategoryService _courseCategoryService, IMapper _mapper) : ControllerBase
     {
         [HttpGet]
         public IActionResult Get()
@@ -46,6 +46,13 @@ namespace CourseCenter.API.Controllers
         {
             var newData = _mapper.Map<CourseCategory>(updateCourseCategoryDto);
             _courseCategoryService.TUpdate(newData);
+            return Ok();
+        }
+
+        [HttpGet("SetCourseCategoryDisplayStatus/{id}")]
+        public IActionResult SetCourseCategoryDisplayStatus(int id)
+        {
+            _courseCategoryService.TSetCourseCategoryDisplayStatus(id);
             return Ok();
         }
     }
