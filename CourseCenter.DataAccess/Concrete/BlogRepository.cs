@@ -12,11 +12,10 @@ using System.Threading.Tasks;
 namespace CourseCenter.DataAccess.Concrete
 {
     public class BlogRepository : GenericRepository<Blog>, IBlogRepository
-    {
-        private readonly CourseCenterContext _context;
-        public BlogRepository(CourseCenterContext context) : base(context)
+    {        
+        public BlogRepository(CourseCenterContext _context) : base(_context)
         {
-            _context = context;
+
         }
 
         public List<Blog> GetBlogsWithCategories()
@@ -27,7 +26,10 @@ namespace CourseCenter.DataAccess.Concrete
         public void SetBlogDisplayStatus(int id)
         {
             var blog = _context.Blogs.Find(id);
-            blog.IsShown = !blog.IsShown;
+            if (blog != null)
+            {
+                blog.IsShown = !blog.IsShown;
+            }
             _context.SaveChanges();
         }
     }

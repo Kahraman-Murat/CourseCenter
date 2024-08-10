@@ -10,8 +10,16 @@ using System.Threading.Tasks;
 
 namespace CourseCenter.DataAccess.Repositories
 {
-    public class GenericRepository<T>(CourseCenterContext _context) : IRepository<T> where T : class
-    {        
+    public class GenericRepository<T> : IRepository<T> where T : class
+    {        //(CourseCenterContext _context)
+
+        protected readonly CourseCenterContext _context;
+
+        public GenericRepository(CourseCenterContext context)
+        {
+            _context = context;
+        }
+
         public DbSet<T> Table { get => _context.Set<T>(); }
         public int Count()
         {
