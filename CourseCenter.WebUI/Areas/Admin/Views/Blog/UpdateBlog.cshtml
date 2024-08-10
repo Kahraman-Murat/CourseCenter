@@ -24,8 +24,12 @@
     <textarea asp-for="Content" class="form-control" rows="5"></textarea>
     <span asp-validation-for="Content" class="text-danger"></span>
     <br />
-    <label>Blog Aktiflik</label>
-    <input type="checkbox" asp-for="IsShown" class="form-control" />
+
+    <label>Blog Aktiflik Durumu</label>
+    <br/>
+    <input type="checkbox" asp-for="IsShown" />
+    <label class="custom-control-label" >Blog Gösterilsin</label>
+    <br />
     <br />
 
     <button class="btn btn-outline-primary">Güncelle</button>
