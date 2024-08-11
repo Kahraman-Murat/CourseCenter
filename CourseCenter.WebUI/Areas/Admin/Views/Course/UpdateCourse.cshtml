@@ -1,0 +1,36 @@
+﻿@model UpdateCourseDto
+@{
+    ViewData["Title"] = "Kurs Güncelleme Sayfasi";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<form method="post">
+    <input type="hidden" asp-for="Id" />
+    <label>Kusr Kategorisi</label>
+    <select asp-items="@ViewBag.courseCategories" asp-for="CourseCategoryId" class="form-control">
+        <option value="">Kurs Kategori Secin</option>
+    </select>
+    <span asp-validation-for="CourseCategoryId" class="text-danger"></span>
+    <br />
+    <label>Kurs Adi</label>
+    <input type="text" asp-for="Name" class="form-control" />
+    <span asp-validation-for="Name" class="text-danger"></span>
+    <br />
+    <label>Kurs Resim Url</label>
+    <input type="text" asp-for="ImageUrl" class="form-control" />
+    <span asp-validation-for="ImageUrl" class="text-danger"></span>
+    <br />
+    <label>Kurs Ücreti</label>
+    <input type="text" asp-for="Preis" class="form-control" />
+    <span asp-validation-for="Preis" class="text-danger"></span>
+    <br />
+    <label>Kurs Aktiflik Durumu</label>
+    <br />
+    <input type="checkbox" asp-for="IsShown" />
+    <label class="custom-control-label">Kurs Gösterilsin</label>
+    <br />
+    <br />
+
+    <button class="btn btn-outline-primary">Güncelle</button>
+</form>
+

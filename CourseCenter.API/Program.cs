@@ -25,6 +25,9 @@ builder.Services.AddScoped<IBlogService, BlogManager>();
 builder.Services.AddScoped<ICourseCategoryRepository, CourseCategoryRepository>();
 builder.Services.AddScoped<ICourseCategoryService, CourseCategoryManager>();
 
+builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+builder.Services.AddScoped<ICourseService, CourseManager>();
+
 // Add DbContext
 builder.Services.AddDbContext<CourseCenterContext>(options =>
 {
