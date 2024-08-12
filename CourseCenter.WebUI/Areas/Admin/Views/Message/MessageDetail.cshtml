@@ -1,0 +1,35 @@
+﻿@model ResultMessageDto
+@{
+    ViewData["Title"] = "Mesaj Icerigi Sayfasi";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<table class="table table-striped table-hover">
+    <tr>
+        <th>Mesaj Tarihi</th>
+        <td>@Model.EmailDate.ToShortDateString()</td>
+    </tr>
+    <tr>
+        <th>Mesaj Saati</th>
+        <td>@Model.EmailDate.ToShortTimeString()</td>
+    </tr>
+    <tr>
+        <th>Gönderen Adi</th>
+        <td>@Model.Name</td>
+    </tr>
+    <tr>
+        <th>Email Adresi</th>
+        <td>@Model.Email</td>
+    </tr>
+    <tr>
+        <th>Konu</th>
+        <td>@Model.Subject</td>
+    </tr>
+    <tr>
+        <th>Mesaj Icerigi</th>
+        <td>@Model.Content</td>
+    </tr>
+
+</table>
+<br />
+<a asp-action="Index" asp-controller="Message" asp-area="Admin" class="btn btn-outline-primary">Mesajlara Dön</a>
