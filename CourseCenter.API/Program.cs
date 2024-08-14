@@ -28,6 +28,10 @@ builder.Services.AddScoped<ICourseCategoryService, CourseCategoryManager>();
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<ICourseService, CourseManager>();
 
+builder.Services.AddScoped<ISubscriberRepository, SubscriberRepository>();
+builder.Services.AddScoped<ISubscriberService, SubscriberManager>();
+
+
 // Add DbContext
 builder.Services.AddDbContext<CourseCenterContext>(options =>
 {

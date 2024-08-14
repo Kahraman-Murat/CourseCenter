@@ -10,7 +10,7 @@ namespace CourseCenter.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SubscribersController(IGenericService<Subscriber> _subscriberService, IMapper _mapper) : ControllerBase
+    public class SubscribersController(ISubscriberService _subscriberService, IMapper _mapper) : ControllerBase
     {
         [HttpGet]
         public IActionResult Get()
@@ -46,6 +46,13 @@ namespace CourseCenter.API.Controllers
         {
             var newData = _mapper.Map<Subscriber>(updateSubscriberDto);
             _subscriberService.TUpdate(newData);
+            return Ok();
+        }
+
+        [HttpGet("SetSubscriberStatus/{id}")]
+        public IActionResult SetSubscriberStatus(int id)
+        {
+            _subscriberService.TSetSubscriberStatus(id);
             return Ok();
         }
     }
