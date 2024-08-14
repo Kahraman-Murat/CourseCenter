@@ -1,0 +1,37 @@
+﻿@model List<ResultSubscriberDto>
+
+@{
+    ViewData["Title"] = "Aboneler Sayfasi";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@{
+    int count = 0;
+}
+<table class="table table-hover">
+    <tr>
+        <th>#</th>
+        <th>Email Adresi</th>
+        <th>Aktiflik Durumu</th>
+        <th>islemler</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        count++;
+        <tr>
+            <th>@count</th>
+            <td>@item.Email</td>
+            <td>@(item.IsActive ? "Aktif" : "Pasif")</td>
+            <td>
+                <button onclick="DeleteRecord('/Admin/Subscriber/DeleteSubscriber/@item.Id')" class="btn btn-outline-danger">Sil</button>
+
+                <a asp-action="UpdateSubscriber" asp-controller="Subscriber" asp-area="Admin" asp-route-id="@item.Id" class="btn btn-outline-info">Güncelle</a>
+
+                <a asp-action="SetSubscriberStatus" asp-controller="Subscriber" asp-area="Admin" asp-route-id="@item.Id" class="btn btn-outline-@(item.IsActive ? "warning" : "success")">@(item.IsActive ? "Pasif Et" : "Aktif Et")</a>
+            </td>
+        </tr>
+    }
+</table>
+<br />
+<a asp-action="CreateSubscriber" asp-controller="Subscriber" asp-area="Admin" class="btn btn-outline-primary">Yeni Abone Ekle</a>
+

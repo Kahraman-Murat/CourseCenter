@@ -1,0 +1,25 @@
+﻿@model UpdateSubscriberDto
+
+@{
+    ViewData["Title"] = "Abonelik Güncelleme Sayfasi";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<form method="post">
+    <input type="hidden" asp-for="Id" />
+    <label>Email Adresi</label>
+    <input type="email" asp-for="Email" class="form-control" />
+    <span asp-validation-for="Email" class="text-danger"></span>
+    <br />
+    <label>Aktiflik Durumu</label>
+    <br />
+    <input type="checkbox" asp-for="IsActive" />
+    <label class="custom-control-label">Abonelik Aktiflestirilsin</label>
+    <br />
+    <br />
+
+    <button class="btn btn-outline-primary">Güncelle</button>
+</form>
+
+
