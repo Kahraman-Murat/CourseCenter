@@ -1,0 +1,45 @@
+﻿@model UpdateTestimonialDto
+@{
+    ViewData["Title"] = "Referans Güncelleme Sayfasi";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<form method="post">
+    <input type="hidden" asp-for="Id" />
+    <label>Resim Url</label>
+    <input type="text" asp-for="ImageUrl" class="form-control" />
+    <span asp-validation-for="ImageUrl" class="text-danger"></span>
+    <br />
+    <label>Referans Adi</label>
+    <input type="text" asp-for="Name" class="form-control" />
+    <span asp-validation-for="Name" class="text-danger"></span>
+    <br />
+    <label>Firma</label>
+    <input type="text" asp-for="Title" class="form-control" />
+    <span asp-validation-for="Title" class="text-danger"></span>
+    <br />
+    <label>Icerik</label>
+    <textarea asp-for="Comment" class="form-control" rows="5"></textarea>
+    <span asp-validation-for="Comment" class="text-danger"></span>
+    <br />
+    <label>Degerleme</label>
+    <input type="hidden" id="ratingValue" asp-for="Star" class="form-control" />
+    <div class="star-div" id="starRating">
+        @for (int i = 0; i < Model.Star; i++)
+        {
+            <span class="star selected" data-value="@(i + 1)">&#9733;</span>
+        }
+        @for (int i = Model.Star; i < 5; i++)
+        {
+            <span class="star" data-value="@(i + 1)">&#9733;</span>
+        }
+    </div>
+    <span asp-validation-for="Star" class="text-danger"></span>
+    <br />
+    <br />
+
+    <button class="btn btn-outline-primary">Güncelle</button>
+</form>
+
+
+
