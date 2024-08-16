@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     Layout = null;
 }
 
@@ -258,7 +257,7 @@
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" asp-controller="Subscriber" asp-area="Admin" asp-action="Index" aria-expanded="false"><i class="mdi mdi-account-multiple"></i><span class="hide-menu">Aboneler</span></a></li>
 
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" asp-controller="Testimonial" asp-area="Admin" asp-action="Index" aria-expanded="false"><i class="mdi mdi-format-quote"></i><span class="hide-menu">Refranslar</span></a></li>
-                        
+
                     </ul>
                 </nav>
                 <!-- End Sidebar navigation -->
@@ -378,6 +377,49 @@
             });
         }
     </script>
+
+    <style>
+        .star-div {
+            display: flex;
+        }
+
+        .star {
+            line-height: 22px;
+            font-size: 2em;
+            color: #ddd;
+            cursor: pointer;
+        }
+
+            .star.selected {
+                color: gold;
+            }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const stars = document.querySelectorAll('.star');
+            const ratingValue = document.getElementById('ratingValue');
+            stars.forEach(star => {
+                star.addEventListener('click', function () {
+                    const value = this.getAttribute('data-value');
+                    ratingValue.value = value;
+                    updateStars(value);
+                });
+            });
+
+            function updateStars(value) {
+
+                stars.forEach(star => {
+                    if (star.getAttribute('data-value') <= value) {
+                        star.classList.add('selected');
+                    } else {
+                        star.classList.remove('selected');
+                    }
+                });
+            }
+        });
+    </script>
+
 </body>
 
 </html>
