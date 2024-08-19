@@ -55,5 +55,12 @@ namespace CourseCenter.API.Controllers
             _courseCategoryService.TSetCourseCategoryDisplayStatus(id);
             return Ok();
         }
+
+        [HttpGet("GetActiveCategories")]
+        public IActionResult GetActiveCategories()
+        {
+            var datas = _courseCategoryService.TGetFilteredList(x => x.IsShown == true).ToList();
+            return Ok(datas);
+        }
     }
 }
