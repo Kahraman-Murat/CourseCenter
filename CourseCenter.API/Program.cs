@@ -1,13 +1,11 @@
 using CourseCenter.Business.Abstract;
 using CourseCenter.Business.Concrete;
 using CourseCenter.DataAccess;
-using CourseCenter.DataAccess.Abstract;
 using CourseCenter.DataAccess.Concrete;
 using CourseCenter.DataAccess.Context;
 using CourseCenter.DataAccess.Repositories;
 using CourseCenter.Entity.Entities.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using System.Reflection;
 using System.Text.Json.Serialization;
 
@@ -19,19 +17,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 // Add Repositories
-builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped(typeof(IGenericService<>), typeof(GenericManager<>));
-
-builder.Services.AddScoped<IBlogRepository, BlogRepository>();
 builder.Services.AddScoped<IBlogService, BlogManager>();
-
-builder.Services.AddScoped<ICourseCategoryRepository, CourseCategoryRepository>();
 builder.Services.AddScoped<ICourseCategoryService, CourseCategoryManager>();
-
-builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<ICourseService, CourseManager>();
-
-builder.Services.AddScoped<ISubscriberRepository, SubscriberRepository>();
 builder.Services.AddScoped<ISubscriberService, SubscriberManager>();
 
 var env=builder.Environment;
@@ -40,11 +29,7 @@ builder.Configuration
     .AddJsonFile("appsettings.json", optional: false)
     .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
 
-// Add DbContext
-builder.Services.AddDbContext<CourseCenterContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection"));
-});
+builder.Services.AddDataAccessServices(builder.Configuration);
 
 //builder.Services.AddControllers();
 builder.Services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
