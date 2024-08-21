@@ -1,4 +1,6 @@
 ﻿using CourseCenter.Entity.Entities;
+using CourseCenter.Entity.Entities.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CourseCenter.DataAccess.Context
 {
-    public class CourseCenterContext : DbContext
+    public class CourseCenterContext : IdentityDbContext<AppUser,AppRole, Guid>
     {
         public CourseCenterContext(DbContextOptions options): base(options)
         {
