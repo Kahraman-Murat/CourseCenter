@@ -1,11 +1,5 @@
-using CourseCenter.Business.Abstract;
-using CourseCenter.Business.Concrete;
 using CourseCenter.DataAccess;
-using CourseCenter.DataAccess.Concrete;
-using CourseCenter.DataAccess.Context;
-using CourseCenter.DataAccess.Repositories;
-using CourseCenter.Entity.Entities.Identity;
-using Microsoft.EntityFrameworkCore;
+using CourseCenter.Business;
 using System.Reflection;
 using System.Text.Json.Serialization;
 
@@ -16,13 +10,6 @@ var builder = WebApplication.CreateBuilder(args);
 // Add AutoMapper
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
-// Add Repositories
-builder.Services.AddScoped(typeof(IGenericService<>), typeof(GenericManager<>));
-builder.Services.AddScoped<IBlogService, BlogManager>();
-builder.Services.AddScoped<ICourseCategoryService, CourseCategoryManager>();
-builder.Services.AddScoped<ICourseService, CourseManager>();
-builder.Services.AddScoped<ISubscriberService, SubscriberManager>();
-
 var env=builder.Environment;
 builder.Configuration
     .SetBasePath(env.ContentRootPath)
@@ -30,6 +17,7 @@ builder.Configuration
     .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
 
 builder.Services.AddDataAccessServices(builder.Configuration);
+builder.Services.AddBusinessServices(builder.Configuration);
 
 //builder.Services.AddControllers();
 builder.Services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
