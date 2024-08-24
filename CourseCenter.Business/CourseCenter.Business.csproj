@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CourseCenter.DataAccess\CourseCenter.DataAccess.csproj" />
+    <ProjectReference Include="..\CourseCenter.DTO\CourseCenter.DTO.csproj" />
   </ItemGroup>
 
 </Project>
