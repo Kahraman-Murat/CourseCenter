@@ -1,0 +1,47 @@
+﻿@model UserRegisterDto
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Signup</title>
+</head>
+<body>
+    <br />
+    <br />
+    <h1>Kullanici Kayit Formu</h1>
+    <br />
+    <form method="post">
+        <label>Ad Soyad</label>
+        <input type="text" asp-for="FullName" class="form-control" />
+        <span asp-validation-for="FullName" class="text-danger"></span>
+        <br />
+        <label>Kullanici Adi</label>
+        <input type="text" asp-for="UserName" class="form-control" />
+        <span asp-validation-for="UserName" class="text-danger"></span>
+        <br />
+        <label>Email Adresi</label>
+        <input type="email" asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+        <br />
+        <label>Sifre</label>
+        <input type="password" asp-for="Password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+        <br />
+        <label>Sifre Tekrari</label>
+        <input type="password" asp-for="ConfirmPassword" class="form-control" />
+        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+        <br />
+        <p>
+            @Html.ValidationSummary()
+        </p>
+        <br />
+
+        <button class="btn btn-outline-primary">Kayit Ol</button>
+    </form>
+</body>
+</html>
