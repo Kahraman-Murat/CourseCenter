@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CourseCenter.DataAccess.Context
 {
-    public class CourseCenterContext : IdentityDbContext<AppUser,AppRole, Guid>
+    public class CourseCenterContext : IdentityDbContext<AppUser,AppRole, int>
     {
         public CourseCenterContext(DbContextOptions options): base(options)
         {
@@ -28,6 +28,7 @@ namespace CourseCenter.DataAccess.Context
         public DbSet<SocialMedia> SocialMedias { get; set; }
         public DbSet<Subscriber> Subscribers { get; set; }
         public DbSet<Testimonial> Testimonials { get; set; }
+        public DbSet<CourseRegister> CourseRegisters { get; set; }
 
 
     }

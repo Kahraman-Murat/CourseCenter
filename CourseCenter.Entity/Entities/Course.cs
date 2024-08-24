@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CourseCenter.Entity.Entities.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -18,5 +19,9 @@ namespace CourseCenter.Entity.Entities
         [Column(TypeName = "decimal(18,2)")]
         public decimal Preis { get; set; }
         public bool IsShown { get; set; }
+
+        public int? AppUserId { get; set; }  //Field for Teacher
+        public AppUser AppUser { get; set; } //Object for Teacher
+        public List<CourseRegister> CourseRegisters { get; set; }
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CourseCenter.Entity.Entities.Identity
 {
-    public class AppRole : IdentityRole<Guid>
+    public class AppRole : IdentityRole<int>
     {
     }
 }
