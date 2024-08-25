@@ -8,21 +8,21 @@ namespace CourseCenter.API.Validators
         public UserRegisterValidator()
         {
             RuleFor(x => x.FullName)
-                .NotEmpty().WithMessage("Bu alan bos birakilamaz.");
+                .NotEmpty().WithMessage("Ad Soyad alanı boş bırakılamaz.");
 
             RuleFor(x => x.UserName)
-                .NotEmpty().WithMessage("Bu alan bos birakilamaz.");
+                .NotEmpty().WithMessage("Kullanıcı Adı alanı boş bırakılamaz.");
 
             RuleFor(x => x.Email)
-                .NotEmpty().WithMessage("Bu alan bos birakilamaz.")
-                .EmailAddress().WithMessage("Bu alan bos birakilamaz.");
+                .NotEmpty().WithMessage("Email Adresi alanı boş bırakılamaz.")
+                .EmailAddress().WithMessage("Geçerli bir Email Adresi giriniz.");
 
             RuleFor(x => x.Password)
-                .NotEmpty().WithMessage("Bu alan bos birakilamaz.");
+                .NotEmpty().WithMessage("Şifre alanı boş bırakılamaz.");
 
             RuleFor(x => x.ConfirmPassword)
-                .NotEmpty().WithMessage("Bu alan bos birakilamaz.")
-                .Matches(x => x.Password).WithMessage("Password verileri eslesmiyor.");
+                .NotEmpty().WithMessage("Şifre Tekrarı alanı boş bırakılamaz.")
+                .Matches(x => x.Password).WithMessage("Şifreler eşleşmiyor.");
         }
     }
 }
