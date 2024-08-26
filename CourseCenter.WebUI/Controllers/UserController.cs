@@ -10,6 +10,8 @@ namespace CourseCenter.WebUI.Controllers
     public class UserController : Controller
     {
         private readonly HttpClient _client = HttpClientInstance.CreateClient();
+
+        [HttpGet]
         public IActionResult Signup()
         {
             return View();

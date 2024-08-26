@@ -30,18 +30,21 @@ namespace CourseCenter.DataAccess
                 .AddScoped<ICourseCategoryRepository, CourseCategoryRepository>()
                 .AddScoped<ICourseRepository, CourseRepository>()
                 .AddScoped<ISubscriberRepository, SubscriberRepository>()
+                
 
-                .AddIdentityCore<AppUser>(opt =>
-                {
-                    opt.Password.RequireNonAlphanumeric = false;
-                    opt.Password.RequiredLength = 2;
-                    opt.Password.RequireLowercase = false;
-                    opt.Password.RequireUppercase = false;
-                    opt.Password.RequireDigit = false;
-                    opt.SignIn.RequireConfirmedEmail = false;
-                })
-                .AddRoles<AppRole>()
-                .AddEntityFrameworkStores<CourseCenterContext>();
+
+                //.AddIdentityCore<AppUser>(opt =>
+                //{
+                //    opt.Password.RequireNonAlphanumeric = false;
+                //    opt.Password.RequiredLength = 2;
+                //    opt.Password.RequireLowercase = false;
+                //    opt.Password.RequireUppercase = false;
+                //    opt.Password.RequireDigit = false;
+                //    opt.SignIn.RequireConfirmedEmail = false;
+                //})
+                //.AddRoles<AppRole>()
+                //.AddEntityFrameworkStores<CourseCenterContext>()
+                ;
 
         }
     }

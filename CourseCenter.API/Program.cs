@@ -29,7 +29,7 @@ builder.Services
     .AddAutoMapper(assembly)
     .AddFluentValidationAutoValidation()
     .AddScoped<IValidator<UserRegisterDto>, UserRegisterValidator>()
-    //.AddScoped<IValidator<LoginDto>, LoginValidator>()
+    .AddScoped<IValidator<UserLoginDto>, UserLoginValidator>()
     .AddEndpointsApiExplorer() // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     .AddSwaggerGen(c =>
     {

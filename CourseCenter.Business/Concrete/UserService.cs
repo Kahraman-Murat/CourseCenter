@@ -8,11 +8,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CourseCenter.Business.Concrete
 {
-    public class UserService(UserManager<AppUser> _userManager) : IUserService
-    {   //, SignInManager<AppUser> _signInManager, RoleManager<AppRole> _roleManager
+    public class UserService(UserManager<AppUser> _userManager, SignInManager<AppUser> _signInManager, RoleManager<AppRole> _roleManager) : IUserService
+    {   
 
         public async Task<(bool Success, string[] Errors)> RegisterAsync(UserRegisterDto userRegisterDto)
         {
@@ -31,14 +32,27 @@ namespace CourseCenter.Business.Concrete
             return (false, result.Errors.Select(e => e.Description).ToArray());
         }
 
-        public Task<IdentityResult> LoginAsync(UserLoginDto userLoginDto)
+        public async Task<(bool Success, string[] Errors)> LoginAsync(UserLoginDto userLoginDto)
         {
-            throw new NotImplementedException();
+            AppUser user = await _userManager.FindByEmailAsync(userLoginDto.Email);
+            if (user == null)
+                return (false, new[] { "Kullanıcı adı veya şifre hatalı." });
+
+            var result = await _signInManager.PasswordSignInAsync(user.UserName, userLoginDto.Password, isPersistent: false, lockoutOnFailure: false);
+
+            if (result.Succeeded)
+            {
+                //Token geri döndürülecek
+                return (true, null);
+            }
+
+            return (false, new[] { "Kullanıcı adı veya şifre hatalı." });
         }
 
-        public Task<bool> LogoutAsync()
+        public async Task<bool> LogoutAsync()
         {
-            throw new NotImplementedException();
+            await _signInManager.SignOutAsync();
+            return true;
         }
 
         public Task<IdentityResult> AssignRoleAsync(UserRoleDto userRoleDto)
