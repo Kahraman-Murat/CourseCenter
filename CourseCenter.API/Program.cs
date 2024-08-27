@@ -1,13 +1,14 @@
 using CourseCenter.API.Validators;
 using CourseCenter.Business;
 using CourseCenter.DataAccess;
+using CourseCenter.DTO.DTOs.RoleDtos;
 using CourseCenter.DTO.DTOs.UserDtos;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.OpenApi.Models;
 using System.Globalization;
 using System.Reflection;
-using System.Text.Json.Serialization;
+//using System.Text.Json.Serialization;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,6 +31,8 @@ builder.Services
     .AddFluentValidationAutoValidation()
     .AddScoped<IValidator<UserRegisterDto>, UserRegisterValidator>()
     .AddScoped<IValidator<UserLoginDto>, UserLoginValidator>()
+    .AddScoped<IValidator<CreateRoleDto>, CreateRoleValidator>()
+    .AddScoped<IValidator<UpdateRoleDto>, UpdateRoleValidator>()
     .AddEndpointsApiExplorer() // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     .AddSwaggerGen(c =>
     {
@@ -59,7 +62,9 @@ builder.Services
         });
     })
     .AddControllers()
-    .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+    //.AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+    .AddNewtonsoftJson(opt => opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
 
 var app = builder.Build();
 
