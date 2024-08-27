@@ -29,8 +29,9 @@ namespace CourseCenter.Business
                     options.Password.RequireLowercase = false;
                     options.Password.RequireUppercase = false;
 
-                })                
-                .AddEntityFrameworkStores<CourseCenterContext>()                
+                })
+                .AddRoleManager<RoleManager<AppRole>>()
+                .AddEntityFrameworkStores<CourseCenterContext>()
                 .AddDefaultTokenProviders();
 
             services
@@ -41,10 +42,11 @@ namespace CourseCenter.Business
                 .AddScoped<ICourseService, CourseManager>()
                 .AddScoped<ISubscriberService, SubscriberManager>()
                 .AddScoped<IUserService, UserService>()
-                
+                .AddScoped<IRoleService, RoleService>()
+
                 .Configure<TokenSettings>(configuration.GetSection("JWT"))
                 .AddScoped<ITokenService, TokenService>()
-                
+
                 .AddAuthentication(opt =>
                 {
                     opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
