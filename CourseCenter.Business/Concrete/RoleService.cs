@@ -18,20 +18,20 @@ namespace CourseCenter.Business.Concrete
 {
     public class RoleService(RoleManager<AppRole> _roleManager, IMapper _mapper) : IRoleService
     {
-        public async Task<List<AppRole>> GetAllRoles()
+        public async Task<List<ResultRoleDto>> GetAllRoles()
         {
             List<AppRole> roles = await _roleManager.Roles.ToListAsync();
+            var mappedRoles = _mapper.Map<List<ResultRoleDto>>(roles);
 
-            return roles;
+            return mappedRoles;
         }
 
-        public async Task<(string id, string name)> GetRoleById(int id)
+        public async Task<ResultRoleDto> GetRoleById(int id)
         {
             AppRole? role = await _roleManager.FindByIdAsync(id.ToString());
-            if (role == null)
-                return ("", "");
-            else
-                return (role.Id.ToString(), role.Name);
+            var mappedRole = _mapper.Map<ResultRoleDto>(role);
+
+            return mappedRole;
         }
 
         public async Task<(bool Success, string[] Messages)> CreateRole(CreateRoleDto createRoleDto)

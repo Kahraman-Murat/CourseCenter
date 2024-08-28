@@ -15,6 +15,7 @@ namespace CourseCenter.API.Controllers
         public async Task<IActionResult> Get()
         {
             var roles = await _roleService.GetAllRoles();
+
             return Ok(roles);
         }
 
@@ -22,7 +23,7 @@ namespace CourseCenter.API.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             var result = await _roleService.GetRoleById(id);
-            if (result.id == "" && result.name =="" )
+            if (result== null)
                 return BadRequest();
 
             return Ok(result);

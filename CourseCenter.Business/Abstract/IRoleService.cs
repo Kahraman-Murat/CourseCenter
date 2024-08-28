@@ -5,8 +5,8 @@ namespace CourseCenter.Business.Abstract
 {
     public interface IRoleService
     {
-        Task<List<AppRole>> GetAllRoles();
-        Task<(string id, string name)> GetRoleById(int id);
+        Task<List<ResultRoleDto>> GetAllRoles();
+        Task<ResultRoleDto> GetRoleById(int id);
         Task<(bool Success, string[] Messages)> CreateRole(CreateRoleDto createRoleDto);
         Task<bool> UpdateRole(UpdateRoleDto updateRoleDto);
         Task<bool> DeleteRole(int id);
