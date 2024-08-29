@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace CourseCenter.DTO.DTOs.UserDtos
 {
-    public class AssignRoleDto
+    public class RolesForUserDto
     {
-        public string Email { get; set; }
+        public int RoleId { get; set; }
         public string RoleName { get; set; }
         public bool RoleExist { get; set; }
     }

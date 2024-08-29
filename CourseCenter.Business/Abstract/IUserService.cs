@@ -11,11 +11,13 @@ namespace CourseCenter.Business.Abstract
 {
     public interface IUserService
     {
-        Task<(bool Success, string[] Errors)> RegisterAsync(UserRegisterDto userRegisterDto);
+        Task<List<ResultUserDto>> GetAllAsync();
+        Task<ResultUserDto> GetByIdAsync(int id);
+        Task<(bool Success, string[] Errors)> CreateAsync(CreateUserDto createUserDto);
         Task<(bool Success, string[] Errors)> LoginAsync(UserLoginDto userLoginDto);
-        Task<bool> LogoutAsync();
-        Task<IdentityResult> CreateRoleAsync(UserRoleDto userRoleDto);
-        Task<IdentityResult> AssignRoleAsync(UserRoleDto userRoleDto);
+        Task<bool> LogoutAsync();        
+        Task<ResultRolesForUserDto> GetRolesForUserAsync(int id);
+        Task<List<IdentityResult>> AssignRolesToUserAsync(AssignRolesToUserDto assignRolesToUserDto);
 
     }
 }
