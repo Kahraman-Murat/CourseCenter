@@ -3,9 +3,9 @@ using FluentValidation;
 
 namespace CourseCenter.API.Validators
 {
-    public class UserRegisterValidator : AbstractValidator<UserRegisterDto>
+    public class CreateUserValidator : AbstractValidator<CreateUserDto>
     {
-        public UserRegisterValidator()
+        public CreateUserValidator()
         {
             RuleFor(x => x.FullName)
                 .NotEmpty().WithMessage("Ad Soyad alanı boş bırakılamaz.");

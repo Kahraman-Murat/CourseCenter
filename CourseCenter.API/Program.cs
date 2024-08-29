@@ -29,7 +29,7 @@ builder.Services.AddBusinessServices(builder.Configuration);
 builder.Services
     .AddAutoMapper(assembly)
     .AddFluentValidationAutoValidation()
-    .AddScoped<IValidator<UserRegisterDto>, UserRegisterValidator>()
+    .AddScoped<IValidator<CreateUserDto>, CreateUserValidator>()
     .AddScoped<IValidator<UserLoginDto>, UserLoginValidator>()
     .AddScoped<IValidator<CreateRoleDto>, CreateRoleValidator>()
     .AddScoped<IValidator<UpdateRoleDto>, UpdateRoleValidator>()
