@@ -1,0 +1,27 @@
+﻿@model List<RolesForUserDto>
+@{
+    ViewData["Title"] = "Kullanici Rolleri Atama Sayfasi";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<form method="post">
+
+    <label>Kullanici Rolleri Durumu</label>
+    <br />
+    @for (int i = 0; i < Model.Count; i++)
+    {      
+        <div style="margin:10px;">
+
+            <input type="hidden" asp-for="@Model[i].RoleId" />
+            <input type="hidden" asp-for="@Model[i].RoleName" />
+            <input type="checkbox" asp-for="@Model[i].RoleExist" />
+            <label class="custom-control-label" for="@Model[i].RoleExist">@Model[i].RoleName</label>
+        </div>
+    }
+    <br />
+
+    <button class="btn btn-outline-primary">Secilen Rolleri Ata</button>
+    <a asp-action="Index" asp-controller="User" asp-area="Admin" class="btn btn-outline-info">Kullanicilar Sayfasina Dön</a>
+</form>
+
+

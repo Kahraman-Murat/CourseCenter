@@ -1,0 +1,38 @@
+﻿@model List<ResultUserDto>
+@{
+    ViewData["Title"] = "Kullanicilar Sayfasi";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@{
+    int count = 0;
+}
+<table class="table table-hover">
+    <tr>
+        <th>#</th>
+        <th>Ad Soyad</th>
+        <th>Kullanici Adi</th>
+        <th>Email Adresi</th>
+        <th>islemler</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        count++;
+        <tr>
+            <th>@count</th>
+            <td>@item.FullName</td>
+            <td>@item.UserName</td>
+            <td>@item.Email</td>
+            <td>
+                @*<button onclick="DeleteRecord('/Admin/User/DeleteUser/@item.Id')" class="btn btn-outline-danger">Sil</button> *@
+
+                <a asp-action="AssignRole" asp-controller="User" asp-area="Admin" asp-route-id="@item.Id" class="btn btn-outline-info">Rol Ata</a>
+
+            </td>
+        </tr>
+    }
+</table>
+<br />
+
+
+
