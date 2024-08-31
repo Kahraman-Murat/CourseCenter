@@ -7,7 +7,7 @@ namespace CourseCenter.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthsController(IUserService _userService) : ControllerBase
+    public class AuthsController(IAuthService _userService) : ControllerBase
     {
 
         [HttpPost("[action]")]
@@ -20,6 +20,19 @@ namespace CourseCenter.API.Controllers
                 return Ok("Giriş başarılı.");
 
             return Unauthorized(new { Errors = errors });
+
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> Logout()
+        {
+
+            bool status = await _userService.LogoutAsync();
+
+            if (status)
+                return Ok("Cikis islemi başarılı.");
+
+            return BadRequest("Cikis isleminde Hata olustu");
 
         }
     }

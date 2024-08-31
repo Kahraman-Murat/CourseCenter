@@ -49,29 +49,6 @@ namespace CourseCenter.Business.Concrete
             return (false, result.Errors.Select(e => e.Description).ToArray());
         }
 
-        public async Task<(bool Success, string[] Errors)> LoginAsync(UserLoginDto userLoginDto)
-        {
-            AppUser user = await _userManager.FindByEmailAsync(userLoginDto.Email);
-            if (user == null)
-                return (false, new[] { "Kullanıcı adı veya şifre hatalı." });
-
-            var result = await _signInManager.PasswordSignInAsync(user.UserName, userLoginDto.Password, isPersistent: false, lockoutOnFailure: false);
-
-            if (result.Succeeded)
-            {
-                //Token geri döndürülecek
-                return (true, null);
-            }
-
-            return (false, new[] { "Kullanıcı adı veya şifre hatalı." });
-        }
-
-        public async Task<bool> LogoutAsync()
-        {
-            await _signInManager.SignOutAsync();
-            return true;
-        }
-
         public async Task<ResultRolesForUserDto> GetRolesForUserAsync(int id)
         {
             ResultRolesForUserDto result = new();

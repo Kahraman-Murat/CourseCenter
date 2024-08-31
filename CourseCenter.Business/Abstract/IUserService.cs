@@ -14,8 +14,6 @@ namespace CourseCenter.Business.Abstract
         Task<List<ResultUserDto>> GetAllAsync();
         Task<ResultUserDto> GetByIdAsync(int id);
         Task<(bool Success, string[] Errors)> CreateAsync(CreateUserDto createUserDto);
-        Task<(bool Success, string[] Errors)> LoginAsync(UserLoginDto userLoginDto);
-        Task<bool> LogoutAsync();        
         Task<ResultRolesForUserDto> GetRolesForUserAsync(int id);
         Task<List<IdentityResult>> AssignRolesToUserAsync(AssignRolesToUserDto assignRolesToUserDto);
 
