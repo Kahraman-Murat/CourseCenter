@@ -18,10 +18,10 @@ namespace CourseCenter.WebUI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Signup(UserRegisterDto userRegisterDto)
+        public async Task<IActionResult> Signup(CreateUserDto createUserDto)
         {
-            var validator = new UserRegisterValidator();
-            var result = await validator.ValidateAsync(userRegisterDto);
+            var validator = new CreateUserValidator();
+            var result = await validator.ValidateAsync(createUserDto);
             if (!result.IsValid)
             {
                 ModelState.Clear();
@@ -30,10 +30,10 @@ namespace CourseCenter.WebUI.Controllers
                     ModelState.AddModelError(x.PropertyName, x.ErrorMessage);
                 }
 
-                return View(userRegisterDto);
+                return View(createUserDto);
             }
 
-            var response = await _client.PostAsJsonAsync("users/Register", userRegisterDto);
+            var response = await _client.PostAsJsonAsync("users/Create", createUserDto);
             return RedirectToAction("Index","Home");
         }
     }
