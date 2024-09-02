@@ -34,6 +34,10 @@ namespace CourseCenter.Business.Concrete
 
         public async Task<(bool Success, string[] Errors)> CreateAsync(CreateUserDto createUserDto)
         {
+            var userExist = await _userManager.FindByEmailAsync(createUserDto.Email);
+            if (userExist is not null)
+                return (false, new[] { "Böyle bir kullanici zaten var!" });
+            
             var user = new AppUser
             {
                 FullName = createUserDto.FullName,
@@ -56,7 +60,7 @@ namespace CourseCenter.Business.Concrete
             AppUser? user = await _userManager.FindByIdAsync(id.ToString());
             if (user == null)
                 return result;
-            
+
             result.UserExists = true;
 
             var userRoles = await _userManager.GetRolesAsync(user);
