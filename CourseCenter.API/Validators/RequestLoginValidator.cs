@@ -1,11 +1,11 @@
-﻿using CourseCenter.DTO.DTOs.UserDtos;
+﻿using CourseCenter.DTO.DTOs.AuthDtos;
 using FluentValidation;
 
 namespace CourseCenter.API.Validators
 {
-    public class UserLoginValidator : AbstractValidator<UserLoginDto>
+    public class RequestLoginValidator : AbstractValidator<RequestLoginDto>
     {
-        public UserLoginValidator()
+        public RequestLoginValidator()
         {
 
             RuleFor(x => x.Email)
