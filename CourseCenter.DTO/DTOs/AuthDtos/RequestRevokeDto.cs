@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CourseCenter.DTO.DTOs.UserDtos
+namespace CourseCenter.DTO.DTOs.AuthDtos
 {
-    public class UserRoleDto
+    public class RequestRevokeDto
     {
-        public string RoleName { get; set; } 
+        public string Email { get; set; }
     }
 }
