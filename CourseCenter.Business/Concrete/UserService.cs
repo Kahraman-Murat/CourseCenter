@@ -14,12 +14,12 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CourseCenter.Business.Concrete
 {
-    public class UserService(UserManager<AppUser> _userManager, SignInManager<AppUser> _signInManager, RoleManager<AppRole> _roleManager, IMapper _mapper) : IUserService
+    public class UserService(UserManager<AppUser> _userManager, RoleManager<AppRole> _roleManager, IMapper _mapper) : IUserService
     {
         public async Task<List<ResultUserDto>> GetAllAsync()
         {
             List<AppUser> users = await _userManager.Users.ToListAsync();
-            var mappedUsers = _mapper.Map<List<ResultUserDto>>(users);
+            List<ResultUserDto> mappedUsers = _mapper.Map<List<ResultUserDto>>(users);
 
             return mappedUsers;
         }
@@ -27,28 +27,36 @@ namespace CourseCenter.Business.Concrete
         public async Task<ResultUserDto> GetByIdAsync(int id)
         {
             AppUser? user = await _userManager.FindByIdAsync(id.ToString());
-            var mappedUser = _mapper.Map<ResultUserDto>(user);
+            ResultUserDto mappedUser = _mapper.Map<ResultUserDto>(user);
 
             return mappedUser;
         }
 
         public async Task<(bool Success, string[] Errors)> CreateAsync(CreateUserDto createUserDto)
         {
-            var userExist = await _userManager.FindByEmailAsync(createUserDto.Email);
+            AppUser? userExist = await _userManager.FindByEmailAsync(createUserDto.Email);
             if (userExist is not null)
                 return (false, new[] { "Böyle bir kullanici zaten var!" });
-            
-            var user = new AppUser
-            {
-                FullName = createUserDto.FullName,
-                UserName = createUserDto.UserName,
-                Email = createUserDto.Email
-            };
 
-            var result = await _userManager.CreateAsync(user, createUserDto.Password);
+            AppUser user = _mapper.Map<AppUser>(createUserDto);
+            user.SecurityStamp = Guid.NewGuid().ToString();
+
+            IdentityResult result = await _userManager.CreateAsync(user, createUserDto.Password);
 
             if (result.Succeeded)
+            {
+                if (!await _roleManager.RoleExistsAsync("user"))
+                    await _roleManager.CreateAsync(new AppRole
+                    {
+                        Name = "user",
+                        NormalizedName = "USER",
+                        ConcurrencyStamp = Guid.NewGuid().ToString(),
+                    });
+
+                await _userManager.AddToRoleAsync(user, "user");
+
                 return (true, null);
+            }                
 
             return (false, result.Errors.Select(e => e.Description).ToArray());
         }
@@ -63,12 +71,12 @@ namespace CourseCenter.Business.Concrete
 
             result.UserExists = true;
 
-            var userRoles = await _userManager.GetRolesAsync(user);
+            IList<string> userRoles = await _userManager.GetRolesAsync(user);
 
             List<AppRole> allRoles = await _roleManager.Roles.ToListAsync();
             if (allRoles.Any())
             {
-                foreach (var role in allRoles)
+                foreach (AppRole role in allRoles)
                 {
                     RolesForUserDto rolesForUser = new();
 
@@ -93,7 +101,7 @@ namespace CourseCenter.Business.Concrete
             if (user == null)
                 return result;
 
-            foreach (var item in assignRolesToUserDto.RolesForUserDtos)
+            foreach (RolesForUserDto item in assignRolesToUserDto.RolesForUserDtos)
             {
                 if (item.RoleExist)
                     result.Add(await _userManager
