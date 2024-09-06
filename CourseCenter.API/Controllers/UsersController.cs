@@ -36,7 +36,7 @@ namespace CourseCenter.API.Controllers
             var (success, errors) = await _userService.CreateAsync(createUserDto);
 
             if (success)
-                return Ok("Kayıt başarılı.");
+                return StatusCode(StatusCodes.Status201Created, "Kayıt başarılı.");
 
             return BadRequest(new { Errors = errors });
         }
