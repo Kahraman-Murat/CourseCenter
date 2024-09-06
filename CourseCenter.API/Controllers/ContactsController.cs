@@ -2,6 +2,7 @@
 using CourseCenter.Business.Abstract;
 using CourseCenter.DTO.DTOs.ContactDtos;
 using CourseCenter.Entity.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,6 +10,7 @@ namespace CourseCenter.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ContactsController(IGenericService<Contact> _contactServıce, IMapper _mapper) : ControllerBase
     {
         [HttpGet]

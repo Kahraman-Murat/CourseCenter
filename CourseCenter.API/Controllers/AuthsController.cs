@@ -1,5 +1,6 @@
-﻿using CourseCenter.Business.Abstract;
-using CourseCenter.DTO.DTOs.UserDtos;
+﻿using Azure;
+using CourseCenter.Business.Abstract;
+using CourseCenter.DTO.DTOs.AuthDtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,33 +8,28 @@ namespace CourseCenter.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthsController(IAuthService _userService) : ControllerBase
+    public class AuthsController(IAuthService _authService) : ControllerBase
     {
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> Login(UserLoginDto userLoginDto)
+        public async Task<IActionResult> Login(RequestLoginDto requestLoginDto)
         {
 
-            var (success, errors) = await _userService.LoginAsync(userLoginDto);
+            ResponseLoginDto response = await _authService.LoginAsync(requestLoginDto);
 
-            if (success)
-                return Ok("Giriş başarılı.");
-
-            return Unauthorized(new { Errors = errors });
-
+            return StatusCode(StatusCodes.Status200OK, response);
         }
 
         [HttpPost("[action]")]
         public async Task<IActionResult> Logout()
         {
 
-            bool status = await _userService.LogoutAsync();
+            bool status = await _authService.LogoutAsync();
 
             if (status)
-                return Ok("Cikis islemi başarılı.");
+                return StatusCode(StatusCodes.Status200OK, "Cikis islemi başarılı.");
 
-            return BadRequest("Cikis isleminde Hata olustu");
-
+            return StatusCode(StatusCodes.Status400BadRequest, "Cikis isleminde Hata olustu");
         }
     }
 }

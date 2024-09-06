@@ -1,6 +1,7 @@
 using CourseCenter.API.Validators;
 using CourseCenter.Business;
 using CourseCenter.DataAccess;
+using CourseCenter.DTO.DTOs.AuthDtos;
 using CourseCenter.DTO.DTOs.RoleDtos;
 using CourseCenter.DTO.DTOs.UserDtos;
 using FluentValidation;
@@ -30,7 +31,7 @@ builder.Services
     .AddAutoMapper(assembly)
     .AddFluentValidationAutoValidation()
     .AddScoped<IValidator<CreateUserDto>, CreateUserValidator>()
-    .AddScoped<IValidator<UserLoginDto>, UserLoginValidator>()
+    .AddScoped<IValidator<RequestLoginDto>, RequestLoginValidator>()
     .AddScoped<IValidator<CreateRoleDto>, CreateRoleValidator>()
     .AddScoped<IValidator<UpdateRoleDto>, UpdateRoleValidator>()
     .AddEndpointsApiExplorer() // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

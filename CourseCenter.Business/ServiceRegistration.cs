@@ -46,6 +46,7 @@ namespace CourseCenter.Business
 
                 .Configure<TokenSettings>(configuration.GetSection("JWT"))
                 .AddScoped<ITokenService, TokenService>()
+                .AddScoped<IAuthService, AuthService>()
 
                 .AddAuthentication(opt =>
                 {
