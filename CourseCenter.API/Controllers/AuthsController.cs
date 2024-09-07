@@ -21,15 +21,21 @@ namespace CourseCenter.API.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> Logout()
+        public async Task<IActionResult> Revoke(RequestRevokeDto requestRevokeDto)
         {
-
-            bool status = await _authService.LogoutAsync();
-
+            bool status = await _authService.RevokeAsync(requestRevokeDto);
             if (status)
                 return StatusCode(StatusCodes.Status200OK, "Cikis islemi başarılı.");
 
             return StatusCode(StatusCodes.Status400BadRequest, "Cikis isleminde Hata olustu");
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> RevokeAll()
+        {
+            await _authService.RevokeAllAsync();
+
+            return StatusCode(StatusCodes.Status200OK, "Cikis islemleri başarılı.");
         }
     }
 }
