@@ -62,7 +62,7 @@ namespace CourseCenter.Business
                         ValidateIssuer = false,
                         ValidateIssuerSigningKey = false,
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"])),
-                        ValidateLifetime = false,
+                        ValidateLifetime = true,
                         ValidIssuer = configuration["JWT:Issuer"],
                         ValidAudience = configuration["JWT:Audience"],
                         ClockSkew = TimeSpan.Zero

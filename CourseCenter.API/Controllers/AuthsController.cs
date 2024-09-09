@@ -21,6 +21,14 @@ namespace CourseCenter.API.Controllers
         }
 
         [HttpPost("[action]")]
+        public async Task<IActionResult> RefreshTokenCheck(RequestTokenDto requestTokenDto)
+        {
+            ResponseTokenDto response = await _authService.RefreshTokenAsync(requestTokenDto);
+
+            return StatusCode(StatusCodes.Status200OK, response);
+        }
+
+        [HttpPost("[action]")]
         public async Task<IActionResult> Revoke(RequestRevokeDto requestRevokeDto)
         {
             bool status = await _authService.RevokeAsync(requestRevokeDto);

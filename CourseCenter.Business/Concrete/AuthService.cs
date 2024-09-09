@@ -67,6 +67,9 @@ namespace CourseCenter.Business.Concrete
             if (user.RefreshTokenExpiryTime <= DateTime.Now)
                 throw new Exception("Oturum süresi sona ermistir. Lütfen tekrar giris yapin.");
 
+            if(user.RefreshToken != requestTokenDto.RefreshToken)
+                throw new Exception("Gecersiz Token bilgisi. Lütfen tekrar giris yapin.");
+
             JwtSecurityToken newAccessToken = await _tokenService.CreateAccessToken(user, userRoles);
             string newRefreshToken = _tokenService.CreateRefreshToken();
 
