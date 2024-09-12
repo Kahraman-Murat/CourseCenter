@@ -57,25 +57,32 @@ namespace CourseCenter.Business.Concrete
 
         public async Task<ResponseTokenDto> RefreshTokenAsync(RequestTokenDto requestTokenDto)
         {
-            ClaimsPrincipal? principal = _tokenService.GetPrincipalFromExpiredToken(requestTokenDto.AccessToken);
+            //RefreshToken bilgisinden User a erisim
 
-            string? email = principal.FindFirstValue(ClaimTypes.Email);
-
-            AppUser? user =  await _userManager.FindByEmailAsync(email);
-            IList<string> userRoles = await _userManager.GetRolesAsync(user);
+            AppUser? user = _userManager.Users.FirstOrDefault(u => u.RefreshToken == requestTokenDto.RefreshToken);
+            if (user is null)
+                throw new Exception("Gecersiz Token bilgisi. Lütfen tekrar giris yapin.");
 
             if (user.RefreshTokenExpiryTime <= DateTime.Now)
                 throw new Exception("Oturum süresi sona ermistir. Lütfen tekrar giris yapin.");
 
-            if(user.RefreshToken != requestTokenDto.RefreshToken)
-                throw new Exception("Gecersiz Token bilgisi. Lütfen tekrar giris yapin.");
+            //AccessToken bilgisinden User a erisim
+
+            //ClaimsPrincipal? principal = _tokenService.GetPrincipalFromExpiredToken(requestTokenDto.AccessToken);
+            //string? email = principal.FindFirstValue(ClaimTypes.Email);
+            //AppUser? user =  await _userManager.FindByEmailAsync(email);
+            //if (user.RefreshToken != requestTokenDto.RefreshToken)
+            //    throw new Exception("Gecersiz Token bilgisi. Lütfen tekrar giris yapin.");
+            //if (user.RefreshTokenExpiryTime <= DateTime.Now)
+            //    throw new Exception("Oturum süresi sona ermistir. Lütfen tekrar giris yapin.");
+
+            IList<string> userRoles = await _userManager.GetRolesAsync(user);
 
             JwtSecurityToken newAccessToken = await _tokenService.CreateAccessToken(user, userRoles);
             string newRefreshToken = _tokenService.CreateRefreshToken();
 
             user.RefreshToken = newRefreshToken;
             await _userManager.UpdateAsync(user);
-
 
             return new()
             {
@@ -106,7 +113,7 @@ namespace CourseCenter.Business.Concrete
                 user.RefreshToken = null;
                 await _userManager.UpdateAsync(user);
             }
-            
+
         }
 
     }
