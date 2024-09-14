@@ -1,7 +1,5 @@
 ﻿using CourseCenter.WebUI.Filters;
 using CourseCenter.WebUI.Helpers;
-using CourseCenter.WebUI.Middlewares;
-using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +10,10 @@ builder.Services.AddHttpClient();
 builder.Services.AddScoped<IHttpClientService, HttpClientService>();
 builder.Services.AddScoped<IRefreshTokenService, RefreshTokenService>();
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Filters.Add<UnauthorizedRedirectFilter>();
+});
 
 var app = builder.Build();
 
