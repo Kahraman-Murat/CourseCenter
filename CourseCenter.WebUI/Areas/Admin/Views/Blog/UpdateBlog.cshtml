@@ -6,6 +6,7 @@
 
 <form method="post">
     <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="CreatedDate" />
     <label>Blog Kategorisi</label>
     <select asp-items="@ViewBag.blogCategories" asp-for="BlogCategoryId" class="form-control">
         <option>Kategori Secin</option>
