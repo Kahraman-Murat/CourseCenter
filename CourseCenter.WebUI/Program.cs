@@ -13,6 +13,7 @@ builder.Services.AddScoped<IRefreshTokenService, RefreshTokenService>();
 builder.Services.AddControllersWithViews(options =>
 {
     options.Filters.Add<UnauthorizedRedirectFilter>();
+    options.Filters.Add<ForbiddenRedirectFilter>();
 });
 
 var app = builder.Build();
