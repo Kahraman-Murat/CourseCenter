@@ -60,6 +60,10 @@ namespace CourseCenter.WebUI.Helpers
                 else
                     _httpContextAccessor.HttpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
             }
+
+            if (response.StatusCode == HttpStatusCode.Forbidden)
+                _httpContextAccessor.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+
             return default(TResponse);
         }
     }

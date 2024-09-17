@@ -362,3 +362,4 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /CourseCenter.API/appsettings.json
+/CourseCenter.WebUI/Helpers/HttpClientServiceYedek.cs
