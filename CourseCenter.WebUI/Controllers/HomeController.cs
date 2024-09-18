@@ -12,5 +12,12 @@ namespace CourseCenter.WebUI.Controllers
             return View();
         }
 
+        [Route("Home/AccessDenied")]
+        public IActionResult AccessDenied(string? returnUrl = null)
+        {
+            ViewBag.ReturnUrl = returnUrl;
+            return View();
+        }
+
     }
 }
