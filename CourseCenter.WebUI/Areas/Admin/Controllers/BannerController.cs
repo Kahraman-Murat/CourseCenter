@@ -1,33 +1,20 @@
 ﻿using CourseCenter.WebUI.DTOs.BannerDtos;
 using CourseCenter.WebUI.Helpers;
 using CourseCenter.WebUI.Validators;
-using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CourseCenter.WebUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Route("[area]/[controller]/[action]/{id?}")]
-    public class BannerController : Controller
+    public class BannerController(IHttpClientService _httpClientService) : Controller
     {
-        private readonly HttpClient _client = HttpClientInstance.CreateClient();
-        public async Task<IActionResult> Index()
-        {
-            var datas = await _client.GetFromJsonAsync<List<ResultBannerDto>>("Banners");
-            return View(datas);
-        }
-
-        public async Task<IActionResult> DeleteBanner(int id)
-        {
-            await _client.DeleteAsync($"Banners/{id}");
-            return RedirectToAction(nameof(Index));
-        }
+        [HttpGet]
+        public async Task<IActionResult> Index() =>
+            View(await _httpClientService.SendRequestAsync<string, List<ResultBannerDto>>(HttpMethod.Get, "Banners", default));
 
         [HttpGet]
-        public async Task<IActionResult> CreateBanner()
-        {
-            return View();
-        }
+        public async Task<IActionResult> CreateBanner() => View();
 
         [HttpPost]
         public async Task<IActionResult> CreateBanner(CreateBannerDto createBannerDto)
@@ -38,23 +25,18 @@ namespace CourseCenter.WebUI.Areas.Admin.Controllers
             {
                 ModelState.Clear();
                 foreach (var x in result.Errors)
-                {
                     ModelState.AddModelError(x.PropertyName, x.ErrorMessage);
-                }
-
+                
                 return View(createBannerDto);
             }
+            await _httpClientService.SendRequestAsync<CreateBannerDto, string>(HttpMethod.Post, "Banners", createBannerDto);
 
-            await _client.PostAsJsonAsync("Banners", createBannerDto);
             return RedirectToAction(nameof(Index));
         }
 
         [HttpGet]
-        public async Task<IActionResult> UpdateBanner(int id)
-        {
-            var datas = await _client.GetFromJsonAsync<UpdateBannerDto>($"Banners/{id}");
-            return View(datas);
-        }
+        public async Task<IActionResult> UpdateBanner(int id) =>
+            View(await _httpClientService.SendRequestAsync<string, UpdateBannerDto>(HttpMethod.Get, $"Banners/{id}", default));
 
         [HttpPost]
         public async Task<IActionResult> UpdateBanner(UpdateBannerDto updateBannerDto)
@@ -72,7 +54,15 @@ namespace CourseCenter.WebUI.Areas.Admin.Controllers
                 return View(updateBannerDto);
             }
 
-            await _client.PutAsJsonAsync("Banners", updateBannerDto);
+            await _httpClientService.SendRequestAsync<UpdateBannerDto, string>(HttpMethod.Put, "Banners", updateBannerDto);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> DeleteBanner(int id)
+        {
+            await _httpClientService.SendRequestAsync<string, string>(HttpMethod.Delete, $"Banners/{id}", default);
+            
             return RedirectToAction(nameof(Index));
         }
     }
