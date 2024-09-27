@@ -7,26 +7,18 @@ namespace CourseCenter.WebUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Route("[area]/[controller]/[action]/{id?}")]
-    public class ContactController : Controller
+    public class ContactController(IHttpClientService _httpClientService) : Controller
     {
-        private readonly HttpClient _client = HttpClientInstance.CreateClient();
-        public async Task<IActionResult> Index()
+        [HttpGet]
+        public async Task<IActionResult> Index() //=>
+            //View(await _httpClientService.SendRequestAsync<string, List<ResultContactDto>>(HttpMethod.Get, "Contacts", default));
         {
-            var datas = await _client.GetFromJsonAsync<List<ResultContactDto>>("Contacts");
-            return View(datas);
-        }
-
-        public async Task<IActionResult> DeleteContact(int id)
-        {
-            await _client.DeleteAsync($"Contacts/{id}");
-            return RedirectToAction(nameof(Index));
+            var xxxxx = await _httpClientService.SendRequestAsync<string, List<ResultContactDto>>(HttpMethod.Get, "Contacts", default);
+            return View(xxxxx);
         }
 
         [HttpGet]
-        public async Task<IActionResult> CreateContact()
-        {
-            return View();
-        }
+        public async Task<IActionResult> CreateContact() => View();
 
         [HttpPost]
         public async Task<IActionResult> CreateContact(CreateContactDto createContactDto)
@@ -37,23 +29,19 @@ namespace CourseCenter.WebUI.Areas.Admin.Controllers
             {
                 ModelState.Clear();
                 foreach (var x in result.Errors)
-                {
                     ModelState.AddModelError(x.PropertyName, x.ErrorMessage);
-                }
 
                 return View(createContactDto);
             }
 
-            await _client.PostAsJsonAsync("Contacts", createContactDto);
+            await _httpClientService.SendRequestAsync<CreateContactDto, string>(HttpMethod.Post, "Contacts", createContactDto);
+
             return RedirectToAction(nameof(Index));
         }
 
         [HttpGet]
-        public async Task<IActionResult> UpdateContact(int id)
-        {
-            var datas = await _client.GetFromJsonAsync<UpdateContactDto>($"Contacts/{id}");
-            return View(datas);
-        }
+        public async Task<IActionResult> UpdateContact(int id) =>
+            View(await _httpClientService.SendRequestAsync<string, UpdateContactDto>(HttpMethod.Get, $"Contacts/{id}", default));
 
         [HttpPost]
         public async Task<IActionResult> UpdateContact(UpdateContactDto updateContactDto)
@@ -64,14 +52,21 @@ namespace CourseCenter.WebUI.Areas.Admin.Controllers
             {
                 ModelState.Clear();
                 foreach (var x in result.Errors)
-                {
                     ModelState.AddModelError(x.PropertyName, x.ErrorMessage);
-                }
 
                 return View(updateContactDto);
             }
 
-            await _client.PutAsJsonAsync("Contacts", updateContactDto);
+            await _httpClientService.SendRequestAsync<UpdateContactDto, string>(HttpMethod.Put, "Contacts", updateContactDto);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+
+        public async Task<IActionResult> DeleteContact(int id)
+        {
+            await _httpClientService.SendRequestAsync<string, string>(HttpMethod.Delete, $"Contacts/{id}", default);
+
             return RedirectToAction(nameof(Index));
         }
     }
