@@ -8,26 +8,14 @@ namespace CourseCenter.WebUI.Areas.Admin.Controllers
 
     [Area("Admin")]
     [Route("[area]/[controller]/[action]/{id?}")]
-    public class CourseCategoryController : Controller
+    public class CourseCategoryController(IHttpClientService _httpClientService) : Controller
     {
-        private readonly HttpClient _client = HttpClientInstance.CreateClient();
-        public async Task<IActionResult> Index()
-        {
-            var datas = await _client.GetFromJsonAsync<List<ResultCourseCategoryDto>>("CourseCategories");
-            return View(datas);
-        }
-
-        public async Task<IActionResult> DeleteCourseCategory(int id)
-        {
-            await _client.DeleteAsync($"CourseCategories/{id}");
-            return RedirectToAction(nameof(Index));
-        }
+        [HttpGet]
+        public async Task<IActionResult> Index() =>
+            View(await _httpClientService.SendRequestAsync<string, List<ResultCourseCategoryDto>>(HttpMethod.Get, "CourseCategories", default));
 
         [HttpGet]
-        public async Task<IActionResult> CreateCourseCategory()
-        {
-            return View();
-        }
+        public async Task<IActionResult> CreateCourseCategory() => View();
 
         [HttpPost]
         public async Task<IActionResult> CreateCourseCategory(CreateCourseCategoryDto createCourseCategoryDto)
@@ -38,23 +26,19 @@ namespace CourseCenter.WebUI.Areas.Admin.Controllers
             {
                 ModelState.Clear();
                 foreach (var x in result.Errors)
-                {
                     ModelState.AddModelError(x.PropertyName, x.ErrorMessage);
-                }
 
                 return View(createCourseCategoryDto);
             }
 
-            await _client.PostAsJsonAsync("CourseCategories", createCourseCategoryDto);
+            await _httpClientService.SendRequestAsync<CreateCourseCategoryDto, string>(HttpMethod.Post, "CourseCategories", createCourseCategoryDto);
+
             return RedirectToAction(nameof(Index));
         }
 
         [HttpGet]
-        public async Task<IActionResult> UpdateCourseCategory(int id)
-        {
-            var datas = await _client.GetFromJsonAsync<UpdateCourseCategoryDto>($"CourseCategories/{id}");
-            return View(datas);
-        }
+        public async Task<IActionResult> UpdateCourseCategory(int id) =>
+            View(await _httpClientService.SendRequestAsync<string, UpdateCourseCategoryDto>(HttpMethod.Get, $"CourseCategories/{id}", default));
 
         [HttpPost]
         public async Task<IActionResult> UpdateCourseCategory(UpdateCourseCategoryDto updateCourseCategoryDto)
@@ -65,21 +49,28 @@ namespace CourseCenter.WebUI.Areas.Admin.Controllers
             {
                 ModelState.Clear();
                 foreach (var x in result.Errors)
-                {
                     ModelState.AddModelError(x.PropertyName, x.ErrorMessage);
-                }
 
                 return View(updateCourseCategoryDto);
             }
 
-            await _client.PutAsJsonAsync("CourseCategories", updateCourseCategoryDto);
+            await _httpClientService.SendRequestAsync<UpdateCourseCategoryDto, string>(HttpMethod.Put, "CourseCategories", updateCourseCategoryDto);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> DeleteCourseCategory(int id)
+        {
+            await _httpClientService.SendRequestAsync<string, string>(HttpMethod.Delete, $"CourseCategories/{id}", default);
+
             return RedirectToAction(nameof(Index));
         }
 
         [HttpGet]
         public async Task<IActionResult> SetCourseCategoryDisplayStatus(int id)
         {
-            await _client.GetAsync($"CourseCategories/SetCourseCategoryDisplayStatus/{id}");
+            await _httpClientService.SendRequestAsync<string, string>(HttpMethod.Get, $"CourseCategories/SetCourseCategoryDisplayStatus/{id}", default);
+
             return RedirectToAction(nameof(Index));
         }
 
