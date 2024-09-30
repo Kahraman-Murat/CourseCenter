@@ -1,33 +1,26 @@
 ﻿using CourseCenter.WebUI.DTOs.MessageDtos;
 using CourseCenter.WebUI.Helpers;
-using CourseCenter.WebUI.Validators;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CourseCenter.WebUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Route("[area]/[controller]/[action]/{id?}")]
-    public class MessageController : Controller
+    public class MessageController(IHttpClientService _httpClientService) : Controller
     {
-        private readonly HttpClient _client = HttpClientInstance.CreateClient();
-        public async Task<IActionResult> Index()
-        {
-            var datas = await _client.GetFromJsonAsync<List<ResultMessageDto>>("Messages");
-            return View(datas);
-        }
+        [HttpGet]        
+        public async Task<IActionResult> Index() =>
+            View(await _httpClientService.SendRequestAsync<string, List<ResultMessageDto>>(HttpMethod.Get, "Messages", default));
 
         public async Task<IActionResult> DeleteMessage(int id)
         {
-            await _client.DeleteAsync($"Messages/{id}");
+            await _httpClientService.SendRequestAsync<string, string>(HttpMethod.Delete, $"Messages/{id}", default);
+
             return RedirectToAction(nameof(Index));
         }
-
-        [HttpGet]
-        public async Task<IActionResult> MessageDetail(int id)
-        {
-            var data = await _client.GetFromJsonAsync<ResultMessageDto>($"Messages/{id}");
-            return View(data);
-        }
+                
+        public async Task<IActionResult> MessageDetail(int id) =>
+            View(await _httpClientService.SendRequestAsync<string, ResultMessageDto>(HttpMethod.Get, $"Messages/{id}", default));
                 
     }
 }
