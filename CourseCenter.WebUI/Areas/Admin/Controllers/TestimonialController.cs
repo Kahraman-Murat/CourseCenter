@@ -1,4 +1,5 @@
-﻿using CourseCenter.WebUI.DTOs.TestimonialDtos;
+﻿using CourseCenter.WebUI.DTOs.AboutDtos;
+using CourseCenter.WebUI.DTOs.TestimonialDtos;
 using CourseCenter.WebUI.Helpers;
 using CourseCenter.WebUI.Validators;
 using Microsoft.AspNetCore.Mvc;
@@ -8,27 +9,14 @@ namespace CourseCenter.WebUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Route("[area]/[controller]/[action]/{id?}")]
-    public class TestimonialController : Controller
+    public class TestimonialController(IHttpClientService _httpClientService) : Controller
     {
-        private readonly HttpClient _client = HttpClientInstance.CreateClient();
-
-        public async Task<IActionResult> Index()
-        {
-            var datas = await _client.GetFromJsonAsync<List<ResultTestimonialDto>>("Testimonials");
-            return View(datas);
-        }
-
-        public async Task<IActionResult> DeleteTestimonial(int id)
-        {
-            await _client.DeleteAsync($"Testimonials/{id}");
-            return RedirectToAction(nameof(Index));
-        }
+        [HttpGet]
+        public async Task<IActionResult> Index() =>
+            View(await _httpClientService.SendRequestAsync<string, List<ResultTestimonialDto>>(HttpMethod.Get, "Testimonials", default));
 
         [HttpGet]
-        public async Task<IActionResult> CreateTestimonial()
-        {            
-            return View();
-        }
+        public async Task<IActionResult> CreateTestimonial() => View();
 
         [HttpPost]
         public async Task<IActionResult> CreateTestimonial(CreateTestimonialDto createTestimonialDto)
@@ -39,23 +27,19 @@ namespace CourseCenter.WebUI.Areas.Admin.Controllers
             {
                 ModelState.Clear();
                 foreach (var x in result.Errors)
-                {
                     ModelState.AddModelError(x.PropertyName, x.ErrorMessage);
-                }
 
                 return View(createTestimonialDto);
             }
 
-            await _client.PostAsJsonAsync("Testimonials", createTestimonialDto);
+            await _httpClientService.SendRequestAsync<CreateTestimonialDto, string>(HttpMethod.Post, "Testimonials", createTestimonialDto);
+
             return RedirectToAction(nameof(Index));
         }
 
         [HttpGet]
-        public async Task<IActionResult> UpdateTestimonial(int id)
-        {
-            var data = await _client.GetFromJsonAsync<UpdateTestimonialDto>($"Testimonials/{id}");
-            return View(data);
-        }
+        public async Task<IActionResult> UpdateTestimonial(int id) =>
+            View(await _httpClientService.SendRequestAsync<string, UpdateTestimonialDto>(HttpMethod.Get, $"Testimonials/{id}", default));
 
         [HttpPost]
         public async Task<IActionResult> UpdateTestimonial(UpdateTestimonialDto updateTestimonialDto)
@@ -73,7 +57,15 @@ namespace CourseCenter.WebUI.Areas.Admin.Controllers
                 return View(updateTestimonialDto);
             }
 
-            await _client.PutAsJsonAsync("Testimonials", updateTestimonialDto);
+            await _httpClientService.SendRequestAsync<UpdateTestimonialDto, string>(HttpMethod.Put, "Testimonials", updateTestimonialDto);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> DeleteTestimonial(int id)
+        {
+            await _httpClientService.SendRequestAsync<string, string>(HttpMethod.Delete, $"Testimonials/{id}", default);
+
             return RedirectToAction(nameof(Index));
         }
     }
