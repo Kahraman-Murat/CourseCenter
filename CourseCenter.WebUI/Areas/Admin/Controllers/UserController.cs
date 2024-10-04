@@ -1,44 +1,41 @@
-﻿using CourseCenter.WebUI.DTOs.UserDtos;
+﻿using CourseCenter.WebUI.DTOs.AboutDtos;
+using CourseCenter.WebUI.DTOs.UserDtos;
 using CourseCenter.WebUI.Helpers;
 using CourseCenter.WebUI.Validators;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Net;
 
 namespace CourseCenter.WebUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Route("[area]/[controller]/[action]/{id?}")]
-    public class UserController : Controller
+    public class UserController(IHttpClientService _httpClientService) : Controller
     {
 
-        private readonly HttpClient _client = HttpClientInstance.CreateClient();
-        public async Task<IActionResult> Index()
-        {
-            var datas = await _client.GetFromJsonAsync<List<ResultUserDto>>("Users");
-            return View(datas);
-        }
+
+        [HttpGet]
+        public async Task<IActionResult> Index() =>
+            View(await _httpClientService.SendRequestAsync<string, List<ResultUserDto>>(HttpMethod.Get, "Users", default));
 
         [HttpGet]
         public async Task<IActionResult> AssignRole(int id)
-        {            
-            var datas = await _client.GetFromJsonAsync<ResultRolesForUserDto>($"Users/GetRolesForUser/{id}");
-            if (!datas.UserExists)
+        {
+            ResultUserRolesDto datas = await _httpClientService.SendRequestAsync<string, ResultUserRolesDto>(HttpMethod.Get, $"Users/GetRolesForUser/{id}", default);
+            if (datas is null)
                 throw new Exception("Hata olustu");
 
-            TempData["UserId"] = id;
-            return View(datas.RolesForUserDtos);
+            return View(datas);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AssignRole(List<RolesForUserDto> rolesForUserDto)
+        public async Task<IActionResult> AssignRole(ResultUserRolesDto resultUserRolesDto)
         {
-            AssignRolesToUserDto newRolesForUser = new();
-            newRolesForUser.UserId = (int)TempData["UserId"];
-            newRolesForUser.RolesForUserDtos = rolesForUserDto;
-
-            var datas = await _client.PostAsJsonAsync<AssignRolesToUserDto>("Users/AssignRoles", newRolesForUser); 
-            //if(datas.StatusCode == HttpStatusCode.BadRequest)
-            //    return RedirectToAction(nameof(Error));
+            AssignUserRolesDto newUserRoles = new();
+            newUserRoles.UserId = resultUserRolesDto.UserId;
+            newUserRoles.RoleStateDtos = resultUserRolesDto.RoleStateDtos;
+                        
+            var datas = await _httpClientService.SendRequestAsync<AssignUserRolesDto, string>(HttpMethod.Post, "Users/AssignRoles", newUserRoles);            
 
             return RedirectToAction(nameof(Index));
         }
