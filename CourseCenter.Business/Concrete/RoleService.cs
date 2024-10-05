@@ -1,4 +1,5 @@
 ﻿using CourseCenter.Business.Abstract;
+using CourseCenter.Business.Helpers;
 using AutoMapper;
 using CourseCenter.Entity.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
@@ -13,10 +14,13 @@ using System.Threading.Tasks;
 using CourseCenter.DTO.DTOs.RoleDtos;
 using Microsoft.Extensions.DependencyInjection;
 using System.Data;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Reflection;
 
 namespace CourseCenter.Business.Concrete
 {
-    public class RoleService(RoleManager<AppRole> _roleManager, IMapper _mapper) : IRoleService
+    public class RoleService(RoleManager<AppRole> _roleManager, IMapper _mapper, RolesScannerInAssemblyService _rolesScannerInAssemblyService) : IRoleService
     {
         public async Task<List<ResultRoleDto>> GetAllRoles()
         {
@@ -69,6 +73,13 @@ namespace CourseCenter.Business.Concrete
             IdentityResult result = await _roleManager.DeleteAsync(role);
 
             return result.Succeeded;
+        }
+
+        public List<string> GetDefinedRolesInAssembly(Assembly assembly)
+        {
+            List<string> definedRoles = _rolesScannerInAssemblyService.GetAllDefinedRoles(assembly);           
+
+            return definedRoles;
         }
 
     }
