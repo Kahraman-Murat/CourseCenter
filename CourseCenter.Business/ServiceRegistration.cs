@@ -1,5 +1,6 @@
 ﻿using CourseCenter.Business.Abstract;
 using CourseCenter.Business.Concrete;
+using CourseCenter.Business.Helpers;
 using CourseCenter.DataAccess.Context;
 using CourseCenter.Entity.Entities.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -43,6 +44,7 @@ namespace CourseCenter.Business
                 .AddScoped<ISubscriberService, SubscriberManager>()
                 .AddScoped<IUserService, UserService>()
                 .AddScoped<IRoleService, RoleService>()
+                .AddScoped<RolesScannerInAssemblyService>()
 
                 .Configure<TokenSettings>(configuration.GetSection("JWT"))
                 .AddScoped<ITokenService, TokenService>()

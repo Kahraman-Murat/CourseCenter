@@ -8,13 +8,14 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CourseCenter.Business.Concrete
 {
-    public class UserService(UserManager<AppUser> _userManager, RoleManager<AppRole> _roleManager, IMapper _mapper) : IUserService
+    public class UserService(UserManager<AppUser> _userManager, RoleManager<AppRole> _roleManager, IRoleService _roleService, IMapper _mapper) : IUserService
     {
         public async Task<List<ResultUserDto>> GetAllAsync()
         {
@@ -61,30 +62,33 @@ namespace CourseCenter.Business.Concrete
             return (false, result.Errors.Select(e => e.Description).ToArray());
         }
 
-        public async Task<ResultRolesForUserDto> GetRolesForUserAsync(int id)
+        public async Task<ResultUserRolesDto> GetUserRolesAsync(int id)//, Assembly assembly
         {
-            ResultRolesForUserDto result = new();
+            ResultUserRolesDto result = new();
 
             AppUser? user = await _userManager.FindByIdAsync(id.ToString());
             if (user == null)
                 return result;
 
-            result.UserExists = true;
+            result.UserId = user.Id;
+            result.FullName = user.FullName;
 
             IList<string> userRoles = await _userManager.GetRolesAsync(user);
 
+            /*List<string>allRoles=_roleService.GetDefinedRolesInAssembly(assembly);*/
+            
             List<AppRole> allRoles = await _roleManager.Roles.ToListAsync();
             if (allRoles.Any())
             {
                 foreach (AppRole role in allRoles)
                 {
-                    RolesForUserDto rolesForUser = new();
+                    RoleStateDto roleStateDto = new();
 
-                    rolesForUser.RoleId = role.Id;
-                    rolesForUser.RoleName = role.Name;
-                    rolesForUser.RoleExist = userRoles.Contains(role.Name);
+                    roleStateDto.RoleId = role.Id;
+                    roleStateDto.RoleName = role.Name;
+                    roleStateDto.RoleExist = userRoles.Contains(role.Name);
 
-                    result.RolesForUserDtos.Add(rolesForUser);
+                    result.RoleStateDtos.Add(roleStateDto);
                 }
             }
 
@@ -92,16 +96,16 @@ namespace CourseCenter.Business.Concrete
 
         }
 
-        public async Task<List<IdentityResult>> AssignRolesToUserAsync(AssignRolesToUserDto assignRolesToUserDto)
+        public async Task<List<IdentityResult>> AssignRolesToUserAsync(AssignUserRolesDto assignUserRolesDto)
         {
             List<IdentityResult> result = new();
 
             AppUser? user = await _userManager
-                .FindByIdAsync(assignRolesToUserDto.UserId.ToString());
+                .FindByIdAsync(assignUserRolesDto.UserId.ToString());
             if (user == null)
                 return result;
 
-            foreach (RolesForUserDto item in assignRolesToUserDto.RolesForUserDtos)
+            foreach (RoleStateDto item in assignUserRolesDto.RoleStateDtos)
             {
                 if (item.RoleExist)
                     result.Add(await _userManager
