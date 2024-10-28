@@ -1,16 +1,26 @@
 ﻿@model CreateRoleDto
 @{
-    ViewData["Title"] = "Yeni Rol Ekleme Sayfasi";
+    ViewData["Title"] = "Rol Etkinleştirme Sayfası";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <form method="post">
-    <label>Rol Adi</label>
+
+    <div class="form-group">
+        <label for="Name">Rol Adi</label>
+        <select asp-for="Name" asp-items="ViewBag.definedRoles" class="form-control">
+            <option value="">@ViewBag.actived</option>
+        </select>
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+
+    @*     <label>Rol Adi</label>
     <input type="text" asp-for="Name" class="form-control" />
-    <span asp-validation-for="Name" class="text-danger"></span>
+    <span asp-validation-for="Name" class="text-danger"></span> *@
     <br />
 
-    <button class="btn btn-outline-primary">Kaydet</button>
+    <button class="btn btn-outline-primary">Etkınleştir</button>
 </form>
 
 
