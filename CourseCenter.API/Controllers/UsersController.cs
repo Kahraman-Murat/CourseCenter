@@ -1,9 +1,11 @@
 ﻿using CourseCenter.API.Validators;
 using CourseCenter.Business.Abstract;
+using CourseCenter.Business.Concrete;
 using CourseCenter.DTO.DTOs.UserDtos;
 using CourseCenter.Entity.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection;
 
 namespace CourseCenter.API.Controllers
 {
@@ -44,21 +46,23 @@ namespace CourseCenter.API.Controllers
         [HttpGet("GetRolesForUser/{id}")]
         public async Task<IActionResult> GetRolesForUser(int id)
         {
-            var result = await _userService.GetRolesForUserAsync(id);
-            if (result.UserExists)
+            //var assembly = Assembly.GetExecutingAssembly();
+            //var result = await _userService.GetRolesForUserAsync(id, assembly);
+            var result = await _userService.GetUserRolesAsync(id);
+            if (result is not null)
                 return Ok(result);
 
-            return BadRequest(result);
+            return BadRequest();
         }
 
         [HttpPost("AssignRoles")]
-        public async Task<IActionResult> AssignRoles(AssignRolesToUserDto assignRolesToUserDto)
+        public async Task<IActionResult> AssignRoles(AssignUserRolesDto assignUserRolesDto)
         {
-            var result = await _userService.AssignRolesToUserAsync(assignRolesToUserDto);
+            var result = await _userService.AssignRolesToUserAsync(assignUserRolesDto);
             if (result.Any())
-                return Ok(result);
+                return Ok();
 
-            return BadRequest(result);
+            return BadRequest();
         }
     }
 }
