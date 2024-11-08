@@ -4,6 +4,7 @@ using CourseCenter.Entity.Entities.Identity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection;
 
 namespace CourseCenter.API.Controllers
 {
@@ -23,8 +24,17 @@ namespace CourseCenter.API.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             var result = await _roleService.GetRoleById(id);
-            if (result== null)
+            if (result == null)
                 return BadRequest();
+
+            return Ok(result);
+        }
+
+        [HttpGet("GetDefinedRolesInAssembly")]
+        public IActionResult GetDefinedRolesInAssembly()
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            var result = _roleService.GetDefinedRolesInAssembly(assembly);
 
             return Ok(result);
         }
@@ -34,9 +44,9 @@ namespace CourseCenter.API.Controllers
         {
             var result = await _roleService.CreateRole(createRoleDto);
             if (!result.Success)
-                return BadRequest(result.Messages);
+                return BadRequest();
 
-            return Ok(result.Messages);
+            return Ok();
         }
 
         [HttpPut]
