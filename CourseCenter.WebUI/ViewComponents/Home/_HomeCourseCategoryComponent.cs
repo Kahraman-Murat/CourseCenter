@@ -1,16 +1,13 @@
-﻿using CourseCenter.WebUI.DTOs.CourseCategoryDtos;
+﻿using CourseCenter.WebUI.DTOs.BannerDtos;
+using CourseCenter.WebUI.DTOs.CourseCategoryDtos;
 using CourseCenter.WebUI.Helpers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CourseCenter.WebUI.ViewComponents.Home
 {
-    public class _HomeCourseCategoryComponent : ViewComponent
+    public class _HomeCourseCategoryComponent(IHttpClientService _httpClientService) : ViewComponent
     {
-        private readonly HttpClient _client = HttpClientInstance.CreateClient();
-        public async Task<IViewComponentResult> InvokeAsync()
-        {
-            var datas = await _client.GetFromJsonAsync<List<ResultCourseCategoryDto>>("courseCategories/GetActiveCategories");
-            return View(datas);
-        }
+        public async Task<IViewComponentResult> InvokeAsync() =>
+            View(await _httpClientService.SendRequestAsync<string, List<ResultCourseCategoryDto>>(HttpMethod.Get, "courseCategories/GetActiveCategories", default));
     }
 }
