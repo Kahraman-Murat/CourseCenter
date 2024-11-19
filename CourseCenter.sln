@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35122.118
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseCenter.API", "CourseCenter.API\CourseCenter.API.csproj", "{B71375D9-F727-40DB-B30D-C315194E26C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseCenter.API", "CourseCenter.API\CourseCenter.API.csproj", "{B71375D9-F727-40DB-B30D-C315194E26C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseCenter.Entity", "CourseCenter.Entity\CourseCenter.Entity.csproj", "{E752A6EC-28C3-42F3-A9DB-365972BD50A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseCenter.Entity", "CourseCenter.Entity\CourseCenter.Entity.csproj", "{E752A6EC-28C3-42F3-A9DB-365972BD50A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseCenter.DataAccess", "CourseCenter.DataAccess\CourseCenter.DataAccess.csproj", "{3033396A-B513-4864-B794-65878B7033C2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseCenter.DataAccess", "CourseCenter.DataAccess\CourseCenter.DataAccess.csproj", "{3033396A-B513-4864-B794-65878B7033C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseCenter.Business", "CourseCenter.Business\CourseCenter.Business.csproj", "{F2FC6670-0867-40A4-BBB5-430A90BE5DB7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseCenter.Business", "CourseCenter.Business\CourseCenter.Business.csproj", "{F2FC6670-0867-40A4-BBB5-430A90BE5DB7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseCenter.DTO", "CourseCenter.DTO\CourseCenter.DTO.csproj", "{981A19D3-2D82-4A01-888A-6D7F7A7A4408}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseCenter.DTO", "CourseCenter.DTO\CourseCenter.DTO.csproj", "{981A19D3-2D82-4A01-888A-6D7F7A7A4408}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseCenter.WebUI", "CourseCenter.WebUI\CourseCenter.WebUI.csproj", "{ACB25A71-0A36-4A64-A625-242750C46F5E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseCenter.WebUI", "CourseCenter.WebUI\CourseCenter.WebUI.csproj", "{ACB25A71-0A36-4A64-A625-242750C46F5E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
