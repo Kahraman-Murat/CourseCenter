@@ -12,5 +12,7 @@ namespace CourseCenter.DataAccess.Abstract
         List<Blog> GetBlogsWithCategories();
 
         void SetBlogDisplayStatus(int id);
+
+        List<Blog> GetLast4BlogsWithCategories();
     }
 }

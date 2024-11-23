@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace CourseCenter.DataAccess.Concrete
 {
     public class BlogRepository : GenericRepository<Blog>, IBlogRepository
-    {        
+    {
         public BlogRepository(CourseCenterContext _context) : base(_context)
         {
 
@@ -21,6 +21,11 @@ namespace CourseCenter.DataAccess.Concrete
         public List<Blog> GetBlogsWithCategories()
         {
             return _context.Blogs.Include(x => x.BlogCategory).ToList();
+        }
+
+        public List<Blog> GetLast4BlogsWithCategories()
+        {
+            return _context.Blogs.Include(c => c.BlogCategory).OrderByDescending(o => o.Id).Take(4).ToList();
         }
 
         public void SetBlogDisplayStatus(int id)

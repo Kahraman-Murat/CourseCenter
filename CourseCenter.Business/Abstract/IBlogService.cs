@@ -11,6 +11,8 @@ namespace CourseCenter.Business.Abstract
     {
         List<Blog> TGetBlogsWithCategories();
 
+        List<Blog> TGetLast4BlogsWithCategories();
+
         void TSetBlogDisplayStatus(int id);
     }
 }
