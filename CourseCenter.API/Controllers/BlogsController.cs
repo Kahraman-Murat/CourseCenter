@@ -16,16 +16,24 @@ namespace CourseCenter.API.Controllers
         public IActionResult Get()
         {
             var datas = _blogService.TGetBlogsWithCategories();
-
-            //var datas = _blogService.TGetList();
-            return Ok(datas);
+            var blogs = _mapper.Map<List<ResultBlogDto>>(datas);
+            return Ok(blogs);
         }
 
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
             var data = _blogService.TGetById(id);
-            return Ok(data);
+            var blog = _mapper.Map<ResultBlogDto>(data);
+            return Ok(blog);
+        }
+
+        [HttpGet("GetLast4Blogs")]
+        public IActionResult GetLast4Blogs()
+        {
+            var datas = _blogService.TGetLast4BlogsWithCategories();
+            var blogs= _mapper.Map<List<ResultBlogDto>>(datas); 
+            return Ok(blogs);
         }
 
         [HttpDelete("{id}")]
