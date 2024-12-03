@@ -64,5 +64,13 @@ namespace CourseCenter.API.Controllers
             var datas = _courseService.TGetFilteredList(x => x.IsShown == true).ToList();
             return Ok(datas);
         }
+
+
+        [HttpGet("GetCourseCount")]
+        public IActionResult GetCourseCount()
+        {
+            var courseCount = _courseService.TCount();
+            return Ok(courseCount);
+        }
     }
 }
