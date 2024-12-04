@@ -32,7 +32,7 @@ namespace CourseCenter.API.Controllers
         public IActionResult GetLast4Blogs()
         {
             var datas = _blogService.TGetLast4BlogsWithCategories();
-            var blogs= _mapper.Map<List<ResultBlogDto>>(datas); 
+            var blogs = _mapper.Map<List<ResultBlogDto>>(datas);
             return Ok(blogs);
         }
 
@@ -64,6 +64,13 @@ namespace CourseCenter.API.Controllers
         {
             _blogService.TSetBlogDisplayStatus(id);
             return Ok();
+        }
+
+        [HttpGet("GetBlogCount")]
+        public IActionResult GetBlogCount()
+        {
+            var blogCount = _blogService.TCount();
+            return Ok(blogCount);
         }
     }
 }
