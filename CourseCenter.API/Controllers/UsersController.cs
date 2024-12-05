@@ -64,5 +64,14 @@ namespace CourseCenter.API.Controllers
 
             return BadRequest();
         }
+
+        [HttpGet("GetUserCountInRoles/{roleName}")]
+        public async Task<IActionResult> GetUserCountInRoles(string roleName)
+        {
+            var userCountInRole = await _userService.GetUserCountInRolesAsync(roleName);
+
+            return Ok(userCountInRole);
+        }
+
     }
 }

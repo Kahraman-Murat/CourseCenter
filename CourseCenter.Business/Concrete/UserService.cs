@@ -118,5 +118,10 @@ namespace CourseCenter.Business.Concrete
             return result;
         }
 
+        public async Task<int> GetUserCountInRolesAsync(string roleName)
+        {            
+            var usersInRole = await _userManager.GetUsersInRoleAsync(roleName);
+            return usersInRole.Count();            
+        }
     }
 }
