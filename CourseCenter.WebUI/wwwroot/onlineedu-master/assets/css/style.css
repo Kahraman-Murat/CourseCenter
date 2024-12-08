@@ -3288,7 +3288,7 @@ hr {
     }
 
 .about-area .about-img {
-    position: relative
+    position: absolute;
 }
 
     .about-area .about-img .about-font-img {
@@ -3306,7 +3306,7 @@ hr {
 .about-area .about-img .about-back-img {
     position: absolute;
     top: 0px;
-    right: -180px;
+    right: -740px;
     z-index: 1
 }
 
@@ -10273,7 +10273,7 @@ hr {
 .about-area .about-img .about-back-img {
     position: absolute;
     
-    right: -180px;
+    right: -740px;
     z-index: 1
 }
 
