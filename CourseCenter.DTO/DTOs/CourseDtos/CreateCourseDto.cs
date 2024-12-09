@@ -15,5 +15,6 @@ namespace CourseCenter.DTO.DTOs.CourseDtos
         public int CourseCategoryId { get; set; }
         public decimal Preis { get; set; }
         public bool IsShown { get; set; }
+        public int? AppUserId { get; set; }  //Field for Teacher
     }
 }

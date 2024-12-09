@@ -18,5 +18,6 @@ namespace CourseCenter.WebUI.DTOs.CourseDtos
 
         public decimal Preis { get; set; }
         public bool IsShown { get; set; }
+        public int? AppUserId { get; set; }  //Field for Teacher
     }
 }
