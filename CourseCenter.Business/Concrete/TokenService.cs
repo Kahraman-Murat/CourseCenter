@@ -27,12 +27,14 @@ namespace CourseCenter.Business.Concrete
 
         public async Task<JwtSecurityToken> CreateAccessToken(AppUser user, IList<string> roles)
         {
-            // Claims e Jwt_Id , User_Id , User_Email eklenmesi
+            // Claims e Jwt_Id , User_Id ,  User_FullName ,  User_Email eklenmesi
             var claims = new List<Claim>()
             {
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                new Claim(JwtRegisteredClaimNames.Name, user.FullName),
+                // new Claim("testKey", "testValue"), // bu sekilde kullanilabilir
             };
 
             // Claims e User_Roles eklenmesi
