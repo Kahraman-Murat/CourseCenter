@@ -72,5 +72,15 @@ namespace CourseCenter.API.Controllers
             var courseCount = _courseService.TCount();
             return Ok(courseCount);
         }
+
+
+        [HttpGet("GetCourseByTeacherId/{id}")]
+        public IActionResult GetCourseByTeacherId(string id)
+        {
+            var courses = _courseService.TGetCoursesWithCategories().Where(x => x.AppUserId.ToString() == id).ToList();
+            var mappedCourses = _mapper.Map<List<ResultCourseDto>>(courses);
+
+            return Ok(mappedCourses);
+        }
     }
 }
