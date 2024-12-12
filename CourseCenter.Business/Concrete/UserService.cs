@@ -123,5 +123,12 @@ namespace CourseCenter.Business.Concrete
             var usersInRole = await _userManager.GetUsersInRoleAsync(roleName);
             return usersInRole.Count();            
         }
+
+        public async Task<List<AppUser>> GetUsersInRoleAsync(string roleName)
+        {
+            var usersInRole = await _userManager.GetUsersInRoleAsync(roleName);
+            List<AppUser> users = _mapper.Map<List<AppUser>>(usersInRole);
+            return users;
+        }
     }
 }
