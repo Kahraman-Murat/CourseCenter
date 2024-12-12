@@ -14,7 +14,7 @@ namespace CourseCenter.Business.Abstract
         Task<ResultUserRolesDto> GetUserRolesAsync(int id);//, Assembly assembly
         Task<List<IdentityResult>> AssignRolesToUserAsync(AssignUserRolesDto assignUserRolesDto);
         Task<int> GetUserCountInRolesAsync(string roleName);
-        Task<List<AppUser>> GetUsersInRoleAsync(string roleName);
+        Task<List<ResultUserDto>> GetUsersInRoleAsync(string roleName);
 
     }
 }

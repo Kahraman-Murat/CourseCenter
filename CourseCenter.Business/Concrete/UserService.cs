@@ -124,10 +124,10 @@ namespace CourseCenter.Business.Concrete
             return usersInRole.Count();            
         }
 
-        public async Task<List<AppUser>> GetUsersInRoleAsync(string roleName)
+        public async Task<List<ResultUserDto>> GetUsersInRoleAsync(string roleName)
         {
             var usersInRole = await _userManager.GetUsersInRoleAsync(roleName);
-            List<AppUser> users = _mapper.Map<List<AppUser>>(usersInRole);
+            List<ResultUserDto> users = _mapper.Map<List<ResultUserDto>>(usersInRole);
             return users;
         }
     }
