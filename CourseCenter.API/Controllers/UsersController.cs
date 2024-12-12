@@ -73,5 +73,13 @@ namespace CourseCenter.API.Controllers
             return Ok(userCountInRole);
         }
 
+        [HttpGet("GetUsersInRole/{roleName}")]
+        public async Task<IActionResult> GetUsersInRole(string roleName)
+        {
+            var usersInRole = await _userService.GetUsersInRoleAsync(roleName);
+
+            return Ok(usersInRole);
+        }
+
     }
 }
