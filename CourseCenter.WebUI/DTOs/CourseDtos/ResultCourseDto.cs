@@ -1,4 +1,5 @@
 ﻿using CourseCenter.WebUI.DTOs.CourseCategoryDtos;
+using CourseCenter.WebUI.DTOs.UserDtos;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -19,5 +20,6 @@ namespace CourseCenter.WebUI.DTOs.CourseDtos
         public decimal Preis { get; set; }
         public bool IsShown { get; set; }
         public int? AppUserId { get; set; }  //Field for Teacher
+        public ResultUserDto AppUser { get; set; } //Object for Teacher
     }
 }
