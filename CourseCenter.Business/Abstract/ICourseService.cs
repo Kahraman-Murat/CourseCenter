@@ -9,7 +9,7 @@ namespace CourseCenter.Business.Abstract
 {
     public interface ICourseService : IGenericService<Course>
     {
-        List<Course> TGetCoursesWithCategories();
+        List<Course> TGetCoursesWithCategoryUndTeacher();
 
         void TSetCourseDisplayStatus(int id);
     }

@@ -17,9 +17,9 @@ namespace CourseCenter.DataAccess.Concrete
         {
         }
 
-        public List<Course> GetCoursesWithCategories()
+        public List<Course> GetCoursesWithCategoryUndTeacher()
         {
-            return _context.Courses.Include(x => x.CourseCategory).ToList();
+            return _context.Courses.Include(x => x.CourseCategory).Include(t => t.AppUser).ToList();
         }
 
         public void SetCourseDisplayStatus(int id)

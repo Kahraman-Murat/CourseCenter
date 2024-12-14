@@ -9,7 +9,7 @@ namespace CourseCenter.DataAccess.Abstract
 {
     public interface ICourseRepository : IRepository<Course>
     {
-        List<Course> GetCoursesWithCategories();
+        List<Course> GetCoursesWithCategoryUndTeacher();
 
         void SetCourseDisplayStatus(int id);
     }
