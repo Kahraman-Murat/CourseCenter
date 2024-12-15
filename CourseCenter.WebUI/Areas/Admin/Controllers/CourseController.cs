@@ -1,5 +1,6 @@
 ﻿using CourseCenter.WebUI.DTOs.CourseCategoryDtos;
 using CourseCenter.WebUI.DTOs.CourseDtos;
+using CourseCenter.WebUI.DTOs.UserDtos;
 using CourseCenter.WebUI.Helpers;
 using CourseCenter.WebUI.Validators;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +16,10 @@ namespace CourseCenter.WebUI.Areas.Admin.Controllers
         private async Task<List<ResultCourseCategoryDto>> GetCourseCategoriesAsync() =>
             await _httpClientService.SendRequestAsync<string, List<ResultCourseCategoryDto>>(HttpMethod.Get, "CourseCategories", default);
 
+        [HttpGet]
+        private async Task<List<ResultUserDto>> GetUsersInRoleAsync(string roleName) =>
+            await _httpClientService.SendRequestAsync<string, List<ResultUserDto>>(HttpMethod.Get, $"Users/GetUsersInRole/{roleName}", default);
+
         public async Task<IActionResult> Index() =>
             View(await _httpClientService.SendRequestAsync<string, List<ResultCourseDto>>(HttpMethod.Get, "Courses", default));
 
@@ -23,6 +28,9 @@ namespace CourseCenter.WebUI.Areas.Admin.Controllers
         {
             var categories = await GetCourseCategoriesAsync();
             ViewBag.courseCategories = new SelectList(categories, "Id", "Name");
+
+            var teachers = await GetUsersInRoleAsync("Teacher");
+            ViewBag.courseTeachers = new SelectList(teachers, "Id", "FullName");
 
             return View();
         }
@@ -41,6 +49,9 @@ namespace CourseCenter.WebUI.Areas.Admin.Controllers
                 var categories = await GetCourseCategoriesAsync();
                 ViewBag.courseCategories = new SelectList(categories, "Id", "Name");
 
+                var teachers = await GetUsersInRoleAsync("Teacher");
+                ViewBag.courseTeachers = new SelectList(teachers, "Id", "FullName");
+
                 return View(createCourseDto);
             }
 
@@ -54,6 +65,9 @@ namespace CourseCenter.WebUI.Areas.Admin.Controllers
         {
             var categories = await GetCourseCategoriesAsync();
             ViewBag.courseCategories = new SelectList(categories, "Id", "Name");
+
+            var teachers = await GetUsersInRoleAsync("Teacher");
+            ViewBag.courseTeachers = new SelectList(teachers, "Id", "FullName");
 
             UpdateCourseDto data = await _httpClientService.SendRequestAsync<string, UpdateCourseDto>(HttpMethod.Get, $"Courses/{id}", default);
 
@@ -73,6 +87,9 @@ namespace CourseCenter.WebUI.Areas.Admin.Controllers
 
                 var categories = await GetCourseCategoriesAsync();
                 ViewBag.courseCategories = new SelectList(categories, "Id", "Name");
+
+                var teachers = await GetUsersInRoleAsync("Teacher");
+                ViewBag.courseTeachers = new SelectList(teachers, "Id", "FullName");
 
                 return View(updateCourseDto);
             }

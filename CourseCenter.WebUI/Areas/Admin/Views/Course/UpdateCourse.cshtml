@@ -6,7 +6,7 @@
 
 <form method="post">
     <input type="hidden" asp-for="Id" />
-    <label>Kusr Kategorisi</label>
+    <label>Kurs Kategorisi</label>
     <select asp-items="@ViewBag.courseCategories" asp-for="CourseCategoryId" class="form-control">
         <option value="">Kurs Kategori Secin</option>
     </select>
@@ -23,6 +23,11 @@
     <label>Kurs Ücreti</label>
     <input type="text" asp-for="Preis" class="form-control" />
     <span asp-validation-for="Preis" class="text-danger"></span>
+    <br />
+    <label>Eğitmen</label>
+    <select asp-items="@ViewBag.courseTeachers" asp-for="AppUserId" class="form-control">
+        <option value="">Kurs Eğitmeni Secin</option>
+    </select>
     <br />
     <label>Kurs Aktiflik Durumu</label>
     <br />
