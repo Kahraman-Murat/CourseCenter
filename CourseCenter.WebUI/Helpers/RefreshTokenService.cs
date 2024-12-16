@@ -1,5 +1,8 @@
 ﻿
 using CourseCenter.WebUI.DTOs.AuthDtos;
+using System.IdentityModel.Tokens.Jwt;
+using NuGet.Common;
+using System.Security.Claims;
 
 namespace CourseCenter.WebUI.Helpers
 {
@@ -9,6 +12,33 @@ namespace CourseCenter.WebUI.Helpers
         {
             return _httpContextAccessor.HttpContext.Items["AccessToken"] as string
                ?? _httpContextAccessor.HttpContext.Request.Cookies["AccessToken"];
+        }
+
+        public UserFromTokenDto GetUserFromToken(string accessToken)
+        {
+            UserFromTokenDto userFromTokenDto = new UserFromTokenDto();
+
+            try
+            {
+                // JwtSecurityTokenHandler ile token'ı çöz
+                var handler = new JwtSecurityTokenHandler();
+                var jwtToken = handler.ReadJwtToken(accessToken);
+
+                var payload = jwtToken.Payload;
+                if (payload != null)
+                {
+                    userFromTokenDto.UserId = payload[ClaimTypes.NameIdentifier]?.ToString();
+                    userFromTokenDto.FullName = payload[JwtRegisteredClaimNames.Name]?.ToString();
+                    userFromTokenDto.Email = payload[JwtRegisteredClaimNames.Email]?.ToString();
+                }
+
+                return userFromTokenDto;
+            }
+            catch (Exception ex)
+            {
+                return userFromTokenDto;
+            }
+            
         }
 
         public async Task<bool> RefreshTokensAsync()

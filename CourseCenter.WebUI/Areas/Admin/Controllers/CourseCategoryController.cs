@@ -2,6 +2,8 @@
 using CourseCenter.WebUI.Helpers;
 using CourseCenter.WebUI.Validators;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Razor.Language.Intermediate;
 
 namespace CourseCenter.WebUI.Areas.Admin.Controllers
 {
@@ -10,12 +12,29 @@ namespace CourseCenter.WebUI.Areas.Admin.Controllers
     [Route("[area]/[controller]/[action]/{id?}")]
     public class CourseCategoryController(IHttpClientService _httpClientService) : Controller
     {
-        [HttpGet]
-        public async Task<IActionResult> Index() =>
-            View(await _httpClientService.SendRequestAsync<string, List<ResultCourseCategoryDto>>(HttpMethod.Get, "CourseCategories", default));
+
+        List<(string Text, string Icon)> courseCategoryIconsList = new() 
+            {
+                ("Icon - Bilgisayar", "flaticon-computing"),
+                ("Icon - Egitim", "flaticon-education"),
+                ("Icon - Isletme","flaticon-business"),
+                ("Icon - Danisman","flaticon-communications-1"),
+                ("Icon - Mezuniyet","flaticon-graduated"),
+                ("Icon - Kontrol Listei","flaticon-tools-and-utensils"),
+                ("Icon - Iletisim","flaticon-communications"),
+                ("Icon - Tasarim Dizayn","flaticon-web-design"),
+            };
 
         [HttpGet]
-        public async Task<IActionResult> CreateCourseCategory() => View();
+        public async Task<IActionResult> Index() => View(await _httpClientService.SendRequestAsync<string, List<ResultCourseCategoryDto>>(HttpMethod.Get, "CourseCategories", default));
+
+        [HttpGet]
+        public async Task<IActionResult> CreateCourseCategory()
+        {            
+            ViewBag.DropdownItems = courseCategoryIconsList;
+
+            return View();
+        }
 
         [HttpPost]
         public async Task<IActionResult> CreateCourseCategory(CreateCourseCategoryDto createCourseCategoryDto)
@@ -28,6 +47,8 @@ namespace CourseCenter.WebUI.Areas.Admin.Controllers
                 foreach (var x in result.Errors)
                     ModelState.AddModelError(x.PropertyName, x.ErrorMessage);
 
+                ViewBag.DropdownItems = courseCategoryIconsList;
+
                 return View(createCourseCategoryDto);
             }
 
@@ -37,8 +58,15 @@ namespace CourseCenter.WebUI.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> UpdateCourseCategory(int id) =>
-            View(await _httpClientService.SendRequestAsync<string, UpdateCourseCategoryDto>(HttpMethod.Get, $"CourseCategories/{id}", default));
+        public async Task<IActionResult> UpdateCourseCategory(int id)
+        {
+            ViewBag.DropdownItems = courseCategoryIconsList;
+
+            UpdateCourseCategoryDto updateCourseCategoryDto = await _httpClientService.SendRequestAsync<string, UpdateCourseCategoryDto>(HttpMethod.Get, $"CourseCategories/{id}", default);
+
+            return View(updateCourseCategoryDto);
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> UpdateCourseCategory(UpdateCourseCategoryDto updateCourseCategoryDto)
@@ -50,6 +78,8 @@ namespace CourseCenter.WebUI.Areas.Admin.Controllers
                 ModelState.Clear();
                 foreach (var x in result.Errors)
                     ModelState.AddModelError(x.PropertyName, x.ErrorMessage);
+
+                ViewBag.DropdownItems = courseCategoryIconsList;
 
                 return View(updateCourseCategoryDto);
             }
@@ -73,6 +103,5 @@ namespace CourseCenter.WebUI.Areas.Admin.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-
     }
 }

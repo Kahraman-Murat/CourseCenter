@@ -2,27 +2,194 @@
 @{
     ViewData["Title"] = "Yeni Kurs Kategorisi Ekleme Sayfasi";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+    var dropdownItems = ViewBag.DropdownItems as List<(string Text, string Icon)>;
+    string dropdownButtonText = "Kurs Kategorisi Icon Seciniz";
+    string dropdownListItems = "";
+
+    for (int i = 0; i < dropdownItems.Count; i++)
+    {
+        dropdownListItems += "<li class=\"dropdown-item\" onclick=\"selectItem('" + @dropdownItems[i].Text + "', '" + @dropdownItems[i].Icon + "')\"><span class=\"" + @dropdownItems[i].Icon + "\" style=\"color:rgb(45, 48, 146);font-size:28px;\"></span>" + @dropdownItems[i].Text + "</li>";
+
+        if (!string.IsNullOrEmpty(Model?.Icon))
+        {
+            if (Model.Icon == dropdownItems[i].Icon)
+            {
+                dropdownButtonText = "<span class='" + dropdownItems[i].Icon + "' style='color:rgb(45, 48, 146);font-size:28px;' ></span>" + dropdownItems[i].Text;
+            }
+        }
+    }
 }
 
+<style>
+    .dropdown {
+        position: relative;
+        cursor: pointer;
+        width: 100%;
+        border-radius: .5em;
+        z-index: 100;
+    }
+
+        .dropdown.active,
+        .dropdown:hover {
+            background-color: silver;
+        }
+
+        .dropdown button {
+            /*             display: flex;
+                    gap: 1em;
+                    cursor: pointer;
+                    padding: .6em 0;
+                    padding-right: 1.8em; */
+            min-height: 3.5em;
+            padding: 0 1em;
+            display: flex;
+            gap: 1.5em;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+    .dropdown-menu {
+        position: absolute;
+        display: none;
+        left: 0;
+        top: calc(100% + .25rem);
+        width: max-content;
+        border-radius: .25rem;
+        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .1);
+        background-color: #fff;
+        color: #fff;
+        pointer-events: none;
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: opacity 150ms ease-in-out, transform 150ms ease-in-out;
+        overflow: hidden;
+    }
+
+        .dropdown-menu.active {
+            pointer-events: auto;
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu ul {
+            margin: 0;
+            padding-inline-start: 0;
+        }
+
+        .dropdown-menu li {
+            padding: 0 1em;
+            display: flex;
+            gap: 1.5em;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        .dropdown-menu .item {
+            padding: .75rem;
+        }
+
+            .dropdown-menu .item.selected,
+            .dropdown-menu .item:hover {
+                background-color: mediumblue;
+            }
+
+    .caret {
+        position: absolute;
+        right: .6em;
+        transform: rotateZ(0deg) translateY(0);
+        transition: rotate 300ms ease-in-out;
+    }
+
+        .caret.rotated {
+            transform: rotateZ(180deg) translateY(-.1em);
+        }
+</style>
+
+
 <form method="post">
+
+    <label>Kurs Kategorisi Icon</label>
+    <input type="hidden" id="Icon" name="Icon" asp-for="Icon" />
+    <div id="dropdown" class="dropdown">
+        <button type="button" id="toggleButton" class="form-control" onclick="toggleDropdown()">
+            @Html.Raw(dropdownButtonText)
+            <span id="caret" class="caret"></span>
+        </button>
+        <div id="dropdownMenu" class="dropdown-menu">
+            <ul>
+                @Html.Raw(dropdownListItems)
+            </ul>
+        </div>
+    </div>
+    <span asp-validation-for="Icon" class="text-danger"></span>
+    <br />
+
     <label>Kurs Kategori Adi</label>
     <input type="text" asp-for="Name" class="form-control" />
     <span asp-validation-for="Name" class="text-danger"></span>
     <br />
-    <label>Kurs Kategori Icon</label>
-    <input type="text" asp-for="Icon" class="form-control" />
-    <span asp-validation-for="Icon" class="text-danger"></span>
-    <br />
+
     <label>Kurs Kategori Aciklamasi</label>
     <input type="text" asp-for="Description" class="form-control" />
     <span asp-validation-for="Description" class="text-danger"></span>
     <br />
+
     <label>Kurs Kategori Aktiflik</label>
     <br />
     <input type="checkbox" asp-for="IsShown" />
     <label class="custom-control-label">Kategori Kullanimda</label>
     <br />
+
     <br />
 
     <button class="btn btn-outline-primary">Kaydet</button>
 </form>
+
+<script>
+    // Dropdown durumunu kontrol etmek için değişken
+    let isDropdownVisible = false;
+
+    // Dropdown'ı aç/kapat
+    function toggleDropdown() {
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        isDropdownVisible = !isDropdownVisible;
+
+        if (isDropdownVisible) {
+            dropdownMenu.classList.add('active'); // Add the active class
+        } else {
+            dropdownMenu.classList.remove('active'); // Remove the active class
+        }
+    }
+
+    // Bir eleman seçildiğinde çağrılır
+    function selectItem(text, icon) {
+
+        // Dropdown'ı kapat
+        toggleDropdown();
+
+        // Update button text
+        const toggleButton = document.getElementById('toggleButton');
+        toggleButton.innerHTML = `<span class="${icon}" style="color:rgb(45, 48, 146);font-size:28px;" ></span> ${text}`;
+
+        // Update the hidden input's value
+        const hiddenInput = document.getElementById('Icon');
+        hiddenInput.value = icon;
+    }
+
+    // Dropdown dışında bir yere tıklanırsa kapat
+    document.addEventListener('click', (event) => {
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        const toggleButton = document.getElementById('toggleButton');
+
+        if (!dropdownMenu.contains(event.target) && event.target !== toggleButton) {
+            isDropdownVisible = false;
+            dropdown.classList.remove("active");
+            document.getElementById("dropdownMenu").classList.remove("active");
+            document.getElementById("caret").classList.remove("rotated");
+        }
+    });
+
+</script>
+

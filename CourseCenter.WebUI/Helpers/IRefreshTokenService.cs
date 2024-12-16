@@ -1,4 +1,6 @@
-﻿namespace CourseCenter.WebUI.Helpers
+﻿using CourseCenter.WebUI.DTOs.AuthDtos;
+
+namespace CourseCenter.WebUI.Helpers
 {
     public interface IRefreshTokenService
     {
@@ -6,5 +8,6 @@
         void RemoveTokensCookies();
         void SaveTokensCookies(string accessToken, string refreshToken);
         string GetAccessToken();
+        UserFromTokenDto GetUserFromToken(string accessToken);
     }
 }

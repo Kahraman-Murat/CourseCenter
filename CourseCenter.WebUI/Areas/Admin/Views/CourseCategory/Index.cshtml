@@ -22,9 +22,9 @@
         <tr>
             <th>@count</th>
             <td>@item.Name</td>
-            <td>@item.Icon</td>
+            <td><span class="@item.Icon" style="color:rgb(45, 48, 146);font-size:32px;"></span></td>
             <td>@item.Description</td>
-            <td>@(item.IsShown ? "Görünür":"Gizli")</td>
+            <td>@(item.IsShown ? "Görünür" : "Gizli")</td>
             <td>
                 <button onclick="DeleteRecord('/Admin/CourseCategory/DeleteCourseCategory/@item.Id')" class="btn btn-outline-danger">Sil</button>
 
@@ -38,4 +38,3 @@
 </table>
 <br />
 <a asp-action="CreateCourseCategory" asp-controller="CourseCategory" asp-area="Admin" class="btn btn-outline-primary">Yeni Kurs Kategorisi Ekle</a>
-
