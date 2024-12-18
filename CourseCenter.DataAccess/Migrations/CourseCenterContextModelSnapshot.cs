@@ -99,6 +99,9 @@ namespace CourseCenter.DataAccess.Migrations
                     b.Property<int>("BlogCategoryId")
                         .HasColumnType("int");
 
+                    b.Property<int>("BlogWriterId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -120,6 +123,8 @@ namespace CourseCenter.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BlogCategoryId");
+
+                    b.HasIndex("BlogWriterId");
 
                     b.ToTable("Blogs");
                 });
@@ -178,9 +183,6 @@ namespace CourseCenter.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("AppUserId")
-                        .HasColumnType("int");
-
                     b.Property<int>("CourseCategoryId")
                         .HasColumnType("int");
 
@@ -198,11 +200,14 @@ namespace CourseCenter.DataAccess.Migrations
                     b.Property<decimal>("Preis")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int>("TeacherId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId");
-
                     b.HasIndex("CourseCategoryId");
+
+                    b.HasIndex("TeacherId");
 
                     b.ToTable("Courses");
                 });
@@ -243,17 +248,17 @@ namespace CourseCenter.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AppUserId")
+                    b.Property<int>("CourseId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CourseId")
+                    b.Property<int>("StudentId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId");
-
                     b.HasIndex("CourseId");
+
+                    b.HasIndex("StudentId");
 
                     b.ToTable("CourseRegisters");
                 });
@@ -286,6 +291,14 @@ namespace CourseCenter.DataAccess.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        });
                 });
 
             modelBuilder.Entity("CourseCenter.Entity.Entities.Identity.AppUser", b =>
@@ -367,6 +380,25 @@ namespace CourseCenter.DataAccess.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "5d797c35-2322-443a-84a3-5096111a3425",
+                            Email = "admin@example.com",
+                            EmailConfirmed = true,
+                            FullName = "Admin",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@EXAMPLE.COM",
+                            NormalizedUserName = "ADMIN",
+                            PasswordHash = "AQAAAAIAAYagAAAAEO8Vg0u5Ik6uC0GfUfF3EsVWWB5QZtA9K4Ce+zbhbUZg/yxkE2Oc//70Dv9svwK+0Q==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "",
+                            TwoFactorEnabled = false,
+                            UserName = "admin"
+                        });
                 });
 
             modelBuilder.Entity("CourseCenter.Entity.Entities.Message", b =>
@@ -560,6 +592,13 @@ namespace CourseCenter.DataAccess.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1,
+                            RoleId = 1
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
@@ -589,43 +628,53 @@ namespace CourseCenter.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("CourseCenter.Entity.Entities.Identity.AppUser", "BlogWriter")
+                        .WithMany("Blogs")
+                        .HasForeignKey("BlogWriterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("BlogCategory");
+
+                    b.Navigation("BlogWriter");
                 });
 
             modelBuilder.Entity("CourseCenter.Entity.Entities.Course", b =>
                 {
-                    b.HasOne("CourseCenter.Entity.Entities.Identity.AppUser", "AppUser")
-                        .WithMany("Courses")
-                        .HasForeignKey("AppUserId");
-
                     b.HasOne("CourseCenter.Entity.Entities.CourseCategory", "CourseCategory")
                         .WithMany("Courses")
                         .HasForeignKey("CourseCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("AppUser");
+                    b.HasOne("CourseCenter.Entity.Entities.Identity.AppUser", "Teacher")
+                        .WithMany("Courses")
+                        .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("CourseCategory");
+
+                    b.Navigation("Teacher");
                 });
 
             modelBuilder.Entity("CourseCenter.Entity.Entities.CourseRegister", b =>
                 {
-                    b.HasOne("CourseCenter.Entity.Entities.Identity.AppUser", "AppUser")
-                        .WithMany("CourseRegisters")
-                        .HasForeignKey("AppUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("CourseCenter.Entity.Entities.Course", "Course")
                         .WithMany("CourseRegisters")
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("AppUser");
+                    b.HasOne("CourseCenter.Entity.Entities.Identity.AppUser", "Student")
+                        .WithMany("CourseRegisters")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Course");
+
+                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -696,6 +745,8 @@ namespace CourseCenter.DataAccess.Migrations
 
             modelBuilder.Entity("CourseCenter.Entity.Entities.Identity.AppUser", b =>
                 {
+                    b.Navigation("Blogs");
+
                     b.Navigation("CourseRegisters");
 
                     b.Navigation("Courses");

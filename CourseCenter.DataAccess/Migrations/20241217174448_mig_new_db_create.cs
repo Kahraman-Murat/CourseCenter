@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -6,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CourseCenter.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class Generating_newDatabese_with_Identity : Migration
+    public partial class mig_new_db_create : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -315,11 +316,18 @@ namespace CourseCenter.DataAccess.Migrations
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsShown = table.Column<bool>(type: "bit", nullable: false),
-                    BlogCategoryId = table.Column<int>(type: "int", nullable: false)
+                    BlogCategoryId = table.Column<int>(type: "int", nullable: false),
+                    BlogWriterId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Blogs", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Blogs_AspNetUsers_BlogWriterId",
+                        column: x => x.BlogWriterId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Blogs_BlogCategories_BlogCategoryId",
                         column: x => x.BlogCategoryId,
@@ -339,16 +347,17 @@ namespace CourseCenter.DataAccess.Migrations
                     CourseCategoryId = table.Column<int>(type: "int", nullable: false),
                     Preis = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     IsShown = table.Column<bool>(type: "bit", nullable: false),
-                    AppUserId = table.Column<int>(type: "int", nullable: true)
+                    TeacherId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Courses", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Courses_AspNetUsers_AppUserId",
-                        column: x => x.AppUserId,
+                        name: "FK_Courses_AspNetUsers_TeacherId",
+                        column: x => x.TeacherId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Courses_CourseCategories_CourseCategoryId",
                         column: x => x.CourseCategoryId,
@@ -363,24 +372,24 @@ namespace CourseCenter.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    AppUserId = table.Column<int>(type: "int", nullable: false),
+                    StudentId = table.Column<int>(type: "int", nullable: false),
                     CourseId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CourseRegisters", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CourseRegisters_AspNetUsers_AppUserId",
-                        column: x => x.AppUserId,
+                        name: "FK_CourseRegisters_AspNetUsers_StudentId",
+                        column: x => x.StudentId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_CourseRegisters_Courses_CourseId",
                         column: x => x.CourseId,
                         principalTable: "Courses",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -428,9 +437,9 @@ namespace CourseCenter.DataAccess.Migrations
                 column: "BlogCategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CourseRegisters_AppUserId",
-                table: "CourseRegisters",
-                column: "AppUserId");
+                name: "IX_Blogs_BlogWriterId",
+                table: "Blogs",
+                column: "BlogWriterId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CourseRegisters_CourseId",
@@ -438,14 +447,19 @@ namespace CourseCenter.DataAccess.Migrations
                 column: "CourseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Courses_AppUserId",
-                table: "Courses",
-                column: "AppUserId");
+                name: "IX_CourseRegisters_StudentId",
+                table: "CourseRegisters",
+                column: "StudentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Courses_CourseCategoryId",
                 table: "Courses",
                 column: "CourseCategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Courses_TeacherId",
+                table: "Courses",
+                column: "TeacherId");
         }
 
         /// <inheritdoc />

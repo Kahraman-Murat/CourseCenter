@@ -1,5 +1,6 @@
 ﻿using CourseCenter.Entity.Entities;
 using CourseCenter.Entity.Entities.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -31,5 +32,44 @@ namespace CourseCenter.DataAccess.Context
         public DbSet<CourseRegister> CourseRegisters { get; set; }
 
 
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            // Admin kullanıcı ve rol Seed Data
+            var adminUserId = 1;
+            var adminRoleId = 1;
+
+            var hasher = new PasswordHasher<AppUser>();
+
+            // Rol Ekleme
+            builder.Entity<AppRole>().HasData(new AppRole
+            {
+                Id = adminRoleId,
+                Name = "Admin",
+                NormalizedName = "ADMIN"
+            });
+
+            // Kullanıcı Ekleme
+            builder.Entity<AppUser>().HasData(new AppUser
+            {
+                Id = adminUserId,
+                UserName = "admin",
+                NormalizedUserName = "ADMIN",
+                Email = "admin@example.com",
+                NormalizedEmail = "ADMIN@EXAMPLE.COM",
+                EmailConfirmed = true,
+                PasswordHash = hasher.HashPassword(null, "Admin123*"),
+                SecurityStamp = string.Empty,
+                FullName = "Admin"
+            });
+
+            // Kullanıcıya Rol Atama
+            builder.Entity<IdentityUserRole<int>>().HasData(new IdentityUserRole<int>
+            {
+                UserId = adminUserId,
+                RoleId = adminRoleId
+            });
+        }
     }
 }
