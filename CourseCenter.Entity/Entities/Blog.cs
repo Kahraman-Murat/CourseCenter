@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CourseCenter.Entity.Entities.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,5 +19,7 @@ namespace CourseCenter.Entity.Entities
         public bool IsShown { get; set; }
         public int BlogCategoryId { get; set; }
         public BlogCategory BlogCategory { get; set; }
+        public int BlogWriterId { get; set; }
+        public AppUser BlogWriter { get; set; }
     }
 }

@@ -10,8 +10,8 @@ namespace CourseCenter.Entity.Entities
     public class CourseRegister
     {
         public int Id { get; set; }
-        public int AppUserId { get; set; }   //Field for Student
-        public AppUser AppUser { get; set; } //Object for Student
+        public int StudentId { get; set; }
+        public AppUser Student { get; set; }
         public int CourseId { get; set; }
         public Course Course { get; set; }
     }

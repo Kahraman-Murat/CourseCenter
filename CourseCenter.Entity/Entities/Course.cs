@@ -20,8 +20,8 @@ namespace CourseCenter.Entity.Entities
         public decimal Preis { get; set; }
         public bool IsShown { get; set; }
 
-        public int? AppUserId { get; set; }  //Field for Teacher
-        public AppUser AppUser { get; set; } //Object for Teacher
+        public int TeacherId { get; set; }
+        public AppUser Teacher { get; set; }
         public List<CourseRegister> CourseRegisters { get; set; }
     }
 }
