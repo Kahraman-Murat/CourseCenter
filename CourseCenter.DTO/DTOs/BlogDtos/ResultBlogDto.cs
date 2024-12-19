@@ -1,5 +1,7 @@
 ﻿using CourseCenter.DTO.DTOs.BlogCategoryDtos;
+using CourseCenter.DTO.DTOs.UserDtos;
 using CourseCenter.Entity.Entities;
+using CourseCenter.Entity.Entities.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,5 +22,7 @@ namespace CourseCenter.DTO.DTOs.BlogDtos
         public bool IsShown { get; set; }
         public int BlogCategoryId { get; set; }
         public ResultBlogCategoryDto BlogCategory { get; set; }
+        public int BlogWriterId { get; set; }
+        public ResultUserDto BlogWriter { get; set; }
     }
 }
