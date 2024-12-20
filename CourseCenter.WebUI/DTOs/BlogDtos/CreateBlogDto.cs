@@ -16,5 +16,6 @@ namespace CourseCenter.WebUI.DTOs.BlogDtos
 
         public bool IsShown { get; set; }
         public int BlogCategoryId { get; set; }
+        public int BlogWriterId { get; set; }
     }
 }
