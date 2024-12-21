@@ -9,7 +9,7 @@ namespace CourseCenter.Business.Abstract
 {
     public interface IBlogService : IGenericService<Blog>
     {
-        List<Blog> TGetBlogsWithCategories();
+        List<Blog> TGetBlogsWithCategoryUndWriter();
 
         List<Blog> TGetLast4BlogsWithCategories();
 

@@ -22,9 +22,9 @@ namespace CourseCenter.Business.Concrete
             _blogRepository.SetBlogDisplayStatus(id);
         }
 
-        public List<Blog> TGetBlogsWithCategories()
+        public List<Blog> TGetBlogsWithCategoryUndWriter()
         {
-            return _blogRepository.GetBlogsWithCategories();
+            return _blogRepository.GetBlogsWithCategoryUndWriter();
         }
 
         public List<Blog> TGetLast4BlogsWithCategories()

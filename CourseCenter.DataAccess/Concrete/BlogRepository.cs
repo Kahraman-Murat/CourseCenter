@@ -18,9 +18,9 @@ namespace CourseCenter.DataAccess.Concrete
 
         }
 
-        public List<Blog> GetBlogsWithCategories()
+        public List<Blog> GetBlogsWithCategoryUndWriter()
         {
-            return _context.Blogs.Include(x => x.BlogCategory).ToList();
+            return _context.Blogs.Include(x => x.BlogCategory).Include(w => w.BlogWriter).ToList();
         }
 
         public List<Blog> GetLast4BlogsWithCategories()
