@@ -15,7 +15,7 @@ namespace CourseCenter.API.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var datas = _blogService.TGetBlogsWithCategories();
+            var datas = _blogService.TGetBlogsWithCategoryUndWriter();
             var blogs = _mapper.Map<List<ResultBlogDto>>(datas);
             return Ok(blogs);
         }
@@ -34,6 +34,15 @@ namespace CourseCenter.API.Controllers
             var datas = _blogService.TGetLast4BlogsWithCategories();
             var blogs = _mapper.Map<List<ResultBlogDto>>(datas);
             return Ok(blogs);
+        }
+
+        [HttpGet("GetBlogsByWriterId/{id}")]
+        public IActionResult GetBlogsByWriterId(string id)
+        {
+            var courses = _blogService.TGetBlogsWithCategoryUndWriter().Where(x => x.BlogWriterId.ToString() == id).ToList();
+            var mappedBlogs = _mapper.Map<List<ResultBlogDto>>(courses);
+
+            return Ok(mappedBlogs);
         }
 
         [HttpDelete("{id}")]
