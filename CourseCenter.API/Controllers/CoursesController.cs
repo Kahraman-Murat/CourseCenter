@@ -77,7 +77,7 @@ namespace CourseCenter.API.Controllers
         [HttpGet("GetCourseByTeacherId/{id}")]
         public IActionResult GetCourseByTeacherId(string id)
         {
-            var courses = _courseService.TGetCoursesWithCategoryUndTeacher().Where(x => x.AppUserId.ToString() == id).ToList();
+            var courses = _courseService.TGetCoursesWithCategoryUndTeacher().Where(x => x.TeacherId.ToString() == id).ToList();
             var mappedCourses = _mapper.Map<List<ResultCourseDto>>(courses);
 
             return Ok(mappedCourses);
