@@ -3,11 +3,13 @@ using CourseCenter.Business.Abstract;
 using CourseCenter.DTO.DTOs.BannerDtos;
 using CourseCenter.DTO.DTOs.MessageDtos;
 using CourseCenter.Entity.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CourseCenter.API.Controllers
 {
+    [Authorize(Roles = "Admin,Content-Manager,Editör,Teacher")]
     [Route("api/[controller]")]
     [ApiController]
     public class MessagesController(IGenericService<Message> _messageService, IMapper _mapper) : ControllerBase

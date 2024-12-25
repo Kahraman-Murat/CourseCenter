@@ -3,15 +3,18 @@ using CourseCenter.Business.Abstract;
 using CourseCenter.DTO.DTOs.SocialMediaDtos;
 using CourseCenter.DTO.DTOs.SubscriberDtos;
 using CourseCenter.Entity.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CourseCenter.API.Controllers
 {
+    [Authorize(Roles = "Admin,Content-Manager")]
     [Route("api/[controller]")]
     [ApiController]
     public class SubscribersController(ISubscriberService _subscriberService, IMapper _mapper) : ControllerBase
     {
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Get()
         {
@@ -19,6 +22,7 @@ namespace CourseCenter.API.Controllers
             return Ok(datas);
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {

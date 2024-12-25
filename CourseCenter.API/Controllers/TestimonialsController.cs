@@ -3,15 +3,18 @@ using CourseCenter.Business.Abstract;
 using CourseCenter.DTO.DTOs.SubscriberDtos;
 using CourseCenter.DTO.DTOs.TestimonialDtos;
 using CourseCenter.Entity.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CourseCenter.API.Controllers
 {
+    [Authorize(Roles = "Admin,Content-Manager")]
     [Route("api/[controller]")]
     [ApiController]
     public class TestimonialsController(IGenericService<Testimonial> _testimonialService, IMapper _mapper) : ControllerBase
     {
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Get()
         {
@@ -19,6 +22,7 @@ namespace CourseCenter.API.Controllers
             return Ok(datas);
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {

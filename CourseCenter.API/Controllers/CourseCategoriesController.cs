@@ -3,15 +3,18 @@ using CourseCenter.Business.Abstract;
 using CourseCenter.DTO.DTOs.ContactDtos;
 using CourseCenter.DTO.DTOs.CourseCategoryDtos;
 using CourseCenter.Entity.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CourseCenter.API.Controllers
 {
+    [Authorize(Roles = "Admin,Content-Manager,Teacher")]
     [Route("api/[controller]")]
     [ApiController]
     public class CourseCategoriesController(ICourseCategoryService _courseCategoryService, IMapper _mapper) : ControllerBase
     {
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Get()
         {
@@ -19,6 +22,7 @@ namespace CourseCenter.API.Controllers
             return Ok(datas);
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
@@ -56,6 +60,7 @@ namespace CourseCenter.API.Controllers
             return Ok();
         }
 
+        [AllowAnonymous]
         [HttpGet("GetActiveCategories")]
         public IActionResult GetActiveCategories()
         {
@@ -63,7 +68,7 @@ namespace CourseCenter.API.Controllers
             return Ok(datas);
         }
 
-
+        [AllowAnonymous]
         [HttpGet("GetCategoryCount")]
         public IActionResult GetCategoryCount()
         {

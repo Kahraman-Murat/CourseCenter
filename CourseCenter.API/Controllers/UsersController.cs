@@ -3,12 +3,14 @@ using CourseCenter.Business.Abstract;
 using CourseCenter.Business.Concrete;
 using CourseCenter.DTO.DTOs.UserDtos;
 using CourseCenter.Entity.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
 
 namespace CourseCenter.API.Controllers
 {
+    [Authorize(Roles = "Admin,Content-Manager")]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController(IUserService _userService) : ControllerBase
@@ -17,6 +19,13 @@ namespace CourseCenter.API.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
+            Console.WriteLine("User Claims: *******************************");
+            foreach (var claim in HttpContext.User.Claims)
+            {
+                Console.WriteLine($"{claim.Type}: {claim.Value}");
+            }
+            Console.WriteLine("User Claims End: *******************************");
+
             var users = await _userService.GetAllAsync();
 
             return Ok(users);
@@ -38,7 +47,7 @@ namespace CourseCenter.API.Controllers
             var (success, errors) = await _userService.CreateAsync(createUserDto);
 
             if (success)
-                return StatusCode(StatusCodes.Status201Created, "Kayıt başarılı.");
+                return StatusCode(StatusCodes.Status201Created, new { Result = "Kayıt başarılı." } );
 
             return BadRequest(new { Errors = errors });
         }
@@ -65,6 +74,7 @@ namespace CourseCenter.API.Controllers
             return BadRequest();
         }
 
+        [AllowAnonymous]
         [HttpGet("GetUserCountInRoles/{roleName}")]
         public async Task<IActionResult> GetUserCountInRoles(string roleName)
         {

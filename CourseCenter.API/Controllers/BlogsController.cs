@@ -3,15 +3,18 @@ using CourseCenter.Business.Abstract;
 using CourseCenter.DTO.DTOs.AboutDtos;
 using CourseCenter.DTO.DTOs.BlogDtos;
 using CourseCenter.Entity.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CourseCenter.API.Controllers
 {
+    [Authorize(Roles = "Admin,Content-Manager,Editor")]
     [Route("api/[controller]")]
     [ApiController]
     public class BlogsController(IBlogService _blogService, IMapper _mapper) : ControllerBase
     {
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Get()
         {
@@ -20,6 +23,7 @@ namespace CourseCenter.API.Controllers
             return Ok(blogs);
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
@@ -28,6 +32,7 @@ namespace CourseCenter.API.Controllers
             return Ok(blog);
         }
 
+        [AllowAnonymous]
         [HttpGet("GetLast4Blogs")]
         public IActionResult GetLast4Blogs()
         {
@@ -36,6 +41,7 @@ namespace CourseCenter.API.Controllers
             return Ok(blogs);
         }
 
+        [AllowAnonymous]
         [HttpGet("GetBlogsByWriterId/{id}")]
         public IActionResult GetBlogsByWriterId(string id)
         {
@@ -75,6 +81,7 @@ namespace CourseCenter.API.Controllers
             return Ok();
         }
 
+        [AllowAnonymous]
         [HttpGet("GetBlogCount")]
         public IActionResult GetBlogCount()
         {

@@ -1,6 +1,7 @@
 ﻿using CourseCenter.Business.Abstract;
 using CourseCenter.DTO.DTOs.RoleDtos;
 using CourseCenter.Entity.Entities.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +9,7 @@ using System.Reflection;
 
 namespace CourseCenter.API.Controllers
 {
+    [Authorize(Roles = "Admin,Content-Manager")]
     [Route("api/[controller]")]
     [ApiController]
     public class RolesController(IRoleService _roleService) : ControllerBase
