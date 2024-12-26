@@ -33,6 +33,28 @@ namespace CourseCenter.Business.Concrete
             return mappedUser;
         }
 
+        public async Task<List<ResultUserWithRolesDto>> GetUsersWithRolesAsync()
+        {
+            var users = await _userManager.Users.ToListAsync();
+            var userList = new List<ResultUserWithRolesDto>();
+
+            foreach (var user in users)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+
+                userList.Add(new ResultUserWithRolesDto
+                {
+                    Id = user.Id,
+                    FullName = user.FullName,
+                    UserName = user.UserName,
+                    Email = user.Email,
+                    Roles = roles.ToList()
+                });
+            }
+
+            return userList;
+        }
+
         public async Task<(bool Success, string[] Errors)> CreateAsync(CreateUserDto createUserDto)
         {
             AppUser? userExist = await _userManager.FindByEmailAsync(createUserDto.Email);
@@ -46,15 +68,15 @@ namespace CourseCenter.Business.Concrete
 
             if (result.Succeeded)
             {
-                if (!await _roleManager.RoleExistsAsync("user"))
+                if (!await _roleManager.RoleExistsAsync("User"))
                     await _roleManager.CreateAsync(new AppRole
                     {
-                        Name = "user",
+                        Name = "User",
                         NormalizedName = "USER",
                         ConcurrencyStamp = Guid.NewGuid().ToString(),
                     });
 
-                await _userManager.AddToRoleAsync(user, "user");
+                await _userManager.AddToRoleAsync(user, "User");
 
                 return (true, null);
             }                
