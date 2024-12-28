@@ -10,7 +10,7 @@ using System.Reflection;
 
 namespace CourseCenter.API.Controllers
 {
-    [Authorize(Roles = "Admin,Content-Manager")]
+    [Authorize(Roles = "Admin,Content-Manager,Teacher")]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController(IUserService _userService) : ControllerBase
@@ -21,12 +21,18 @@ namespace CourseCenter.API.Controllers
         {
             Console.WriteLine("User Claims: *******************************");
             foreach (var claim in HttpContext.User.Claims)
-            {
-                Console.WriteLine($"{claim.Type}: {claim.Value}");
-            }
+                Console.WriteLine($"{claim.Type}: {claim.Value}");            
             Console.WriteLine("User Claims End: *******************************");
 
             var users = await _userService.GetAllAsync();
+
+            return Ok(users);
+        }
+
+        [HttpGet("usersWithRoles")]
+        public async Task<IActionResult> usersWithRoles()
+        {
+            var users = await _userService.GetUsersWithRolesAsync();
 
             return Ok(users);
         }
