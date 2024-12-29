@@ -16,7 +16,11 @@ namespace CourseCenter.WebUI.Areas.Admin.Controllers
 
         [HttpGet]
         public async Task<IActionResult> Index() =>
-            View(await _httpClientService.SendRequestAsync<string, List<ResultUserDto>>(HttpMethod.Get, "Users", default));
+            View(await _httpClientService.SendRequestAsync<string, List<ResultUserWithRolesDto>>(HttpMethod.Get, "Users/usersWithRoles", default));
+
+        //[HttpGet]
+        //public async Task<IActionResult> UsersWithRoles() =>
+        //    View(await _httpClientService.SendRequestAsync<string, List<ResultUserWithRolesDto>>(HttpMethod.Get, "Users/usersWithRoles", default));
 
         [HttpGet]
         public async Task<IActionResult> AssignRole(int id)

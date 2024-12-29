@@ -1,4 +1,4 @@
-﻿@model List<ResultUserDto>
+﻿@model List<ResultUserWithRolesDto>
 @{
     ViewData["Title"] = "Kullanicilar Sayfasi";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
@@ -13,6 +13,7 @@
         <th>Ad Soyad</th>
         <th>Kullanici Adi</th>
         <th>Email Adresi</th>
+        <th>Roller</th>
         <th>islemler</th>
     </tr>
     @foreach (var item in Model)
@@ -23,6 +24,7 @@
             <td>@item.FullName</td>
             <td>@item.UserName</td>
             <td>@item.Email</td>
+            <td>@string.Join(",  ", item.Roles)</td>
             <td>
                 @*<button onclick="DeleteRecord('/Admin/User/DeleteUser/@item.Id')" class="btn btn-outline-danger">Sil</button> *@
 
