@@ -23,7 +23,11 @@
             <th>@count</th>
             <td>@item.Name</td>
             <td><span class="@item.Icon" style="color:rgb(45, 48, 146);font-size:32px;"></span></td>
-            <td>@item.Description</td>
+            <td style="width:25%;">
+                @(item.Description.Length > 100
+                    ? item.Description.Substring(0, 100) + "..."
+                    : item.Description)
+            </td>
             <td>@(item.IsShown ? "Görünür" : "Gizli")</td>
             <td>
                 <button onclick="DeleteRecord('/Admin/CourseCategory/DeleteCourseCategory/@item.Id')" class="btn btn-outline-danger">Sil</button>

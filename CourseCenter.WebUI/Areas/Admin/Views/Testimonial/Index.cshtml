@@ -25,7 +25,11 @@
             <td><img src="@item.ImageUrl" style="height:75px;width:75px" /></td>
             <td>@item.Name</td>
             <td>@item.Title</td>
-            <td>@(item.Comment.ToString().Length > 30 ? item.Comment.Substring(0, 30) + "..." : item.Comment)</td>
+            <td style="width:25%;">
+                @(item.Comment.Length > 100
+                    ? item.Comment.Substring(0, 100) + "..."
+                    : item.Comment)
+            </td>
             <td>
                 <div class="star-div">
                     @for (int i = 0; i < item.Star; i++)
