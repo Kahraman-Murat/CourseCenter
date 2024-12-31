@@ -23,6 +23,11 @@
     <textarea asp-for="Content" class="form-control" rows="5"></textarea>
     <span asp-validation-for="Content" class="text-danger"></span>
     <br />
+@*     <label>Blog Yazarı</label>
+    <select asp-items="@ViewBag.courseWriters" asp-for="BlogWriterId" class="form-control">
+        <option value="">Kurs Eğitmeni Secin</option>
+    </select>
+    <br /> *@
     <label>Blog Aktiflik Durumu</label>
     <br />
     <input type="checkbox" asp-for="IsShown" />
