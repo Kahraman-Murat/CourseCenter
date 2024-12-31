@@ -1,5 +1,7 @@
 ﻿using CourseCenter.WebUI.DTOs.BlogCategoryDtos;
 using CourseCenter.WebUI.DTOs.BlogDtos;
+using CourseCenter.WebUI.DTOs.UserDtos;
+using CourseCenter.WebUI.Filters;
 using CourseCenter.WebUI.Helpers;
 using CourseCenter.WebUI.Validators;
 using Microsoft.AspNetCore.Mvc;
@@ -8,21 +10,30 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 namespace CourseCenter.WebUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Route("[area]/[controller]/[action]/{id?}")]
+    //[TypeFilter(typeof(JwtUserFromTokenFilter))]
     public class BlogController(IHttpClientService _httpClientService) : Controller
     {
         [HttpGet]
         private async Task<List<ResultBlogCategoryDto>> GetBlogCategoriesAsync() =>
             await _httpClientService.SendRequestAsync<string, List<ResultBlogCategoryDto>>(HttpMethod.Get, "BlogCategories", default);
 
+        // Admin Blog Yazari ni degistirmesi gerekli degil
+        //[HttpGet]
+        //private async Task<List<ResultUserDto>> GetUsersInRoleAsync(string roleName) =>
+        //    await _httpClientService.SendRequestAsync<string, List<ResultUserDto>>(HttpMethod.Get, $"Users/GetUsersInRole/{roleName}", default);
+
         public async Task<IActionResult> Index() => 
             View(await _httpClientService.SendRequestAsync<string, List<ResultBlogDto>>(HttpMethod.Get, "Blogs", default));
 
         [HttpGet]
         public async Task<IActionResult> CreateBlog()
-        {            
+        {
             var categories = await GetBlogCategoriesAsync();
             ViewBag.blogCategories = new SelectList(categories, "Id", "Name");
+
+            // Admin Blog Yazari ni degistirmesi gerekli degil
+            //var writers = await GetUsersInRoleAsync("Editor");
+            //ViewBag.courseWriters = new SelectList(writers, "Id", "FullName");
 
             return View();
         }
@@ -30,6 +41,12 @@ namespace CourseCenter.WebUI.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateBlog(CreateBlogDto createBlogDto)
         {
+            createBlogDto.BlogWriterId = 0; //Set in Backend 
+
+            // BlogWriterId HttpContext.Items üzerinden al
+            //string userId = HttpContext.Items["UserId"].ToString();
+            //createBlogDto.BlogWriterId = Int32.Parse(userId);
+
             var validator = new CreateBlogValidator();
             var result = await validator.ValidateAsync(createBlogDto);
             if (!result.IsValid)
