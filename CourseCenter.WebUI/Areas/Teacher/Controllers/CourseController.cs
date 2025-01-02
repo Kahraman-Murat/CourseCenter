@@ -14,22 +14,20 @@ using System.Security.Claims;
 namespace CourseCenter.WebUI.Areas.Teacher.Controllers
 {
     [Area("Teacher")]
-    [TypeFilter(typeof(JwtUserFromTokenFilter))]
+    //[TypeFilter(typeof(JwtUserFromTokenFilter))]
     public class CourseController(IHttpClientService _httpClientService, IRefreshTokenService _refreshTokenService) : Controller
     {
-        [HttpGet]
         private async Task<List<ResultCourseCategoryDto>> GetCourseCategoriesAsync() => await _httpClientService.SendRequestAsync<string, List<ResultCourseCategoryDto>>(HttpMethod.Get, "CourseCategories", default);
 
-        [HttpGet]
         private async Task<List<ResultUserDto>> GetUsersInRoleAsync(string roleName) =>
             await _httpClientService.SendRequestAsync<string, List<ResultUserDto>>(HttpMethod.Get, $"Users/GetUsersInRole/{roleName}", default);
 
         public async Task<IActionResult> Index()
         {
             // Kullanıcıyı HttpContext.Items üzerinden al
-            string userId = HttpContext.Items["UserId"].ToString();
+            //string userId = HttpContext.Items["UserId"].ToString();
 
-            List<ResultCourseDto> courses = await _httpClientService.SendRequestAsync<string, List<ResultCourseDto>>(HttpMethod.Get, $"Courses/GetCourseByTeacherId/{userId}", default);
+            List<ResultCourseDto> courses = await _httpClientService.SendRequestAsync<string, List<ResultCourseDto>>(HttpMethod.Get, $"Courses/GetCourseByTeacherId/0", default); //{userId}
 
             return View(courses);
         }
@@ -40,8 +38,8 @@ namespace CourseCenter.WebUI.Areas.Teacher.Controllers
             var categories = await GetCourseCategoriesAsync();
             ViewBag.courseCategories = new SelectList(categories, "Id", "Name");
 
-            var teachers = await GetUsersInRoleAsync("Teacher");
-            ViewBag.courseTeachers = new SelectList(teachers, "Id", "FullName");
+            //var teachers = await GetUsersInRoleAsync("Teacher");
+            //ViewBag.courseTeachers = new SelectList(teachers, "Id", "FullName");
 
             return View();
         }
@@ -50,6 +48,8 @@ namespace CourseCenter.WebUI.Areas.Teacher.Controllers
         public async Task<IActionResult> CreateCourse(CreateCourseDto createCourseDto)
         {
             createCourseDto.IsShown = false; // Admin should be able to set
+            createCourseDto.TeacherId = 0; //Set in Backend 
+
             var validator = new CreateCourseValidator();
             var result = await validator.ValidateAsync(createCourseDto);
             if (!result.IsValid)
@@ -78,8 +78,8 @@ namespace CourseCenter.WebUI.Areas.Teacher.Controllers
             var categories = await GetCourseCategoriesAsync();
             ViewBag.courseCategories = new SelectList(categories, "Id", "Name");
 
-            var teachers = await GetUsersInRoleAsync("Teacher");
-            ViewBag.courseTeachers = new SelectList(teachers, "Id", "FullName");
+            //var teachers = await GetUsersInRoleAsync("Teacher");
+            //ViewBag.courseTeachers = new SelectList(teachers, "Id", "FullName");
 
             UpdateCourseDto data = await _httpClientService.SendRequestAsync<string, UpdateCourseDto>(HttpMethod.Get, $"Courses/{id}", default);
 
@@ -89,6 +89,8 @@ namespace CourseCenter.WebUI.Areas.Teacher.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateCourse(UpdateCourseDto updateCourseDto)
         {
+            updateCourseDto.IsShown = false; // Admin should be able to set
+
             var validator = new UpdateCourseValidator();
             var result = await validator.ValidateAsync(updateCourseDto);
             if (!result.IsValid)
