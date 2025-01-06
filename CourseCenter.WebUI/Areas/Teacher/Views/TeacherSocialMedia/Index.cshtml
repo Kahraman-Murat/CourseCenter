@@ -1,0 +1,35 @@
+﻿@model List<ResultTeacherSocialMediaDto>
+@{
+    ViewData["Title"] = "Öğretmen Sosyal Medya Linkleri";
+    Layout = "~/Views/Shared/_TeacherLayout.cshtml";
+}
+
+@{
+    int count = 0;
+}
+<table class="table table-hover">
+    <tr>
+        <th>#</th>
+        <th>Icon</th>
+        <th>Sosyal Medya</th>
+        <th>islemler</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        count++;
+        <tr>
+            <th>@count</th>
+            <td><i class="@item.Icon fa-2x"></i></td>
+            <td><a href="@item.Url" target="_blank" />@item.Title</td>
+            <td>
+                <button onclick="DeleteRecord('/Teacher/TeacherSocialMedia/Delete/@item.Id')" class="btn btn-outline-danger">Sil</button>
+                <a asp-action="Update" asp-controller="TeacherSocialMedia" asp-area="Teacher" asp-route-id="@item.Id" class="btn btn-outline-info">Güncelle</a>
+
+            </td>
+        </tr>
+    }
+</table>
+<br />
+<a asp-action="Create" asp-controller="TeacherSocialMedia" asp-area="Teacher" class="btn btn-outline-primary">Yeni Sosyal Medya Ekle</a>
+
+

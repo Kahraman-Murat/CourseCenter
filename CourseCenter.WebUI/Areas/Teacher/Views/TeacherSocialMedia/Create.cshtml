@@ -1,0 +1,21 @@
+﻿@model CreateTeacherSocialMediaDto
+@{
+    ViewData["Title"] = "Yeni Öğretmen Sosyal Medya Ekleme Sayfasi";
+    Layout = "~/Views/Shared/_TeacherLayout.cshtml";
+}
+
+<form method="post">
+    <label>Baslik</label>
+    <input type="text" asp-for="Title" class="form-control" />
+    <span asp-validation-for="Title" class="text-danger"></span>
+    <br />
+    <label>Icon</label>
+    <input type="text" asp-for="Icon" class="form-control" />
+    <span asp-validation-for="Icon" class="text-danger"></span>
+    <br />
+    <label>Url</label>
+    <input type="text" asp-for="Url" class="form-control" />
+    <span asp-validation-for="Url" class="text-danger"></span>
+    <br />
+    <button class="btn btn-outline-primary">Kaydet</button>
+</form>
