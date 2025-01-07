@@ -19,6 +19,7 @@ namespace CourseCenter.Entity.Entities.Identity
 
         public List<CourseRegister> CourseRegisters { get; set; }
         public List<Blog> Blogs { get; set; }
+        public List<TeacherSocialMedia> TeacherSocialMedias { get; set; }
 
     }
 }
