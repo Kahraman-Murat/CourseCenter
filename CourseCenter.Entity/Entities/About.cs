@@ -9,6 +9,8 @@ namespace CourseCenter.Entity.Entities
     public class About
     {
         public int Id { get; set; }
+        public string OurMission { get; set; }
+        public string OurVision { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public string ImageUrl1 { get; set; }

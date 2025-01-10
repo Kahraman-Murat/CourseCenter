@@ -1,0 +1,52 @@
+﻿@model List<ResultAboutDto>
+@{
+    ViewData["Title"] = "Hakkımızda Sayfası";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!--? Hero Start -->
+<div class="slider-area">
+    <div class="slider-height2 d-flex align-items-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="hero-cap hero-cap2 text-center">
+                        <h2>Hakkımızda</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Hero End -->
+<!-- About Details Start -->
+<div class="about-details section-padding30">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                @foreach (var item in Model)
+                {
+                    <div class="about-details-cap mb-50">
+                        <h4>Our Mission</h4>
+                        <p>@item.OurMission</p>
+                    </div>
+
+                    <div class="about-details-cap mb-50">
+                        <h4>Our Vision</h4>
+                        <p>@item.OurVision</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<!-- About Details End -->
+<!--? Count Down Start -->
+@await Component.InvokeAsync("_HomeCounterComponent")
+<!-- Count Down End -->
+<!--? Testimonial Start -->
+@await Component.InvokeAsync("_HomeTestimonialComponent")
+<!-- Testimonial End -->
+<!--? About  Start-->
+@await Component.InvokeAsync("_HomeAboutComponent")
+<!-- About Law End-->
