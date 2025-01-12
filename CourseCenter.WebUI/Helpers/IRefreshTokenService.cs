@@ -9,5 +9,6 @@ namespace CourseCenter.WebUI.Helpers
         void SaveTokensCookies(string accessToken, string refreshToken);
         string GetAccessToken();
         UserFromTokenDto GetUserFromToken(string accessToken);
+        string[] GetUserRolesFromToken(string accessToken);
     }
 }

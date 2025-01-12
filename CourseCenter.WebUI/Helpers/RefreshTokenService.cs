@@ -41,6 +41,24 @@ namespace CourseCenter.WebUI.Helpers
             
         }
 
+        public string[] GetUserRolesFromToken(string accessToken)
+        {
+            var jwtHandler = new JwtSecurityTokenHandler();
+
+            if (jwtHandler.CanReadToken(accessToken))
+            {
+                var jwtToken = jwtHandler.ReadJwtToken(accessToken);
+                var roles = jwtToken.Claims
+                    .Where(c => c.Type == ClaimTypes.Role) // Rolleri al
+                    .Select(c => c.Value)
+                    .ToArray();
+
+                return roles;
+            }
+
+            return null;
+        }
+
         public async Task<bool> RefreshTokensAsync()
         {
             RequestTokenDto requestTokenDto = new()
