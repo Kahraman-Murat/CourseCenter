@@ -18,8 +18,9 @@ namespace CourseCenter.WebUI.Filters
                 // Ulaşılmak istenen URL'yi alt
                 var returnUrl = context.HttpContext.Request.Path;
 
+
                 // TempData veya QueryString ile AccessDenied sayfasına yönlendirme yap
-                var routeValues = new { ReturnUrl = returnUrl };
+                var routeValues = new { area = "", ReturnUrl = returnUrl };
                 context.Result = new RedirectToActionResult("AccessDenied", "Home", routeValues);
             }
         }

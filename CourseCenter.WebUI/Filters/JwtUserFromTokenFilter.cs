@@ -15,13 +15,14 @@ namespace CourseCenter.WebUI.Filters
 
             // Ulaşılmak istenen URL'yi al
             var returnUrl = httpContext.Request.Path;            
-            var routeValues = new { ReturnUrl = returnUrl };
+            var routeValues = new { area = "", ReturnUrl = returnUrl };
 
 
             // Access token'ı cookie'de yoksa login sayfasına yönlendir
             var token = _refreshTokenService.GetAccessToken();
             if (string.IsNullOrEmpty(token))
             {
+                //return RedirectToAction("Login", "Account", new { area = "", returnUrl = "/Dashboard", userId = 123 });
                 context.Result = new RedirectToActionResult("Login", "Auth", routeValues);
                 return;
             }

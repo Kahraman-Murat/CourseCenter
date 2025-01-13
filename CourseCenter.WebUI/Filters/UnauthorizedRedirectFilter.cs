@@ -20,7 +20,7 @@ namespace CourseCenter.WebUI.Filters
                 var returnUrl = context.HttpContext.Request.Path;
 
                 // TempData veya QueryString ile Login sayfasına yönlendirme yap
-                var routeValues = new { ReturnUrl = returnUrl };
+                var routeValues = new { area = "", ReturnUrl = returnUrl };
                 context.Result = new RedirectToActionResult("Login", "Auth", routeValues);
 
             }
