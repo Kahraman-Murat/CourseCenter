@@ -6,6 +6,14 @@
 
 <form method="post">
     <input type="hidden" asp-for="Id" />
+    <label>Misyonumuz</label>
+    <textarea asp-for="OurMission" class="form-control" rows="5"></textarea>
+    <span asp-validation-for="OurMission" class="text-danger"></span>
+    <br />
+    <label>Vizyonumuz</label>
+    <textarea asp-for="OurVision" class="form-control" rows="5"></textarea>
+    <span asp-validation-for="OurVision" class="text-danger"></span>
+    <br />
     <label>Baslik</label>
     <input type="text" asp-for="Title" class="form-control" />
     <span asp-validation-for="Title" class="text-danger"></span>
