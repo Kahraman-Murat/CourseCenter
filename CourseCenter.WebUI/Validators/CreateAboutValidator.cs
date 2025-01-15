@@ -7,8 +7,12 @@ namespace CourseCenter.WebUI.Validators
     {
         public CreateAboutValidator()
         {
-            RuleFor(x=>x.Title).NotEmpty().WithMessage("Bu alan bos birakilamaz.");
-            RuleFor(x=>x.Title).MaximumLength(100).WithMessage("Bu alandaki veri en fazla 30 karekter olmalidir.");
+            RuleFor(x => x.OurMission).NotEmpty().WithMessage("Bu alan bos birakilamaz.");
+            
+            RuleFor(x => x.OurVision).NotEmpty().WithMessage("Bu alan bos birakilamaz.");
+            
+            RuleFor(x => x.Title).NotEmpty().WithMessage("Bu alan bos birakilamaz.");
+            RuleFor(x=>x.Title).MaximumLength(100).WithMessage("Bu alandaki veri en fazla 100 karekter olmalidir.");
 
             RuleFor(x => x.Description).NotEmpty().WithMessage("Bu alan bos birakilamaz.");
             RuleFor(x => x.Description).MaximumLength(1000).WithMessage("Bu alandaki veri en fazla 1000 karekter olmalidir.");
