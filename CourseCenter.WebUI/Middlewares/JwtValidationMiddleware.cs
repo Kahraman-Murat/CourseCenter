@@ -24,7 +24,8 @@ namespace CourseCenter.WebUI.Middlewares
             var activePaths = new[] 
             {
                 "/Admin",
-                "/Teacher/Course/Index",
+                "/Teacher",
+                "/Student",
                 "/Area/Controller/Action"
             }; 
 
@@ -50,7 +51,8 @@ namespace CourseCenter.WebUI.Middlewares
                         Console.WriteLine("-----------------------RefreshToken YOK" );
 
                         // Refresh token yoksa login sayfasına yönlendir, ReturnUrl ekle
-                        context.Response.Redirect($"/Auth/Login?returnUrl={returnUrl}");
+                        //context.Response.Redirect($"/Auth/Login?returnUrl={returnUrl}");
+                        context.Response.Redirect($"/Auth/Login?area=&returnUrl={returnUrl}");
                         return;
                     }
 
@@ -58,7 +60,7 @@ namespace CourseCenter.WebUI.Middlewares
                     if (!await _refreshTokenService.RefreshTokensAsync())
                     {
                         // Refresh token da geçersizse login sayfasına yönlendir, ReturnUrl ekle
-                        context.Response.Redirect($"/Auth/Login?returnUrl={returnUrl}");
+                        context.Response.Redirect($"/Auth/Login?area=&returnUrl={returnUrl}");
                         return;
                     }
 
