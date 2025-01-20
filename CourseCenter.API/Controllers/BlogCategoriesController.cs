@@ -12,13 +12,13 @@ namespace CourseCenter.API.Controllers
     [Authorize(Roles = "Admin,Content-Manager,Editor")]
     [Route("api/[controller]")]
     [ApiController]
-    public class BlogCategoriesController(IGenericService<BlogCategory> _blogCategoryService, IMapper _mapper) : ControllerBase
+    public class BlogCategoriesController(IBlogCategoryService _blogCategoryService, IMapper _mapper) : ControllerBase
     {
         [AllowAnonymous]
         [HttpGet]
         public IActionResult Get()
         {
-            var datas = _blogCategoryService.TGetList();
+            var datas = _blogCategoryService.TGetCategoriesWithBlogs();
             return Ok(datas);
         }
 
