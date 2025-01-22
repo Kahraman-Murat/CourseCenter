@@ -18,9 +18,22 @@ namespace CourseCenter.DataAccess.Concrete
 
         }
 
-        public List<Blog> GetBlogsWithCategoryUndWriter()
+        public List<Blog> GetBlogsWithCategoryUndWriter(int id = 0)
         {
-            return _context.Blogs.Include(x => x.BlogCategory).Include(w => w.BlogWriter).ToList();
+            var query = _context.Blogs.AsQueryable();
+            if (id > 0)
+                query = query.Where(b => b.Id == id);
+
+            return query.Include(x => x.BlogCategory).Include(w => w.BlogWriter).ThenInclude(x=>x.TeacherSocialMedias).ToList();
+        }
+
+        public List<Blog> GetBlogsWithCategoryUndWriterByCategoryId(int id = 0)
+        {
+            var query = _context.Blogs.Include(x => x.BlogCategory).AsQueryable();
+            if (id > 0)
+                query = query.Where(b => b.BlogCategory.Id == id);
+
+            return query.Include(w => w.BlogWriter).ThenInclude(x => x.TeacherSocialMedias).ToList();
         }
 
         public List<Blog> GetLast4BlogsWithCategories()
