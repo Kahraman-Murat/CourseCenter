@@ -22,14 +22,19 @@ namespace CourseCenter.Business.Concrete
             _blogRepository.SetBlogDisplayStatus(id);
         }
 
-        public List<Blog> TGetBlogsWithCategoryUndWriter()
+        public List<Blog> TGetBlogsWithCategoryUndWriter(int id = 0)
         {
-            return _blogRepository.GetBlogsWithCategoryUndWriter();
+            return _blogRepository.GetBlogsWithCategoryUndWriter(id);
         }
 
         public List<Blog> TGetLast4BlogsWithCategories()
         {
             return _blogRepository.GetLast4BlogsWithCategories();
+        }
+
+        public List<Blog> TGetBlogsWithCategoryUndWriterByCategoryId(int id = 0)
+        {
+            return _blogRepository.GetBlogsWithCategoryUndWriterByCategoryId(id);
         }
     }
 }
