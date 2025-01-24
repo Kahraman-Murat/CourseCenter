@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using CourseCenter.Business.Abstract;
-using CourseCenter.DTO.DTOs.AboutDtos;
 using CourseCenter.DTO.DTOs.BlogDtos;
+using CourseCenter.DTO.DTOs.UserDtos;
 using CourseCenter.Entity.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -27,8 +27,17 @@ namespace CourseCenter.API.Controllers
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
-            var data = _blogService.TGetById(id);
-            var blog = _mapper.Map<ResultBlogDto>(data);
+            var data = _blogService.TGetBlogsWithCategoryUndWriter(id);            
+            var blog = _mapper.Map<ResultBlogDto>(data.FirstOrDefault());
+            return Ok(blog);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("GetByCategoryId/{id}")]
+        public IActionResult GetByCategoryId(int id)
+        {
+            var datas = _blogService.TGetBlogsWithCategoryUndWriterByCategoryId(id);
+            var blog = _mapper.Map<List<ResultBlogDto>>(datas);
             return Ok(blog);
         }
 
@@ -45,7 +54,10 @@ namespace CourseCenter.API.Controllers
         [HttpGet("GetBlogsByWriterId/{id}")]
         public IActionResult GetBlogsByWriterId(string id)
         {
-            var courses = _blogService.TGetBlogsWithCategoryUndWriter().Where(x => x.BlogWriterId.ToString() == id).ToList();
+            var claim = User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier"));
+            string claimValue = claim == null ? "0" : claim.Value;
+            
+            var courses = _blogService.TGetBlogsWithCategoryUndWriter().Where(x => x.BlogWriterId.ToString() == claimValue).ToList();
             var mappedBlogs = _mapper.Map<List<ResultBlogDto>>(courses);
 
             return Ok(mappedBlogs);
@@ -61,6 +73,13 @@ namespace CourseCenter.API.Controllers
         [HttpPost]
         public IActionResult Create(CreateBlogDto createBlogDto)
         {
+            if (createBlogDto.BlogWriterId == 0)
+            {
+                var claim = User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier"));
+                string claimValue = claim == null ? "0" : claim.Value;
+                createBlogDto.BlogWriterId = Int32.Parse(claimValue);
+            }
+
             var newData = _mapper.Map<Blog>(createBlogDto);
             _blogService.TCreate(newData);
             return Ok();
