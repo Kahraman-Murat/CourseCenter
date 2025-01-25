@@ -21,6 +21,6 @@ namespace CourseCenter.WebUI.DTOs.BlogDtos
         public int BlogCategoryId { get; set; }
         public ResultBlogCategoryDto BlogCategory { get; set; }
         public int BlogWriterId { get; set; }
-        public ResultUserDto BlogWriter { get; set; }
+        public ResultUserSocialMediasDto BlogWriter { get; set; }
     }
 }
