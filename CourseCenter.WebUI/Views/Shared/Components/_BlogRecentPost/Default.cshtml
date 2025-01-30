@@ -1,0 +1,17 @@
+﻿@model List<ResultBlogDto>
+
+<aside class="single_sidebar_widget popular_post_widget">
+    <h3 class="widget_title" style="color: #2d2d2d;">Son Bloglar</h3>
+    @foreach (var item in Model)
+    {
+        <div class="media post_item">
+            <img src="@item.ImageUrl" style="width:80px;height:50px;" alt="post">
+            <div class="media-body">
+                <a href="/Blog/Detail/@item.Id">
+                    <h3 style="color: #2d2d2d;">@item.Title</h3>
+                </a>
+                <p>@item.CreatedDate.ToString("dd.MM.yyyy")</p>
+            </div>
+        </div>
+    }
+</aside>
