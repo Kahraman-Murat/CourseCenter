@@ -1,0 +1,49 @@
+﻿
+<aside class="single_sidebar_widget newsletter_widget">
+    <h4 class="widget_title" style="color: #2d2d2d;">Üye Ol</h4>
+    <div class="form-group">
+        <input id="dataEmail" type="email" class="form-control" onfocus="this.placeholder = ''"
+               onblur="this.placeholder = 'Emailinizi Girin'" placeholder='Emailinizi Girin' required>
+    </div>
+    <div id="message-container"></div>
+    <button id="subscribe-button" type="submit" class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn"> Üye Ol </button>
+</aside>
+
+<script>
+
+        document.getElementById("subscribe-button").addEventListener("click", async function () {
+
+        const data = document.getElementById("dataEmail").value;
+
+        // AJAX ile MVC Controller'a POST isteği
+        const response = await fetch('/Blog/Subscribe', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ Email: data, IsActive: false }) // Backend'e gönderilecek veri
+        });
+
+        // Hata durumunu kontrol et
+        if (!response.ok) {
+            throw new Error(`HTTP Hatası: ${response.status}`);
+        }
+
+        // Sonucu alıyoruz
+        const result = await response.json();
+
+        const messageContainer = document.getElementById("message-container");
+        if (result.success) {
+            messageContainer.innerHTML = `<div style="color:green;">${result.message}</div>`;
+        } else {
+            messageContainer.innerHTML = `<div style="color:red;">${result.message}</div>`;
+        }
+        });
+
+</script>
+
+
+
+
+
+
+
+
