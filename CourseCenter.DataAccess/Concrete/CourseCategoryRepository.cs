@@ -2,6 +2,7 @@
 using CourseCenter.DataAccess.Context;
 using CourseCenter.DataAccess.Repositories;
 using CourseCenter.Entity.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,15 @@ namespace CourseCenter.DataAccess.Concrete
         public CourseCategoryRepository(CourseCenterContext _context) : base(_context)
         {
 
+        }
+
+        public List<CourseCategory> GetCategoriesWithCoursesUndTeacherById(int id)
+        {
+            var query = _context.CourseCategories;
+            if(id> 0)
+                query.Where(x=>x.Id == id);
+
+            return query.Include(x => x.Courses).ThenInclude(x=>x.Teacher).ToList();
         }
 
         public void SetCourseCategoryDisplayStatus(int id)
