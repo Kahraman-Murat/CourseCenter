@@ -17,6 +17,11 @@ namespace CourseCenter.Business.Concrete
             _courseCategoryRepository = courseCategoryRepository;
         }
 
+        public List<CourseCategory> TGetCategoriesWithCoursesUndTeacherById(int id)
+        {
+            return _courseCategoryRepository.GetCategoriesWithCoursesUndTeacherById(id);
+        }
+
         public void TSetCourseCategoryDisplayStatus(int id)
         {
             _courseCategoryRepository.SetCourseCategoryDisplayStatus(id);
