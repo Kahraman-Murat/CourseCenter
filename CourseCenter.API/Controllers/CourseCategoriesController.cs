@@ -30,6 +30,15 @@ namespace CourseCenter.API.Controllers
             return Ok(data);
         }
 
+        [AllowAnonymous]
+        [HttpGet("GetCategoriesWithCoursesUndTeacherById/{id}")]
+        public IActionResult GetCategoriesWithCoursesUndTeacherById(int id)
+        {
+            var datas = _courseCategoryService.TGetCategoriesWithCoursesUndTeacherById(id);
+            var mappedDatas = _mapper.Map<List<ResultCourseCategoryDto>>(datas);
+            return Ok(datas);
+        }
+
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
