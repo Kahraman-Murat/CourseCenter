@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,6 +21,16 @@ namespace CourseCenter.DataAccess.Concrete
         public List<Course> GetCoursesWithCategoryUndTeacher()
         {
             return _context.Courses.Include(x => x.CourseCategory).Include(t => t.Teacher).ToList();
+        }
+
+        public List<Course> GetCoursesWithCategoryUndTeacher(Expression<Func<Course, bool>> filter = null)
+        {
+            var query = _context.Courses.Include(x => x.CourseCategory);
+            
+            if (filter != null)
+                query.Where(filter);
+
+            return query.Include(t => t.Teacher).ToList();
         }
 
         public void SetCourseDisplayStatus(int id)
