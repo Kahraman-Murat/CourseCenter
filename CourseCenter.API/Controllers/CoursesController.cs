@@ -24,6 +24,15 @@ namespace CourseCenter.API.Controllers
         }
 
         [AllowAnonymous]
+        [HttpGet("GetCoursesWithCategoryUndTeacher/{category}")]
+        public IActionResult GetCoursesWithCategoryUndTeacher(int category)
+        {
+            var datas = _courseService.TGetCoursesWithCategoryUndTeacher();
+            var mappedCourses = _mapper.Map<List<ResultCourseDto>>(datas);
+            return Ok(mappedCourses);
+        }
+
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
@@ -41,6 +50,12 @@ namespace CourseCenter.API.Controllers
         [HttpPost]
         public IActionResult Create(CreateCourseDto createCourseDto)
         {
+            if (createCourseDto.TeacherId == 0)
+            {
+                var claim = User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier"));
+                string claimValue = claim == null ? "0" : claim.Value;
+                createCourseDto.TeacherId = Int32.Parse(claimValue);
+            }
             var newData = _mapper.Map<Course>(createCourseDto);
             _courseService.TCreate(newData);
             return Ok();
@@ -82,7 +97,10 @@ namespace CourseCenter.API.Controllers
         [HttpGet("GetCourseByTeacherId/{id}")]
         public IActionResult GetCourseByTeacherId(string id)
         {
-            var courses = _courseService.TGetCoursesWithCategoryUndTeacher().Where(x => x.TeacherId.ToString() == id).ToList();
+            var claim = User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier"));
+            string claimValue = claim == null ? "0" : claim.Value;
+
+            var courses = _courseService.TGetCoursesWithCategoryUndTeacher().Where(x => x.TeacherId.ToString() == claimValue).ToList();
             var mappedCourses = _mapper.Map<List<ResultCourseDto>>(courses);
 
             return Ok(mappedCourses);
