@@ -5,6 +5,7 @@ using CourseCenter.DTO.DTOs.SubscriberDtos;
 using CourseCenter.Entity.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CourseCenter.API.Controllers
@@ -37,12 +38,22 @@ namespace CourseCenter.API.Controllers
             return Ok();
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public IActionResult Create(CreateSubscriberDto createSubscriberDto)
         {
-            var newData = _mapper.Map<Subscriber>(createSubscriberDto);
-            _subscriberService.TCreate(newData);
-            return Ok();
+            var datas = _subscriberService.TGetFilteredList(x => x.Email == createSubscriberDto.Email);
+            if (datas.Any())
+            {
+                return StatusCode(StatusCodes.Status200OK, new { Success = false, Message = "Bu Email Adresi zaten kaydedilmiş !" });
+            }
+            else if (!datas.Any())
+            {
+                var newData = _mapper.Map<Subscriber>(createSubscriberDto);
+                _subscriberService.TCreate(newData);
+                return StatusCode(StatusCodes.Status200OK, new { Success = true, Message = "Email Adresi başarili şekilde kaydedildi." });
+            }
+            return StatusCode(StatusCodes.Status400BadRequest, new { Success = false, Message = "Kayit işleminde Hata !" });
         }
 
         [HttpPut]
