@@ -1,5 +1,4 @@
-﻿using CourseCenter.WebUI.DTOs.AboutDtos;
-using CourseCenter.WebUI.DTOs.SubscriberDtos;
+﻿using CourseCenter.WebUI.DTOs.SubscriberDtos;
 using CourseCenter.WebUI.Helpers;
 using CourseCenter.WebUI.Validators;
 using Microsoft.AspNetCore.Mvc;
@@ -31,7 +30,7 @@ namespace CourseCenter.WebUI.Areas.Admin.Controllers
                 return View(createSubscriberDto);
             }
 
-            await _httpClientService.SendRequestAsync<CreateSubscriberDto, string>(HttpMethod.Post, "Subscribers", createSubscriberDto);
+            await _httpClientService.SendRequestAsync<CreateSubscriberDto, ResponseSubscribeDto>(HttpMethod.Post, "Subscribers", createSubscriberDto);
 
             return RedirectToAction(nameof(Index));
         }
