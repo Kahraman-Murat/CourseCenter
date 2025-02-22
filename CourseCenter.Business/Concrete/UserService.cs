@@ -152,5 +152,26 @@ namespace CourseCenter.Business.Concrete
             List<ResultUserDto> users = _mapper.Map<List<ResultUserDto>>(usersInRole);
             return users;
         }
+
+        public async Task<List<ResultUserSocialMediasDto>> GetLast4TeachersAsync()
+        {
+            var users = await _userManager.Users.Include(x=> x.TeacherSocialMedias).ToListAsync();
+            var teachers = users.Where(user => _userManager.IsInRoleAsync(user, "Teacher").Result).OrderByDescending(x=>x.Id).Take(4).ToList();
+            return _mapper.Map<List<ResultUserSocialMediasDto>>(teachers);
+        }
+
+        public async Task<List<ResultUserSocialMediasDto>> GetTeachersWithSocialMediaAsync(int page)
+        {
+            //var teachers = _userManager.GetUsersInRoleAsync("Teacher").Result
+            //    .AsQueryable().Skip((page-1)*4).Take(6)
+            //    .Include(x => x.TeacherSocialMedias)
+            //    .OrderByDescending(x => x.Id).ToList();
+            //return _mapper.Map<List<ResultUserSocialMediasDto>>(teachers);
+
+            var users = await _userManager.Users.Include(x => x.TeacherSocialMedias).ToListAsync();
+            var teachers = users.Where(user => _userManager.IsInRoleAsync(user, "Teacher").Result).OrderByDescending(x => x.Id).Skip((page - 1) * 4).Take(6).ToList();
+            return _mapper.Map<List<ResultUserSocialMediasDto>>(teachers);
+            
+        }
     }
 }

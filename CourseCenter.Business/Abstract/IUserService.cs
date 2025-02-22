@@ -16,6 +16,8 @@ namespace CourseCenter.Business.Abstract
         Task<List<IdentityResult>> AssignRolesToUserAsync(AssignUserRolesDto assignUserRolesDto);
         Task<int> GetUserCountInRolesAsync(string roleName);
         Task<List<ResultUserDto>> GetUsersInRoleAsync(string roleName);
+        Task<List<ResultUserSocialMediasDto>> GetLast4TeachersAsync();
+        Task<List<ResultUserSocialMediasDto>> GetTeachersWithSocialMediaAsync(int page);
 
     }
 }
