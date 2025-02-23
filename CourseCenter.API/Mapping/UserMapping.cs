@@ -11,6 +11,7 @@ namespace CourseCenter.API.Mapping
             CreateMap<CreateUserDto, AppUser>().ReverseMap();
             CreateMap<UpdateUserDto, AppUser>().ReverseMap();
             CreateMap<ResultUserDto, AppUser>().ReverseMap();
+            CreateMap<ResultUserSocialMediasDto, AppUser>().ReverseMap();
         }
     }
 }
