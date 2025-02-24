@@ -1,4 +1,5 @@
-﻿using CourseCenter.API.Validators;
+﻿using AutoMapper;
+using CourseCenter.API.Validators;
 using CourseCenter.Business.Abstract;
 using CourseCenter.Business.Concrete;
 using CourseCenter.DTO.DTOs.UserDtos;
@@ -13,7 +14,7 @@ namespace CourseCenter.API.Controllers
     [Authorize(Roles = "Admin,Content-Manager,Teacher")]
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController(IUserService _userService) : ControllerBase
+    public class UsersController(IUserService _userService, IMapper _mapper) : ControllerBase
     {
 
         [HttpGet]
@@ -89,6 +90,7 @@ namespace CourseCenter.API.Controllers
             return Ok(userCountInRole);
         }
 
+
         [HttpGet("GetUsersInRole/{roleName}")]
         public async Task<IActionResult> GetUsersInRole(string roleName)
         {
@@ -97,5 +99,22 @@ namespace CourseCenter.API.Controllers
             return Ok(usersInRole);
         }
 
+        [AllowAnonymous]
+        [HttpGet("GetLast4Teachers")]
+        public async Task<IActionResult> GetLast4Teachers()
+        {
+            var datas = await _userService.GetLast4TeachersAsync();
+            //var mappingDatas = _mapper.Map<List<ResultUserSocialMediasDto>>(datas);
+            return Ok(datas);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("GetTeachersWithSocialMedia/{page}")]
+        public async Task<IActionResult> GetTeachersWithSocialMedia(int page)
+        {
+            var datas = await _userService.GetTeachersWithSocialMediaAsync(page);
+            //var mappingDatas = _mapper.Map<List<ResultUserSocialMediasDto>>(datas);
+            return Ok(datas);
+        }
     }
 }
