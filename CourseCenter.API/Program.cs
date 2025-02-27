@@ -1,4 +1,4 @@
-using CourseCenter.API.Validators;
+﻿using CourseCenter.API.Validators;
 using CourseCenter.Business;
 using CourseCenter.DataAccess;
 using CourseCenter.DTO.DTOs.AuthDtos;
@@ -27,6 +27,40 @@ builder.Services.AddBusinessServices(builder.Configuration);
 
 //ValidatorOptions.Global.LanguageManager.Culture = new CultureInfo("tr-TR");
 
+// CORS Policy for all request
+//builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
+//policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin().AllowCredentials()
+//));
+
+// CORS Policy for one address
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("AllowAngularApp",
+//        builder => builder.WithOrigins("http://localhost:4200")
+//                          .AllowAnyMethod()
+//                          .AllowAnyHeader());
+//});
+
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("AllowFrontend", policy =>
+//    {
+//        policy.WithOrigins("https://localhost:7102") // Frontend URL'si
+//              .AllowCredentials() // Cookie gönderimini etkinleştirir
+//              .AllowAnyHeader()
+//              .AllowAnyMethod();
+//    });
+//});
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", builder =>
+        builder.WithOrigins("https://localhost:7102")
+               .AllowCredentials()
+               .AllowAnyHeader()
+               .AllowAnyMethod());
+});
+
 builder.Services
     .AddAutoMapper(assembly)
     .AddFluentValidationAutoValidation()
@@ -45,7 +79,7 @@ builder.Services
             Scheme = "Bearer",
             BearerFormat = "JWT",
             In = ParameterLocation.Header,
-            Description = "'Bearer' yazip bosluk birakip Token'i Girebilirsiniz \r\n\r\n �rnegin: \"Bearer P1ZbLCqpzOLie0eVKy1uRPFXywOdZUpxv8wkoJrR68LJEg8HriFtchrGLrpBgz8v\""
+            Description = "'Bearer' yazip bosluk birakip Token'i Girebilirsiniz \r\n\r\n Örnegin: \"Bearer P1ZbLCqpzOLie0eVKy1uRPFXywOdZUpxv8wkoJrR68LJEg8HriFtchrGLrpBgz8v\""
         });
         c.AddSecurityRequirement(new OpenApiSecurityRequirement()
         {
@@ -53,13 +87,13 @@ builder.Services
                 new OpenApiSecurityScheme
                 {
                     Reference = new OpenApiReference
-                    {                        
-                        Type=ReferenceType.SecurityScheme,                        
-                        Id="Bearer"                    
+                    {
+                        Type=ReferenceType.SecurityScheme,
+                        Id="Bearer"
                     }
-                },                
-                Array.Empty<string>()            
-            }            
+                },
+                Array.Empty<string>()
+            }
         });
     })
     .AddControllers()
@@ -75,6 +109,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// for CORS
+//app.UseCors();
+//app.UseCors("AllowAngularApp");
+app.UseCors("AllowFrontend");
 
 app.UseHttpsRedirection();
 app.UseAuthentication();
