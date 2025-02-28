@@ -36,19 +36,20 @@ namespace CourseCenter.Business
                 .AddDefaultTokenProviders();
 
             services
-                .AddScoped(typeof(IGenericService<>), typeof(GenericManager<>))
 
+                .AddScoped<IAuthService, AuthService>()
+                .AddScoped<IBlogCategoryService, BlogCategoryManager>()
                 .AddScoped<IBlogService, BlogManager>()
                 .AddScoped<ICourseCategoryService, CourseCategoryManager>()
                 .AddScoped<ICourseService, CourseManager>()
-                .AddScoped<ISubscriberService, SubscriberManager>()
-                .AddScoped<IUserService, UserService>()
+                .AddScoped<ICourseRegisterService, CourseRegisterManager>()
+                .AddScoped(typeof(IGenericService<>), typeof(GenericManager<>))
                 .AddScoped<IRoleService, RoleService>()
                 .AddScoped<RolesScannerInAssemblyService>()
-
-                .Configure<TokenSettings>(configuration.GetSection("JWT"))
+                .AddScoped<ISubscriberService, SubscriberManager>()
                 .AddScoped<ITokenService, TokenService>()
-                .AddScoped<IAuthService, AuthService>()
+                .Configure<TokenSettings>(configuration.GetSection("JWT"))
+                .AddScoped<IUserService, UserService>()
 
                 .AddAuthentication(opt =>
                 {
