@@ -25,10 +25,12 @@ namespace CourseCenter.DataAccess
                     options.UseSqlServer(configuration.GetConnectionString("SqlConnection"));
                 })
 
-                .AddScoped(typeof(IRepository<>), typeof(GenericRepository<>))
+                .AddScoped<IBlogCategoryRepository, BlogCategoryRepository>()
                 .AddScoped<IBlogRepository, BlogRepository>()
                 .AddScoped<ICourseCategoryRepository, CourseCategoryRepository>()
+                .AddScoped<ICourseRegisterRepository, CourseRegisterRepository>()
                 .AddScoped<ICourseRepository, CourseRepository>()
+                .AddScoped(typeof(IRepository<>), typeof(GenericRepository<>))
                 .AddScoped<ISubscriberRepository, SubscriberRepository>()
                 
 
