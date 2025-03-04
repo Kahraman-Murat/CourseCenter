@@ -1,0 +1,46 @@
+﻿@model List<ResultCourseRegisterDto>
+@{
+    ViewData["Title"] = "Kayıtlı Olduğum Kurslar Sayfası ";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+@{
+    int count = 0;
+}
+<table class="table table-hover">
+    <tr>
+        <th>#</th>
+        <th>Kategori</th>
+        <th>Resim</th>
+        <th>Kurs Adi</th>
+        <th>Ücret</th>
+        <th>Egitmen</th>
+        <th>Aktiflik</th>
+        <th>islemler</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        count++;
+        <tr>
+            <th>@count</th>
+            <td>@item.Course.CourseCategory.Name</td>
+            <td><img src="@item.Course.ImageUrl" style="height:75px;width:75px" /></td>
+            <td>@item.Course.Name</td>
+            <td>@item.Course.Preis</td>
+            <td>@item.Course.Teacher.FullName</td>
+            <td>@(item.Course.IsShown ? "Evet" : "Hayır")</td>
+            <td>
+                <button onclick="DeleteRecord('/Student/CourseRegister/Delete/@item.Id')" class="btn btn-outline-danger">Sil</button>
+
+@*                 <a asp-action="Update" asp-controller="CourseRegister" asp-area="Student" asp-route-id="@item.Id" class="btn btn-outline-info">Güncelle</a> *@
+
+                @*                 <a asp-action="SetCourseDisplayStatus" asp-controller="Course" asp-area="Teacher" asp-route-id="@item.Id" class="btn btn-outline-@(item.IsShown ? "warning" : "success")">@(item.IsShown ? "Gizle" : "Göster")</a> *@
+            </td>
+        </tr>
+    }
+</table>
+<br />
+<a asp-action="Register" asp-controller="CourseRegister" asp-area="Student" class="btn btn-outline-primary">Yeni Kursa Kaydol</a>
+
+
+
