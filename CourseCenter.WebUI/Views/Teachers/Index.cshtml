@@ -1,0 +1,51 @@
+﻿@model List<ResultUserSocialMediasDto>
+
+@{
+    ViewData["Title"] = "Eğitmenlerimiz Sayfası";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!--? Hero Start -->
+<div class="slider-area ">
+    <div class="slider-height2 d-flex align-items-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="hero-cap hero-cap2 text-center">
+                        <h2>Eğitmenlerimiz</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Hero End -->
+<!--? Team Ara Start -->
+<div class="team-area pt-160 pb-160">
+    <div class="container">
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="single-team mb-30">
+                        <div class="team-img">
+                            <img src="@(item.ImageUrl != null ? item.ImageUrl : "/../../onlineedu-master/assets/img/gallery/team0.png" )" alt="">
+                            <!-- Blog Social -->
+                            <ul class="team-social">
+                                @foreach (var social in item.TeacherSocialMedias)
+                                {
+                                    <li><a href="@social.Url"><i class="@social.Icon"></i></a></li>
+                                }
+                            </ul>
+                        </div>
+                        <div class="team-caption">
+                            <h3><a href="instructor.html">@item.FullName</a></h3>
+                            <p>Eğitmen</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- Team Ara End -->
