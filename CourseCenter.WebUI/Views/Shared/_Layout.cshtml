@@ -1,49 +1,264 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿
+<!doctype html>
+<html class="no-js" lang="zxx">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - CourseCenter.WebUI</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/onlineedu-master/assets/css/style.css" asp-append-version="true" />
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title> Education | Template </title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="shortcut icon" type="image/x-icon" href="~/onlineedu-master/assets/img/favicon.ico">
+
+    <!-- CSS here -->
+    <link rel="stylesheet" href="~/onlineedu-master/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/onlineedu-master/assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/onlineedu-master/assets/css/slicknav.css">
+    <link rel="stylesheet" href="~/onlineedu-master/assets/css/flaticon.css">
+    <link rel="stylesheet" href="~/onlineedu-master/assets/css/gijgo.css">
+    <link rel="stylesheet" href="~/onlineedu-master/assets/css/animate.min.css">
+    <link rel="stylesheet" href="~/onlineedu-master/assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="~/onlineedu-master/assets/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="~/onlineedu-master/assets/css/themify-icons.css">
+    <link rel="stylesheet" href="~/onlineedu-master/assets/css/slick.css">
+    <link rel="stylesheet" href="~/onlineedu-master/assets/css/nice-select.css">
+    <link rel="stylesheet" href="~/onlineedu-master/assets/css/style.css">
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">CourseCenter.WebUI</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+    <!--? Preloader Start -->
+    <div id="preloader-active">
+        <div class="preloader d-flex align-items-center justify-content-center">
+            <div class="preloader-inner position-relative">
+                <div class="preloader-circle"></div>
+                <div class="preloader-img pere-text">
+                    <img src="~/onlineedu-master/assets/img/logo/loder.png" alt="">
                 </div>
             </div>
-        </nav>
+        </div>
+    </div>
+    <!-- Preloader Start -->
+    <header>
+        <!-- Header Start -->
+        <div class="header-area">
+            <div class="main-header ">
+                <div class="header-top d-none d-lg-block">
+                    <!-- Left Social -->
+                    @await Component.InvokeAsync("_UILayoutHeaderSocialMediaComponent")
+
+                    <div class="container">
+                        <div class="col-xl-12">
+                            <div class="row d-flex justify-content-between align-items-center">
+
+                                @await Component.InvokeAsync("_UILayoutHeaderContactInfoComponent")
+                                <div class="header-info-right">
+                                    <ul>
+                                        <li><a href="/auth/login"><i class="ti-user"></i>Login</a></li>
+                                        <li><a href="/user/signup"><i class="ti-lock"></i>Register</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="header-bottom header-sticky">
+                    <!-- Logo -->
+                    <div class="logo d-none d-lg-block">
+                        <a href="/Home/Index">
+                            <span style="font-family: 'Josefin Sans', sans-serif; font-weight:700; font-size: 1.3em; color:black;">CourseCenter</span>
+                        </a>
+                    </div>
+                    <div class="container">
+                        <div class="menu-wrapper">
+                            <!-- Logo -->
+                            <div class="logo logo2 d-block d-lg-none">
+                                <a href="/Home/Index">
+                                    <span style="font-family: 'Josefin Sans', sans-serif; font-weight:700; font-size: 1.3em; color:black;">CourseCenter</span>
+                                </a>
+                            </div>
+                            <!-- Main-menu -->
+                            <div class="main-menu d-none d-lg-block">
+                                <nav>
+                                    <ul id="navigation">
+                                        <li><a href="/Home/Index">Home</a></li>
+                                        <li><a href="/About/Index">About</a></li>
+                                        <li><a href="/Course/Index/0">Courses</a></li>
+                                        <li><a href="/Teachers/Index/1">Instructors</a></li>
+                                        <li>
+                                            <a href="/Blog/Index">Bloglar</a>
+                                            <ul class="submenu">
+                                                <li><a href="/Blog/Index">Bloglar</a></li>
+                                                <li><a href="blog_details.html">Blog Details</a></li>
+                                                @* <li><a href="elements.html">Element</a></li> *@
+                                            </ul>
+                                        </li>
+                                        <li><a href="/Contact/Index">Contact</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                            <!-- Header-btn -->
+                            <div class="header-search d-none d-lg-block">
+                                <form action="#" class="form-box f-right ">
+                                    <input type="text" name="Search" placeholder="Search Courses">
+                                    <div class="search-icon">
+                                        <i class="fas fa-search special-tag"></i>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <!-- Mobile Menu -->
+                        <div class="col-12">
+                            <div class="mobile_menu d-block d-lg-none"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Header End -->
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+    <main>
+        @RenderBody()
+    </main>
+    <footer>
+        <!--? Footer Start-->
+        <div class="footer-area footer-bg">
+            <div class="container">
+                <div class="footer-top footer-padding">
+                    <!-- footer Heading -->
+                    <div class="footer-heading">
+                        <div class="row justify-content-between">
+                            @await Component.InvokeAsync("_UILayoutFooterSubscribeComponent")
+
+                            <div class="col-xl-5 col-lg-5">
+                                <div class="footer-tittle2">
+                                    <h4>Let’s Get Social</h4>
+                                </div>
+                                <!-- Footer Social -->
+                                @await Component.InvokeAsync("_UILayoutFooterSocialMediaComponent")
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Footer Menu -->
+                    <div class="row d-flex justify-content-between">
+                        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+                            <div class="single-footer-caption mb-50">
+                                <div class="footer-tittle">
+                                    <h4>About Us</h4>
+                                    <ul>
+                                        <li><a href="#">Online Learning</a></li>
+                                        <li><a href="#">About Us</a></li>
+                                        <li><a href="#">Careers</a></li>
+                                        <li><a href="#">Press Center</a></li>
+                                        <li><a href="#">Become an Instructor</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+                            <div class="single-footer-caption mb-50">
+                                <div class="footer-tittle">
+                                    <h4>Campus</h4>
+                                    <ul>
+                                        <li><a href="#">Our Plans</a></li>
+                                        <li><a href="#">Free Trial</a></li>
+                                        <li><a href="#">Academic Solutions</a></li>
+                                        <li><a href="#">Business Solutions</a></li>
+                                        <li><a href="#"> Government Solutions</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+                            <div class="single-footer-caption mb-50">
+                                <div class="footer-tittle">
+                                    <h4>Study</h4>
+                                    <ul>
+                                        <li><a href="#">Admissions Policy</a></li>
+                                        <li><a href="#">Getting Started</a></li>
+                                        <li><a href="#">Online Application</a></li>
+                                        <li><a href="#">Visa Information</a></li>
+                                        <li><a href="#">Tuition Calculator</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+                            <div class="single-footer-caption mb-50">
+                                <div class="footer-tittle">
+                                    <h4>Spport</h4>
+                                    <ul>
+                                        <li><a href="#">Support</a></li>
+                                        <li><a href="#">Contact Us</a></li>
+                                        <li><a href="#">System Requirements</a></li>
+                                        <li><a href="#">Register Activation Key</a></li>
+                                        <li><a href="#">Site feedback</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Footer Bottom -->
+                <div class="footer-bottom">
+                    <div class="row d-flex align-items-center">
+                        <div class="col-lg-12">
+                            <div class="footer-copy-right text-center">
+                                <p>
+                                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                    Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer End-->
+    </footer>
+    <!-- Scroll Up -->
+    <div id="back-top">
+        <a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - CourseCenter.WebUI - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+    <!-- JS here -->
+
+    <script src="~/onlineedu-master/assets/js/vendor/modernizr-3.5.0.min.js"></script>
+    <!-- Jquery, Popper, Bootstrap -->
+    <script src="~/onlineedu-master/assets/js/vendor/jquery-1.12.4.min.js"></script>
+    <script src="~/onlineedu-master/assets/js/popper.min.js"></script>
+    <script src="~/onlineedu-master/assets/js/bootstrap.min.js"></script>
+    <!-- Jquery Mobile Menu -->
+    <script src="~/onlineedu-master/assets/js/jquery.slicknav.min.js"></script>
+
+    <!-- Jquery Slick , Owl-Carousel Plugins -->
+    <script src="~/onlineedu-master/assets/js/owl.carousel.min.js"></script>
+    <script src="~/onlineedu-master/assets/js/slick.min.js"></script>
+    <!-- One Page, Animated-HeadLin -->
+    <script src="~/onlineedu-master/assets/js/wow.min.js"></script>
+    <script src="~/onlineedu-master/assets/js/animated.headline.js"></script>
+    <script src="~/onlineedu-master/assets/js/jquery.magnific-popup.js"></script>
+
+    <!-- Date Picker -->
+    <script src="~/onlineedu-master/assets/js/gijgo.min.js"></script>
+    <!-- Nice-select, sticky -->
+    <script src="~/onlineedu-master/assets/js/jquery.nice-select.min.js"></script>
+    <script src="~/onlineedu-master/assets/js/jquery.sticky.js"></script>
+
+    <!-- counter , waypoint -->
+    <script src="~/onlineedu-master/assets/js/jquery.counterup.min.js"></script>
+    <script src="~/onlineedu-master/assets/js/waypoints.min.js"></script>
+
+    <!-- contact js -->
+    <script src="~/onlineedu-master/assets/js/contact.js"></script>
+    <script src="~/onlineedu-master/assets/js/jquery.form.js"></script>
+    <script src="~/onlineedu-master/assets/js/jquery.validate.min.js"></script>
+    <script src="~/onlineedu-master/assets/js/mail-script.js"></script>
+    <script src="~/onlineedu-master/assets/js/jquery.ajaxchimp.min.js"></script>
+
+    <!-- Jquery Plugins, main Jquery -->
+    <script src="~/onlineedu-master/assets/js/plugins.js"></script>
+    <script src="~/onlineedu-master/assets/js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
 </body>
 </html>
