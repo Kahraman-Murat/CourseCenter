@@ -4097,7 +4097,9 @@ hr {
 
 .all-course .nav-tabs .nav-item.show .nav-link, .all-course .nav-tabs .nav-link.active {
     color: #2d3092;
-    background: none
+    background: none;
+    font-weight: bold;
+    font-size: larger;
 }
 
 .tab-pane {
