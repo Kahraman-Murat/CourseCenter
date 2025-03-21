@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CourseCenter.API.Controllers
 {
-    [Authorize(Roles = "Admin,Content-Manager,Editör,Teacher")]
+    [Authorize(Roles = "Admin,Content-Manager,Editor,Teacher")]
     [Route("api/[controller]")]
     [ApiController]
     public class MessagesController(IGenericService<Message> _messageService, IMapper _mapper) : ControllerBase
@@ -35,12 +35,20 @@ namespace CourseCenter.API.Controllers
             return Ok();
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public IActionResult Create(CreateMessageDto createMessageDto)
         {
-            var newData = _mapper.Map<Message>(createMessageDto);
-            _messageService.TCreate(newData);
-            return Ok();
+            try
+            {
+                var newData = _mapper.Map<Message>(createMessageDto);
+                _messageService.TCreate(newData);
+                return StatusCode(StatusCodes.Status200OK, new { Success = true, Message = "Mesaj başarili şekilde kaydedildi." });
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, new { Success = false, Message = "Mesaj gönderme işleminde Hata !" });
+            }
         }
 
         [HttpPut]
