@@ -8,11 +8,11 @@ namespace CourseCenter.WebUI.Validators
     {
         public CreateMessageValidator()
         {
-            RuleFor(x=>x.Name).NotEmpty().WithMessage("Bu alan bos birakilamaz.");
-            RuleFor(x => x.Email).NotEmpty().WithMessage("Bu alan bos birakilamaz.");
-            RuleFor(x => x.Email).EmailAddress().WithMessage("Gecerli bir Email Adresi girin.");
-            RuleFor(x => x.Subject).NotEmpty().WithMessage("Bu alan bos birakilamaz.");
-            RuleFor(x => x.Content).NotEmpty().WithMessage("Bu alan bos birakilamaz.");
+            RuleFor(x=>x.Name).NotEmpty().WithMessage("Isim alanı boş bırakılamaz.");
+            RuleFor(x => x.Email).NotEmpty().WithMessage("Email alanı boş bırakılamaz.");
+            RuleFor(x => x.Email).EmailAddress().WithMessage("Geçerli bir Email Adresi girin.");
+            RuleFor(x => x.Subject).NotEmpty().WithMessage("Konu alanı boş bırakılamaz.");
+            RuleFor(x => x.Content).NotEmpty().WithMessage("Mesaj Metın alanı boş bırakılamaz.");
 
         }
     }

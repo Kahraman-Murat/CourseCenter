@@ -1,0 +1,69 @@
+﻿@model CreateMessageDto
+
+
+<div class="col-lg-8">
+    <div class="row">
+        <div class="col-12">
+            <div class="form-group">
+                <textarea class="form-control w-100" asp-for="Content" id="message-form-content" cols="30" rows="9" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Mesajinizi Yazin'" placeholder=" Mesajinizi Yazin" required></textarea>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <input class="form-control valid" asp-for="Name" id="message-form-name" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Adinizi Yazin'" placeholder="Adinizi Yazin" required>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <input class="form-control valid" asp-for="Email" id="message-form-email" type="email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Adresinizi Yazin'" placeholder="Email" required>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-group">
+                <input class="form-control" asp-for="Subject" id="message-form-subject" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Konuyu Yazin'" placeholder="Konuyu Yazin" required>
+            </div>
+        </div>
+    </div>
+    <div class="form-group mt-3">
+        <button type="submit" class="button button-contactForm boxed-btn" id="message-form-submit">Gönder</button>
+    </div>
+    <div id="message-result-container"></div>
+</div>
+
+<script>
+
+    document.getElementById("message-form-submit").addEventListener("click", async function () {
+
+        const content = document.getElementById("message-form-content").value;
+        const name = document.getElementById("message-form-name").value;
+        const email = document.getElementById("message-form-email").value;
+        const subject = document.getElementById("message-form-subject").value;
+
+        // AJAX ile MVC Controller'a POST isteği
+        const response = await fetch('/Contact/SendMessage', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ Name: name, Email: email, Subject: subject, Content: content }) // MVC Controller'a gönderilecek veri
+        });
+
+        // Hata durumunu kontrol et
+        if (!response.ok) {
+            throw new Error(`HTTP Hatası: ${response.status}`);
+        }
+
+        // Sonucu alıyoruz
+        const result = await response.json();
+
+        const messageContainer = document.getElementById("message-result-container");
+        if (result.success) {
+            messageContainer.innerHTML = `<div style="color:green;">${result.message}</div>`;
+            document.getElementById("message-form-content").value="";
+            document.getElementById("message-form-name").value = "";
+            document.getElementById("message-form-email").value = "";
+            document.getElementById("message-form-subject").value = "";
+        } else {
+            messageContainer.innerHTML = `<div style="color:red;">${result.message}</div>`;
+        }
+    });
+
+</script>
