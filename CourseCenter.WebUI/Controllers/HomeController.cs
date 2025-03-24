@@ -19,5 +19,10 @@ namespace CourseCenter.WebUI.Controllers
             return View();
         }
 
+        [Route("Home/NotFound")]
+        public IActionResult NotFound()
+        {            
+            return View();
+        }
     }
 }
