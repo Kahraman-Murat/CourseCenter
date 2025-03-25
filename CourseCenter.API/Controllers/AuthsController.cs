@@ -28,14 +28,17 @@ namespace CourseCenter.API.Controllers
             return StatusCode(StatusCodes.Status200OK, response);
         }
 
-        [HttpPost("[action]")]
-        public async Task<IActionResult> Revoke(RequestRevokeDto requestRevokeDto)
+        [HttpGet("[action]")]
+        public async Task<IActionResult> Revoke()
         {
-            bool status = await _authService.RevokeAsync(requestRevokeDto);
-            if (status)
-                return StatusCode(StatusCodes.Status200OK, "Cikis islemi başarılı.");
+            var claim = User.Claims.FirstOrDefault(c => c.Type.Contains("emailaddress")); 
+            string claimValue = claim == null ? "" : claim.Value;
 
-            return StatusCode(StatusCodes.Status400BadRequest, "Cikis isleminde Hata olustu");
+            bool status = await _authService.RevokeAsync(claimValue); 
+            if (status)
+                return StatusCode(StatusCodes.Status200OK); 
+
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
 
         [HttpPost("[action]")]

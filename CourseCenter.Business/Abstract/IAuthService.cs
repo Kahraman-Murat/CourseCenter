@@ -13,7 +13,7 @@ namespace CourseCenter.Business.Abstract
     {        
         Task<ResponseLoginDto> LoginAsync(RequestLoginDto userLoginDto);
         Task<ResponseTokenDto> RefreshTokenAsync(RequestTokenDto requestTokenDto);
-        Task<bool> RevokeAsync(RequestRevokeDto requestRevokeDto);
+        Task<bool> RevokeAsync(string email);
         Task RevokeAllAsync();        
 
     }

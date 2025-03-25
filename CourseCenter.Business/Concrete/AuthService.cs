@@ -3,17 +3,9 @@ using CourseCenter.Business.Abstract;
 using CourseCenter.DTO.DTOs.AuthDtos;
 using CourseCenter.Entity.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CourseCenter.Business.Concrete
 {
@@ -91,9 +83,9 @@ namespace CourseCenter.Business.Concrete
             };
         }
 
-        public async Task<bool> RevokeAsync(RequestRevokeDto requestRevokeDto)
+        public async Task<bool> RevokeAsync(string email)
         {
-            AppUser? user = await _userManager.FindByEmailAsync(requestRevokeDto.Email);
+            AppUser? user = await _userManager.FindByEmailAsync(email); 
             if (user is null)
                 throw new Exception("Kullanici sistemde mevcut degil !");
 
