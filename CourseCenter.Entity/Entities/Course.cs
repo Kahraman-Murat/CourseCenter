@@ -23,5 +23,6 @@ namespace CourseCenter.Entity.Entities
         public int TeacherId { get; set; }
         public AppUser Teacher { get; set; }
         public List<CourseRegister> CourseRegisters { get; set; }
+        public List<CourseVideo> CourseVideos { get; set; }
     }
 }
