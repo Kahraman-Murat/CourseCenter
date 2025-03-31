@@ -43,5 +43,14 @@ namespace CourseCenter.WebUI.Controllers
             
             return View(requestLoginDto);
         }
+
+        public async Task<IActionResult> Logout()
+        {
+            await _httpClientService.SendRequestAsync<string, string>(HttpMethod.Get, "auths/revoke", default);
+
+            _refreshTokenService.RemoveTokensCookies();
+            
+            return RedirectToAction("Index", "Home");
+        }
     }
 }
