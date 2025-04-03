@@ -30,6 +30,7 @@ namespace CourseCenter.DataAccess
                 .AddScoped<ICourseCategoryRepository, CourseCategoryRepository>()
                 .AddScoped<ICourseRegisterRepository, CourseRegisterRepository>()
                 .AddScoped<ICourseRepository, CourseRepository>()
+                .AddScoped<ICourseVideoRepository, CourseVideoRepository>()
                 .AddScoped(typeof(IRepository<>), typeof(GenericRepository<>))
                 .AddScoped<ISubscriberRepository, SubscriberRepository>()
                 
