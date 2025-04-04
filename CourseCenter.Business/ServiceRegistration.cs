@@ -42,6 +42,7 @@ namespace CourseCenter.Business
                 .AddScoped<IBlogService, BlogManager>()
                 .AddScoped<ICourseCategoryService, CourseCategoryManager>()
                 .AddScoped<ICourseService, CourseManager>()
+                .AddScoped<ICourseVideoService, CourseVideoManager>()
                 .AddScoped<ICourseRegisterService, CourseRegisterManager>()
                 .AddScoped(typeof(IGenericService<>), typeof(GenericManager<>))
                 .AddScoped<IRoleService, RoleService>()
