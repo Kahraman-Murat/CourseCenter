@@ -13,7 +13,7 @@ namespace CourseCenter.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
 
-    public class CourseVideosController(IGenericService<CourseVideo> _courseVideoService, IMapper _mapper) : ControllerBase
+    public class CourseVideosController(ICourseVideoService _courseVideoService, IMapper _mapper) : ControllerBase
     {
         [AllowAnonymous]
         [HttpGet]
@@ -52,6 +52,14 @@ namespace CourseCenter.API.Controllers
             var newData = _mapper.Map<CourseVideo>(updateCourseVideoDto);
             _courseVideoService.TUpdate(newData);
             return Ok();
+        }
+                
+        [HttpGet("GetVideoListByCourseId/{id}")]
+        public IActionResult GetVideoListByCourseId(int id)
+        {
+            var datas = _courseVideoService.TGetVideosWithCourseByCourseId(id);
+            var videos = _mapper.Map<List<ResultCourseVideoDto>>(datas);
+            return Ok(videos);
         }
 
     }
