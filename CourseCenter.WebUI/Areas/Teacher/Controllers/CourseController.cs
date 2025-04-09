@@ -1,6 +1,7 @@
 ﻿using CourseCenter.WebUI.DTOs.AuthDtos;
 using CourseCenter.WebUI.DTOs.CourseCategoryDtos;
 using CourseCenter.WebUI.DTOs.CourseDtos;
+using CourseCenter.WebUI.DTOs.CourseVideoDtos;
 using CourseCenter.WebUI.DTOs.UserDtos;
 using CourseCenter.WebUI.Filters;
 using CourseCenter.WebUI.Helpers;
@@ -116,6 +117,88 @@ namespace CourseCenter.WebUI.Areas.Teacher.Controllers
         public async Task<IActionResult> DeleteCourse(int id)
         {
             await _httpClientService.SendRequestAsync<string, string>(HttpMethod.Delete, $"Courses/{id}", default);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CourseVideos(int id)
+        {
+
+            List<ResultCourseVideoDto> videos = await _httpClientService.SendRequestAsync<string, List<ResultCourseVideoDto>>(HttpMethod.Get, $"CourseVideos/GetVideoListByCourseId/{id}", default);
+
+            ViewBag.CourseId = id;
+            ViewBag.CourseName = videos.FirstOrDefault()?.Course.Name;
+
+            return View(videos);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AddVideo(int id)
+        {
+            List<ResultCourseVideoDto> videos = await _httpClientService.SendRequestAsync<string, List<ResultCourseVideoDto>>(HttpMethod.Get, $"CourseVideos/GetVideoListByCourseId/{id}", default);
+
+            ViewBag.CourseId = id;
+            ViewBag.CourseName = videos.FirstOrDefault()?.Course.Name;
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddVideo(CreateCourseVideoDto createCourseVideoDto)
+        {
+
+            var validator = new CreateCourseVideoValidator();
+            var result = await validator.ValidateAsync(createCourseVideoDto);
+            if (!result.IsValid)
+            {
+                ModelState.Clear();
+                foreach (var x in result.Errors)
+                    ModelState.AddModelError(x.PropertyName, x.ErrorMessage);
+
+                return View(createCourseVideoDto);
+            }
+
+            await _httpClientService.SendRequestAsync<CreateCourseVideoDto, string>(HttpMethod.Post, "CourseVideos", createCourseVideoDto);
+
+            return RedirectToAction(nameof(Index));
+
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> UpdateVideo(int id)
+        {
+            List<ResultCourseVideoDto> videos = await _httpClientService.SendRequestAsync<string, List<ResultCourseVideoDto>>(HttpMethod.Get, $"CourseVideos/GetVideoListByCourseId/{id}", default);
+
+            ViewBag.CourseId = id;
+            ViewBag.CourseName = videos.FirstOrDefault()?.Course.Name;
+
+            UpdateCourseVideoDto data = await _httpClientService.SendRequestAsync<string, UpdateCourseVideoDto>(HttpMethod.Get, $"CourseVideos/{id}", default);
+
+            return View(data);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateVideo(UpdateCourseVideoDto updateCourseVideoDto)
+        {
+            var validator = new UpdateCourseVideoValıdator();
+            var result = await validator.ValidateAsync(updateCourseVideoDto);
+            if (!result.IsValid)
+            {
+                ModelState.Clear();
+                foreach (var x in result.Errors)
+                    ModelState.AddModelError(x.PropertyName, x.ErrorMessage);
+
+                return View(updateCourseVideoDto);
+            }
+
+            await _httpClientService.SendRequestAsync<UpdateCourseVideoDto, string>(HttpMethod.Put, "CourseVideos", updateCourseVideoDto);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> DeleteVideo(int id)
+        {
+            await _httpClientService.SendRequestAsync<string, string>(HttpMethod.Delete, $"CourseVideos/{id}", default);
 
             return RedirectToAction(nameof(Index));
         }
