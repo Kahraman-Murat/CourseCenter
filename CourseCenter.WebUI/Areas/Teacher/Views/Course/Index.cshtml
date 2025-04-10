@@ -34,6 +34,7 @@
 
                 <a asp-action="UpdateCourse" asp-controller="Course" asp-area="Teacher" asp-route-id="@item.Id" class="btn btn-outline-info">Güncelle</a>
 
+                <a asp-action="CourseVideos" asp-controller="Course" asp-area="Teacher" asp-route-id="@item.Id" class="btn btn-outline-success">Kurs Videoları</a>
 @*                 <a asp-action="SetCourseDisplayStatus" asp-controller="Course" asp-area="Teacher" asp-route-id="@item.Id" class="btn btn-outline-@(item.IsShown ? "warning" : "success")">@(item.IsShown ? "Gizle" : "Göster")</a> *@
             </td>
         </tr>

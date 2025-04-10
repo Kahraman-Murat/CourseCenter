@@ -1,0 +1,61 @@
+﻿
+@model UpdateCourseVideoDto
+
+@{
+    ViewData["Title"] = "Kurs Video Güncelle";
+    Layout = "~/Views/Shared/_TeacherLayout.cshtml";
+}
+
+<h3>Kurs Adi : <strong>@ViewBag.CourseName</strong></h3>
+<br />
+
+
+<form method="post">
+
+    <input type="hidden" asp-for="CourseId" value="@ViewBag.CourseId" />
+    <input type="hidden" asp-for="Id" />
+
+    <label>Video No</label>
+    <input type="number" asp-for="VideoNumber" class="form-control" />
+    <span asp-validation-for="VideoNumber" class="text-danger"></span>
+    <br />
+
+    <label>Video Basligi</label>
+    <input type="text" asp-for="VideoTitle" class="form-control" />
+    <span asp-validation-for="VideoTitle" class="text-danger"></span>
+    <br />
+
+    <label>Video Içeriği</label>
+    <textarea asp-for="VideoContent" class="form-control" rows="5"></textarea>
+    <span asp-validation-for="VideoContent" class="text-danger"></span>
+    <br />
+
+    <label>Video Link</label>
+    <input type="text" asp-for="VideoUrl" class="form-control" id="videoUrlInput" />
+    <span asp-validation-for="VideoUrl" class="text-danger"></span>
+    <br />
+
+    <label>Video Önizleme</label>
+    <br />
+    <iframe id="videoIframe" width="560" height="315" frameborder="0" allowfullscreen></iframe>
+    @* <iframe id="videoIframe" width="560" height="315" src="VideoUrl" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> *@
+    <br />
+    <br />
+
+    <button class="btn btn-outline-primary">Güncelle</button>
+</form>
+
+<script>
+
+    const videoUrlInput = document.getElementById('videoUrlInput');
+    const videoIframe = document.getElementById('videoIframe');
+
+    videoIframe.src = videoUrlInput.value;
+
+    videoUrlInput.addEventListener('input', function () {
+        const videoUrl = this.value;
+        videoIframe.src = videoUrl;
+    });
+</script>
+
+
