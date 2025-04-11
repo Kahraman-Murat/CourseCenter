@@ -1,6 +1,7 @@
 ﻿using CourseCenter.WebUI.DTOs.CourseCategoryDtos;
 using CourseCenter.WebUI.DTOs.CourseDtos;
 using CourseCenter.WebUI.DTOs.CourseRegisterDtos;
+using CourseCenter.WebUI.DTOs.CourseVideoDtos;
 using CourseCenter.WebUI.Helpers;
 using CourseCenter.WebUI.Validators;
 using FluentValidation;
@@ -93,6 +94,18 @@ namespace CourseCenter.WebUI.Areas.Student.Controllers
             await _httpClientService.SendRequestAsync<string, string>(HttpMethod.Delete, $"CourseRegisters/{id}", default);
 
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CourseVideos(int id)
+        {
+
+            List<ResultCourseVideoDto> videos = await _httpClientService.SendRequestAsync<string, List<ResultCourseVideoDto>>(HttpMethod.Get, $"CourseVideos/GetVideoListByCourseId/{id}", default);
+
+            ViewBag.CourseId = id;
+            ViewBag.CourseName = videos.FirstOrDefault()?.Course.Name;
+
+            return View(videos);
         }
     }
 }
