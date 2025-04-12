@@ -30,11 +30,9 @@
             <td>@item.Course.Teacher.FullName</td>
             <td>@(item.Course.IsShown ? "Evet" : "Hayır")</td>
             <td>
-                <button onclick="DeleteRecord('/Student/CourseRegister/Delete/@item.Id')" class="btn btn-outline-danger">Sil</button>
+                <button onclick="DeleteRecord('/Student/CourseRegister/Delete/@item.Id')" class="btn btn-outline-danger">Kurs Kaydımı Sil</button>
 
-@*                 <a asp-action="Update" asp-controller="CourseRegister" asp-area="Student" asp-route-id="@item.Id" class="btn btn-outline-info">Güncelle</a> *@
-
-                @*                 <a asp-action="SetCourseDisplayStatus" asp-controller="Course" asp-area="Teacher" asp-route-id="@item.Id" class="btn btn-outline-@(item.IsShown ? "warning" : "success")">@(item.IsShown ? "Gizle" : "Göster")</a> *@
+                <a asp-action="CourseVideos" asp-controller="CourseRegister" asp-area="Student" asp-route-id="@item.Course.Id" class="btn btn-outline-success">Kurs Videoları</a>
             </td>
         </tr>
     }

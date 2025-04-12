@@ -1,0 +1,99 @@
+﻿@model List<ResultCourseVideoDto>
+@{
+    ViewData["Title"] = "Kurs Videolari";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+@{
+    int count = 0;
+}
+
+<style>
+    .row-container {
+        background-color: #f5f5f5;
+        border-radius: .5em;
+        height: 157px;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        /* gap: 15px; */
+        margin-bottom: 20px;
+        box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    }
+
+        .row-container:hover {
+            background-color: #fbfbfb;
+        }
+
+    .row-item {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px;
+    }
+
+    .count {
+        justify-content: center;
+    }
+
+    .video iframe {
+        aspect-ratio: 16/9;
+    }
+
+    .content {
+        justify-content: flex-start;
+        width: 70%;
+        padding-top: 15px;
+        gap: 5px;
+    }
+
+        .content h5, .content p {
+            margin: 0;
+        }
+
+        .content p {
+            overflow-y: auto;
+        }
+
+    .buttons {
+        gap: 10px;
+    }
+</style>
+
+
+<h3>Kurs Adi : <strong>@ViewBag.CourseName</strong></h3>
+
+@if (Model != null)
+{
+    @foreach (var item in Model)
+    {
+        count++;
+        <div class="row-container">
+
+            <div class="row-item count">
+                <h5>@count</h5>
+            </div>
+
+            <div class="row-item video">
+                <iframe width="auto" height="100%" src="@item.VideoUrl" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+
+            <div class="row-item content">
+                <h5><strong>#@item.VideoNumber @item.VideoTitle</strong></h5>
+                <p>@item.VideoContent</p>
+            </div>
+
+@*             <div class="row-item buttons">
+                <button onclick="DeleteRecord('/Teacher/Course/DeleteVideo/@item.Id')" class="btn btn-outline-danger">Sil</button>
+
+                <a asp-action="UpdateVideo" asp-controller="Course" asp-area="Teacher" asp-route-id="@item.Id" class="btn btn-outline-info">Güncelle</a>
+            </div> *@
+        </div>
+    }
+}
+
+
+<a asp-action="Index" asp-controller="CourseRegister" asp-area="Student" class="btn btn-outline-primary">Kurslarıma Dön</a>
+
