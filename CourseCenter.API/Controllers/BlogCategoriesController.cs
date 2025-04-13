@@ -52,5 +52,13 @@ namespace CourseCenter.API.Controllers
             _blogCategoryService.TUpdate(newData);
             return Ok();
         }
+
+        [AllowAnonymous]
+        [HttpGet("GetBlogCategoryCount")]
+        public IActionResult GetBlogCategoryCount()
+        {
+            var courseCount = _blogCategoryService.TCount();
+            return Ok(courseCount);
+        }
     }
 }
