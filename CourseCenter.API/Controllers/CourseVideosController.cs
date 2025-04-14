@@ -62,5 +62,13 @@ namespace CourseCenter.API.Controllers
             return Ok(videos);
         }
 
+        [AllowAnonymous]
+        [HttpGet("GetVideoCount")]
+        public IActionResult GetVideoCount()
+        {
+            var courseCount = _courseVideoService.TCount();
+            return Ok(courseCount);
+        }
+
     }
 }
