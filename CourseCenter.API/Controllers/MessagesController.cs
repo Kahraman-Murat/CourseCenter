@@ -58,5 +58,13 @@ namespace CourseCenter.API.Controllers
             _messageService.TUpdate(newData);
             return Ok();
         }
+
+        [AllowAnonymous]
+        [HttpGet("GetMessageCount")]
+        public IActionResult GetMessageCount()
+        {
+            var courseCount = _messageService.TCount();
+            return Ok(courseCount);
+        }
     }
 }
