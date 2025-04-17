@@ -70,5 +70,13 @@ namespace CourseCenter.API.Controllers
             _subscriberService.TSetSubscriberStatus(id);
             return Ok();
         }
+
+        [AllowAnonymous]
+        [HttpGet("GetSubscriberCount")]
+        public IActionResult GetSubscriberCount()
+        {
+            var courseCount = _subscriberService.TCount();
+            return Ok(courseCount);
+        }
     }
 }
