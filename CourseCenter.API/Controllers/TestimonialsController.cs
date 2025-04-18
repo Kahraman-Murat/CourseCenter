@@ -52,5 +52,13 @@ namespace CourseCenter.API.Controllers
             _testimonialService.TUpdate(newData);
             return Ok();
         }
+
+        [AllowAnonymous]
+        [HttpGet("GetTestimonialCount")]
+        public IActionResult GetTestimonialCount()
+        {
+            var courseCount = _testimonialService.TCount();
+            return Ok(courseCount);
+        }
     }
 }
