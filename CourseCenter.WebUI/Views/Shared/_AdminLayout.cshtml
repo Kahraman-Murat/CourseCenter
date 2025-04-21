@@ -16,6 +16,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="~/matrix-admin-master/assets/images/favicon.png">
     <title>Admin Paneli - CourseCenter Admin Panel</title>
     <!-- Custom CSS -->
+    <link href="~/matrix-admin-master/assets/libs/flot/css/float-chart.css" rel="stylesheet">
     <link rel="stylesheet" href="~/onlineedu-master/assets/css/flaticon.css">
     <link href="~/matrix-admin-master/assets/libs/magnific-popup/dist/magnific-popup.css" rel="stylesheet">
     <link href="~/matrix-admin-master/dist/css/style.min.css" rel="stylesheet">
@@ -25,6 +26,8 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.min.js"></script>
 </head>
 
 <body>
@@ -233,7 +236,7 @@
                 <!-- Sidebar navigation-->
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav" class="p-t-30">
-                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="index.html" aria-expanded="false"><i class="mdi mdi-view-dashboard"></i><span class="hide-menu">Dashboard</span></a></li>
+                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" asp-controller="Dashboard" asp-area="Admin" asp-action="Index" aria-expanded="false"><i class="mdi mdi-view-dashboard"></i><span class="hide-menu">Dashboard</span></a></li>
 
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" asp-controller="About" asp-area="Admin" asp-action="Index" aria-expanded="false"><i class="mdi mdi-format-list-bulleted"></i><span class="hide-menu">Hakkinda</span></a></li>
 
@@ -357,9 +360,23 @@
     <script src="~/matrix-admin-master/dist/js/sidebarmenu.js"></script>
     <!--Custom JavaScript -->
     <script src="~/matrix-admin-master/dist/js/custom.min.js"></script>
+    <!-- Charts js Files -->
+
+    <script src="~/matrix-admin-master/assets/libs/flot/excanvas.js"></script>
+    <script src="~/matrix-admin-master/assets/libs/flot/jquery.flot.js"></script>
+    <script src="~/matrix-admin-master/assets/libs/flot/jquery.flot.pie.js"></script>
+    <script src="~/matrix-admin-master/assets/libs/flot/jquery.flot.time.js"></script>
+    <script src="~/matrix-admin-master/assets/libs/flot/jquery.flot.stack.js"></script>
+    <script src="~/matrix-admin-master/assets/libs/flot/jquery.flot.crosshair.js"></script>
+    <script src="~/matrix-admin-master/assets/libs/flot.tooltip/js/jquery.flot.tooltip.min.js"></script>
+    <script src="~/matrix-admin-master/dist/js/pages/chart/chart-page-init.js"></script>
+
     <!-- this page js -->
     <script src="~/matrix-admin-master/assets/libs/magnific-popup/dist/jquery.magnific-popup.min.js"></script>
     <script src="~/matrix-admin-master/assets/libs/magnific-popup/meg.init.js"></script>
+
+
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         function DeleteRecord(deleteRecordLink) {
