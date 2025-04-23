@@ -85,7 +85,7 @@
     <!-- Column --> *@
 
 </div>
-<div id="grafikAlani" style="width:600px;height:300px;"></div>
+
 
 <div class="row">
     <div class="col-lg-6">
@@ -157,7 +157,8 @@
                     <!-- column -->
                     <div class="col-lg-9">
                         <div class="flot-chart">
-                            <div class="flot-chart-content" id="flot-line-chart1"></div>
+                            <div class="flot-chart-content" id="flot-line-chart"></div>
+                            @* <div class="flot-chart-content" id="flot-line-chart1"></div> *@
                         </div>
                     </div>
                     <div class="col-lg-3">
@@ -213,6 +214,8 @@
     </div>
 </div>
 
+<div id="grafikAlani" style="width:600px;height:300px;"></div>
+
 <script>
     $(function () {
         // Grafik verilerini tanımlayın (veri serileri ve etiketler)
@@ -234,12 +237,12 @@
         };
 
         // Grafiği çizmek için $.plot() fonksiyonunu kullanın
-        //$.plot($("#grafikAlani"), veriler, seçenekler);
-        $.plot($("#flot-line-chart1"), veriler, seçenekler);
+        $.plot($("#grafikAlani"), veriler, seçenekler);
+        //$.plot($("#flot-line-chart1"), veriler, seçenekler);
 
         // (İsteğe bağlı) Etkileşim eklemek için olay dinleyicileri
-        //$("#grafikAlani").bind("plothover", function (event, pos, item) {
-        $("#flot-line-chart1").bind("plothover", function (event, pos, item) {
+        $("#grafikAlani").bind("plothover", function (event, pos, item) {
+        //$("#flot-line-chart1").bind("plothover", function (event, pos, item) {
             if (item) {
                 $("#tooltip").remove();
                 var x = item.datapoint[0].toFixed(2),
@@ -251,8 +254,8 @@
             }
         });
 
-        //$("#grafikAlani").bind("plotclick", function (event, pos, item) {
-        $("#flot-line-chart1").bind("plotclick", function (event, pos, item) {
+        $("#grafikAlani").bind("plotclick", function (event, pos, item) {
+        //$("#flot-line-chart1").bind("plotclick", function (event, pos, item) {
             if (item) {
                 $("#click").html("Tıkladığınız nokta: " + item.series.label + " x: " + item.datapoint[0].toFixed(2) + ", y: " + item.datapoint[1].toFixed(2));
             }
