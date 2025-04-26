@@ -23,7 +23,7 @@ namespace CourseCenter.DataAccess.Concrete
             if (id > 0)
                 query = query.Where(b => b.CourseId == id);
 
-            return query.Include(x => x.Course).ToList();
+            return query.Include(x => x.Course).ThenInclude(c=>c.Teacher).ToList();
         }
     }
 }
