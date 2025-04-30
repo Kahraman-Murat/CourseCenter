@@ -10,6 +10,7 @@ namespace CourseCenter.DataAccess.Abstract
     public interface ICourseVideoRepository : IRepository<CourseVideo>
     {
         List<CourseVideo> GetVideosWithCourseByCourseId(int id = 0);
-        
+        List<CourseVideo> GetVideosWithCourseByTeacherId(int id = 0);
+
     }
 }

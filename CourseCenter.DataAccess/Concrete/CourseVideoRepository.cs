@@ -25,5 +25,15 @@ namespace CourseCenter.DataAccess.Concrete
 
             return query.Include(x => x.Course).ThenInclude(c=>c.Teacher).ToList();
         }
+
+        public List<CourseVideo> GetVideosWithCourseByTeacherId(int id = 0)
+        {
+            var query = _context.CourseVideos.Include(x => x.Course).ThenInclude(c => c.Teacher).AsQueryable();
+            
+            if (id > 0)
+                query = query.Where(d => d.Course.Teacher.Id == id);
+
+            return query.ToList();
+        }
     }
 }
