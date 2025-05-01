@@ -10,5 +10,6 @@ namespace CourseCenter.Business.Abstract
     public interface ICourseVideoService : IGenericService<CourseVideo>
     {
         List<CourseVideo> TGetVideosWithCourseByCourseId(int id = 0);
+        List<CourseVideo> TGetVideosWithCourseByTeacherId(int id = 0);
     }
 }

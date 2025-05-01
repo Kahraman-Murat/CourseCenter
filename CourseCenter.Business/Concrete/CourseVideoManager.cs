@@ -22,5 +22,10 @@ namespace CourseCenter.Business.Concrete
         {
             return _courseVideoRepository.GetVideosWithCourseByCourseId(id);
         }
+
+        public List<CourseVideo> TGetVideosWithCourseByTeacherId(int id = 0)
+        {
+            return _courseVideoRepository.GetVideosWithCourseByTeacherId(id);
+        }
     }
 }
