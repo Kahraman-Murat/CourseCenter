@@ -53,11 +53,30 @@ namespace CourseCenter.API.Controllers
             _courseVideoService.TUpdate(newData);
             return Ok();
         }
-                
+
         [HttpGet("GetVideoListByCourseId/{id}")]
         public IActionResult GetVideoListByCourseId(int id)
         {
             var datas = _courseVideoService.TGetVideosWithCourseByCourseId(id);
+            var videos = _mapper.Map<List<ResultCourseVideoDto>>(datas);
+            return Ok(videos);
+        }
+
+        [HttpGet("GetVideoListForTeacher")]
+        public IActionResult GetVideoListForTeacher()
+        {
+            var claim = User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier"));
+            string claimValue = claim == null ? "0" : claim.Value;
+
+            var datas = _courseVideoService.TGetVideosWithCourseByTeacherId(Int32.Parse(claimValue));
+            var videos = _mapper.Map<List<ResultCourseVideoDto>>(datas);
+            return Ok(videos);
+        }
+
+        [HttpGet("GetVideoListForAllTeachers")]
+        public IActionResult GetVideoListForAllTeachers()
+        {
+            var datas = _courseVideoService.TGetVideosWithCourseByTeacherId();
             var videos = _mapper.Map<List<ResultCourseVideoDto>>(datas);
             return Ok(videos);
         }
