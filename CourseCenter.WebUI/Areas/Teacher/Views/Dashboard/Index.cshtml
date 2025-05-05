@@ -1,0 +1,278 @@
+﻿
+@{
+    ViewData["Title"] = "Teacher Dashboard Sayfası";
+    Layout = "~/Views/Shared/_TeacherLayout.cshtml";
+
+    int count = -1;
+    int percent = 0;
+    string[] bgColor = { "bg-primary", "bg-secondary", "bg-success", "bg-danger", "bg-warning", "bg-info", "bg-dark" };
+}
+
+<div class="row">
+    <!-- Column -->
+    <div class="col-md-6 col-lg-2 col-xlg-3">
+        <div class="card card-hover">
+            <div class="box bg-cyan text-center">
+                <h1 class="font-light text-white"><i class="mdi mdi-playlist-play"></i> <strong>@ViewBag.courseCategoryCount</strong></h1>
+                <h6 class="text-white">Kurs Kategori</h6>
+            </div>
+        </div>
+    </div>
+    <!-- Column -->
+    <div class="col-md-6 col-lg-2 col-xlg-3">
+        <div class="card card-hover">
+            <div class="box bg-primary text-center">
+                <h1 class="font-light text-white"><i class="mdi mdi-keyboard"></i> <strong>@ViewBag.courseCount</strong></h1>
+                <h6 class="text-white">Kurslarım</h6>
+            </div>
+        </div>
+    </div>
+    <!-- Column -->
+    <div class="col-md-6 col-lg-2 col-xlg-3">
+        <div class="card card-hover">
+            <div class="box bg-success text-center">
+                <h1 class="font-light text-white"><i class="mdi mdi-youtube-play"></i> <strong>@ViewBag.videoCount</strong></h1>
+                <h6 class="text-white">Videolarım</h6>
+            </div>
+        </div>
+    </div>
+    <!-- Column -->
+    <div class="col-md-6 col-lg-2 col-xlg-3">
+        <div class="card card-hover">
+            <div class="box bg-warning text-center">
+                <h1 class="font-light text-white"><i class="mdi mdi-format-list-numbers"></i> <strong>@ViewBag.blogCategoryCount</strong></h1>
+                <h6 class="text-white">Blog Kategori</h6>
+            </div>
+        </div>
+    </div>
+    <!-- Column -->
+    <div class="col-md-6 col-lg-2 col-xlg-3">
+        <div class="card card-hover">
+            <div class="box bg-info text-center">
+                <h1 class="font-light text-white"><i class="mdi mdi-newspaper"></i> <strong>@ViewBag.blogCount</strong></h1>
+                <h6 class="text-white">Bloglarım</h6>
+            </div>
+        </div>
+    </div>
+    <!-- Column -->
+    <div class="col-md-6 col-lg-2 col-xlg-3">
+        <div class="card card-hover">
+            <div class="box bg-danger text-center">
+                <h1 class="font-light text-white"><i class="mdi mdi-newspaper"></i> <strong>@ViewBag.messageCount</strong></h1>
+                <h6 class="text-white">Mesajlar</h6>
+            </div>
+        </div>
+    </div>
+    <!-- Column -->
+@*     <!-- Column -->
+    <div class="col-md-6 col-lg-4 col-xlg-3">
+        <div class="card card-hover">
+            <div class="box bg-danger text-center">
+                <h1 class="font-light text-white"><i class="mdi mdi-account-multiple"></i> <strong>@ViewBag.subscriberCount</strong></h1>
+                <h6 class="text-white">Abone</h6>
+            </div>
+        </div>
+    </div>
+    <!-- Column -->
+    <div class="col-md-6 col-lg-2 col-xlg-3">
+        <div class="card card-hover">
+            <div class="box bg-info text-center">
+                <h1 class="font-light text-white"><i class="mdi mdi-relative-scale"></i> <strong>@ViewBag.testimonialCount</strong></h1>
+                <h6 class="text-white">Referans</h6>
+            </div>
+        </div>
+    </div>
+    <!-- Column --> *@
+
+</div>
+
+
+<div class="row">
+@*     <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <div class="d-flex no-block align-items-center">
+                        <h4 class="card-title m-b-0">Rollerde Kayıtlı Kullanıcılar</h4>
+                        <div class="ml-auto">
+                            <h4><small>Toplam : </small>@ViewBag.countSum</h4>
+                        </div>
+                    </div>
+                </div>
+                @foreach (var item in ViewBag.userRoleStatus)
+                {
+                    count++;
+                    count = count % 7;
+                    percent = (int)(@item.Count * 100 / @ViewBag.countSum);
+
+                    <div class="m-t-20">
+                        <div class="d-flex no-block align-items-center">
+                            <span>@item.Role @percent %</span>
+                            <div class="ml-auto">
+                                <span>@item.Count</span>
+                            </div>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped @bgColor[count]" role="progressbar" style="width: @percent%" aria-valuenow="@item.Count" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div> *@
+
+    
+@*         <!-- Column -->
+        <div class="col-md-6 col-lg-4 col-xlg-3">
+            <div class="card card-hover">
+                <div class="box bg-secondary text-center">
+                    <h1 class="font-light text-white"><i class="mdi mdi-account-multiple"></i> <strong>@ViewBag.subscriberCount</strong></h1>
+                    <h6 class="text-white">Abone</h6>
+                </div>
+            </div>
+        </div>
+        <!-- Column -->
+        <div class="col-md-6 col-lg-2 col-xlg-3">
+            <div class="card card-hover">
+                <div class="box bg-dark text-center">
+                    <h1 class="font-light text-white"><i class="mdi mdi-relative-scale"></i> <strong>@ViewBag.testimonialCount</strong></h1>
+                    <h6 class="text-white">Referans</h6>
+                </div>
+            </div>
+        </div>
+        <!-- Column --> *@
+    
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-md-flex align-items-center">
+                    <div>
+                        <h4 class="card-title">Kayıt İstatistiği</h4>
+                        <h5 class="card-subtitle">Overview of Latest Month</h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <!-- column -->
+                    <div class="col-lg-9">
+                        <div class="flot-chart">
+                            <div class="flot-chart-content" id="flot-line-chart"></div>
+                            @* <div class="flot-chart-content" id="flot-line-chart1"></div> *@
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="bg-dark p-10 text-white text-center">
+                                    <i class="fa fa-user m-b-5 font-16"></i>
+                                    <h5 class="m-b-0 m-t-5">2540</h5>
+                                    <small class="font-light">Total Users</small>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="bg-dark p-10 text-white text-center">
+                                    <i class="fa fa-plus m-b-5 font-16"></i>
+                                    <h5 class="m-b-0 m-t-5">120</h5>
+                                    <small class="font-light">New Users</small>
+                                </div>
+                            </div>
+                            <div class="col-6 m-t-15">
+                                <div class="bg-dark p-10 text-white text-center">
+                                    <i class="fa fa-cart-plus m-b-5 font-16"></i>
+                                    <h5 class="m-b-0 m-t-5">656</h5>
+                                    <small class="font-light">Total Shop</small>
+                                </div>
+                            </div>
+                            <div class="col-6 m-t-15">
+                                <div class="bg-dark p-10 text-white text-center">
+                                    <i class="fa fa-tag m-b-5 font-16"></i>
+                                    <h5 class="m-b-0 m-t-5">9540</h5>
+                                    <small class="font-light">Total Orders</small>
+                                </div>
+                            </div>
+                            <div class="col-6 m-t-15">
+                                <div class="bg-dark p-10 text-white text-center">
+                                    <i class="fa fa-table m-b-5 font-16"></i>
+                                    <h5 class="m-b-0 m-t-5">100</h5>
+                                    <small class="font-light">Pending Orders</small>
+                                </div>
+                            </div>
+                            <div class="col-6 m-t-15">
+                                <div class="bg-dark p-10 text-white text-center">
+                                    <i class="fa fa-globe m-b-5 font-16"></i>
+                                    <h5 class="m-b-0 m-t-5">8540</h5>
+                                    <small class="font-light">Online Orders</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- column -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="grafikAlani" style="width:600px;height:300px;"></div>
+
+<script>
+    $(function () {
+        // Grafik verilerini tanımlayın (veri serileri ve etiketler)
+        var veriler = [
+            { data: [[0, 4], [1, 9], [2, 6], [3, 11], [4, 8]], label: "Veri Serisi 1" },
+            { data: [[0, 3], [1, 8], [2, 5], [3, 10], [4, 7]], label: "Veri Serisi 2" },
+            { data: [[0, 2], [1, 6], [2, 3], [3, 8], [4, 5]], label: "Veri Serisi 3" }
+        ];
+
+        // Grafik seçeneklerini tanımlayın (isteğe bağlı)
+        var seçenekler = {
+            series: {
+                lines: { show: true },
+                points: { show: true }
+            },
+            grid: { hoverable: true, clickable: true },
+            yaxis: { min: 0, max: 12 },
+            xaxis: { ticks: [[0, "Ocak"], [1, "Şubat"], [2, "Mart"], [3, "Nisan"], [4, "Mayıs"]] }
+        };
+
+        // Grafiği çizmek için $.plot() fonksiyonunu kullanın
+        $.plot($("#grafikAlani"), veriler, seçenekler);
+        //$.plot($("#flot-line-chart1"), veriler, seçenekler);
+
+        // (İsteğe bağlı) Etkileşim eklemek için olay dinleyicileri
+        $("#grafikAlani").bind("plothover", function (event, pos, item) {
+        //$("#flot-line-chart1").bind("plothover", function (event, pos, item) {
+            if (item) {
+                $("#tooltip").remove();
+                var x = item.datapoint[0].toFixed(2),
+                    y = item.datapoint[1].toFixed(2);
+
+                showTooltip(item.pageX, item.pageY, item.series.label + " = " + y);
+            } else {
+                $("#tooltip").remove();
+            }
+        });
+
+        $("#grafikAlani").bind("plotclick", function (event, pos, item) {
+        //$("#flot-line-chart1").bind("plotclick", function (event, pos, item) {
+            if (item) {
+                $("#click").html("Tıkladığınız nokta: " + item.series.label + " x: " + item.datapoint[0].toFixed(2) + ", y: " + item.datapoint[1].toFixed(2));
+            }
+        });
+
+        function showTooltip(x, y, contents) {
+            $('<div id="tooltip">' + contents + '</div>').css({
+                position: 'absolute',
+                display: 'none',
+                top: y + 5,
+                left: x + 5,
+                border: '1px solid #fdd',
+                padding: '2px',
+                'background-color': '#fee',
+                opacity: 0.80
+            }).appendTo("body").fadeIn(200);
+        }
+    });
+</script>
+
