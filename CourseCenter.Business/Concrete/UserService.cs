@@ -84,6 +84,32 @@ namespace CourseCenter.Business.Concrete
             return (false, result.Errors.Select(e => e.Description).ToArray());
         }
 
+        public async Task<(bool Success, string[] Errors)> UpdateAsync(UpdateUserDto updateUserDto)
+        {
+            AppUser? user = await _userManager.FindByIdAsync(updateUserDto.Id.ToString());
+
+            if (user == null)
+                return (false, new[] { "Kullanıcı bulunamadı!" });
+
+            if(user.Email != updateUserDto.Email)
+            {
+                AppUser? emailExist = await _userManager.FindByEmailAsync(updateUserDto.Email);
+                if (emailExist is not null)
+                    return (false, new[] { "Başka bir Email adresi kullanmalısınız!" });
+
+                user.Email = updateUserDto.Email;
+                user.EmailConfirmed = false;
+            }
+
+            user.FullName = updateUserDto.FullName;
+            user.UserName = updateUserDto.UserName;
+
+            IdentityResult updateResult = await _userManager.UpdateAsync(user);
+            if (updateResult.Succeeded)
+                return (true, null);
+
+            return (false, updateResult.Errors.Select(e => e.Description).ToArray());
+        }
         public async Task<ResultUserRolesDto> GetUserRolesAsync(int id)//, Assembly assembly
         {
             ResultUserRolesDto result = new();

@@ -12,6 +12,7 @@ namespace CourseCenter.Business.Abstract
         Task<ResultUserDto> GetByIdAsync(int id);
         Task<List<ResultUserWithRolesDto>> GetUsersWithRolesAsync();
         Task<(bool Success, string[] Errors)> CreateAsync(CreateUserDto createUserDto);
+        Task<(bool Success, string[] Errors)> UpdateAsync(UpdateUserDto updateUserDto);
         Task<ResultUserRolesDto> GetUserRolesAsync(int id);//, Assembly assembly
         Task<List<IdentityResult>> AssignRolesToUserAsync(AssignUserRolesDto assignUserRolesDto);
         Task<int> GetUserCountInRolesAsync(string roleName);
