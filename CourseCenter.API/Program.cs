@@ -65,6 +65,7 @@ builder.Services
     .AddAutoMapper(assembly)
     .AddFluentValidationAutoValidation()
     .AddScoped<IValidator<CreateUserDto>, CreateUserValidator>()
+    .AddScoped<IValidator<UpdateUserDto>, UpdateUserValidator>()
     .AddScoped<IValidator<RequestLoginDto>, RequestLoginValidator>()
     .AddScoped<IValidator<CreateRoleDto>, CreateRoleValidator>()
     .AddScoped<IValidator<UpdateRoleDto>, UpdateRoleValidator>()
