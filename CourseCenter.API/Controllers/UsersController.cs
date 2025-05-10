@@ -1,17 +1,12 @@
 ﻿using AutoMapper;
-using CourseCenter.API.Validators;
 using CourseCenter.Business.Abstract;
-using CourseCenter.Business.Concrete;
 using CourseCenter.DTO.DTOs.UserDtos;
-using CourseCenter.Entity.Entities;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Reflection;
 
 namespace CourseCenter.API.Controllers
 {
-    [Authorize(Roles = "Admin,Content-Manager,Teacher")]
+    [Authorize(Roles = "Admin,Content-Manager,Teacher,Student")]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController(IUserService _userService, IMapper _mapper) : ControllerBase
@@ -38,6 +33,19 @@ namespace CourseCenter.API.Controllers
             return Ok(users);
         }
 
+        [HttpGet("userProfile")]
+        public async Task<IActionResult> userProfile()
+        {
+            var claim = User.Claims.FirstOrDefault(c => c.Type.Contains("nameidentifier"));
+            string claimValue = claim == null ? "0" : claim.Value;
+
+            var users = await _userService.GetUsersWithRolesAsync();
+            var user = users.AsQueryable().Where(x => x.Id.ToString() == claimValue).FirstOrDefault();
+            var mappedUser = _mapper.Map<ResultUserWithRolesDto>(user);
+
+            return Ok(mappedUser);
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -57,6 +65,17 @@ namespace CourseCenter.API.Controllers
                 return StatusCode(StatusCodes.Status201Created, new { Result = "Kayıt başarılı." } );
 
             return BadRequest(new { Errors = errors });
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Update(UpdateUserDto updateUserDto)
+        {
+            var (success, errors) = await _userService.UpdateAsync(updateUserDto);
+
+            if (success)
+                return StatusCode(StatusCodes.Status201Created, new { Success = true, Message = "Kayıt başarılı." });
+
+            return BadRequest(new { Success = false, Message = errors });
         }
 
         [HttpGet("GetRolesForUser/{id}")]
