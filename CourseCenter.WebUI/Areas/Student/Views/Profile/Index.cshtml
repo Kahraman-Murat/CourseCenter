@@ -1,0 +1,29 @@
+﻿@model ResultUserWithRolesDto
+
+@{
+    ViewData["Title"] = "Profil Sayfası";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="row g-3 align-items-center">
+        <!-- Profil Resmi -->
+        <div class="col-12 col-md-2 text-center">
+            <img src="~/matrix-admin-master/assets/images/users/profile.png" class="img-fluid rounded-circle" alt="Profil Resmi">
+        </div>
+
+        <!-- Kullanıcı Bilgileri -->
+        <div class="col-12 col-md-8">
+            <div class="mb-2"><strong>Kullanıcı Adı:</strong> @Model.UserName</div>
+            <div class="mb-2"><strong>Ad Soyad:</strong> @Model.FullName</div>
+            <div class="mb-2"><strong>Email:</strong> @Model.Email</div>
+            <div class="mb-2"><strong>Roller:</strong> @string.Join(", ", Model.Roles)</div>            
+        </div>
+
+        <!-- Butonlar -->
+        <div class="col-12 col-md-2 text-md-end text-center">
+            <a asp-action="UpdateProfile" asp-controller="Profile" asp-area="Student" asp-route-id="@Model.Id" class="btn btn-outline-info mb-2 w-100">Güncelle</a>
+            <a asp-action="ChangePassword" asp-controller="Profile" asp-area="Student" asp-route-id="@Model.Id" class="btn btn-outline-danger w-100" style="overflow: hidden;">Şifre Değiştir</a>
+        </div>
+    </div>
+</div>
