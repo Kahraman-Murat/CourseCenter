@@ -1,0 +1,29 @@
+﻿@model UpdateUserDto
+@{
+    ViewData["Title"] = "Profil Güncelleme";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+<form method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <label>Kullanıcı Adı</label>
+    <input type="text" asp-for="UserName" class="form-control" />
+    <span asp-validation-for="UserName" class="text-danger"></span>
+    <br />
+    <label>Adı Soyadı</label>
+    <input type="text" asp-for="FullName" class="form-control" />
+    <span asp-validation-for="FullName" class="text-danger"></span>
+    <br />
+    <label>Email Adresi</label>
+    <input type="text" asp-for="Email" class="form-control" />
+    <span asp-validation-for="Email" class="text-danger"></span>
+    <br />
+    <button class="btn btn-outline-primary">Güncelle</button>
+    <br /><br />
+    <div style="color:red;">@ViewBag.Errors</div>
+    <br />
+
+</form>
+
+
