@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,5 +13,8 @@ namespace CourseCenter.DTO.DTOs.UserDtos
         public string FullName { get; set; }
         public string UserName { get; set; }
         public string Email { get; set; }
+        public string? ImageUrl { get; set; }
+        public string Base64Image { get; set; }
+        public string ImageFileName { get; set; }
     }
 }
