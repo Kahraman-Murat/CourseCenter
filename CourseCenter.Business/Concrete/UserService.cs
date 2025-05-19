@@ -2,20 +2,14 @@
 using CourseCenter.Business.Abstract;
 using CourseCenter.DTO.DTOs.UserDtos;
 using CourseCenter.Entity.Entities.Identity;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CourseCenter.Business.Concrete
 {
-    public class UserService(UserManager<AppUser> _userManager, RoleManager<AppRole> _roleManager, IRoleService _roleService, IMapper _mapper) : IUserService
+    public class UserService(UserManager<AppUser> _userManager, RoleManager<AppRole> _roleManager, IRoleService _roleService, IMapper _mapper, IHttpContextAccessor _httpContextAccessor, IWebHostEnvironment _webHostEnvironment) : IUserService
     {
         public async Task<List<ResultUserDto>> GetAllAsync()
         {
@@ -48,6 +42,7 @@ namespace CourseCenter.Business.Concrete
                     FullName = user.FullName,
                     UserName = user.UserName,
                     Email = user.Email,
+                    ImageUrl = user.ImageUrl,
                     Roles = roles.ToList()
                 });
             }
@@ -101,8 +96,42 @@ namespace CourseCenter.Business.Concrete
                 user.EmailConfirmed = false;
             }
 
+            if (!string.IsNullOrEmpty(updateUserDto.Base64Image) && !string.IsNullOrEmpty(updateUserDto.ImageFileName))
+            {
+                var bytes = Convert.FromBase64String(updateUserDto.Base64Image);
+                var fileName = $"{Guid.NewGuid()}_{updateUserDto.ImageFileName}";
+                var path = Path.Combine(_webHostEnvironment.WebRootPath, "_uploads/photos", fileName);
+                
+                //Backend wwwroot a kaydedilir
+                await System.IO.File.WriteAllBytesAsync(path, bytes);
+
+                // Eski resim silinir
+                if (!string.IsNullOrWhiteSpace(user.ImageUrl))
+                {
+                    try
+                    {
+                        var existingFileName = Path.GetFileName(new Uri(user.ImageUrl).LocalPath);
+                        var oldFilePath = Path.Combine(_webHostEnvironment.WebRootPath, "_uploads/photos", existingFileName);
+
+                        if (System.IO.File.Exists(oldFilePath))
+                            System.IO.File.Delete(oldFilePath);
+                    }
+                    catch (Exception ex)
+                    {
+                        // Gerekirse loglanabilir
+                        //Console.WriteLine("Önceki resim silinemedi: " + ex.Message);
+                    }
+                }
+
+                //Backend wwwroot yoluna ulasmak icin
+                var request = _httpContextAccessor.HttpContext?.Request;
+                updateUserDto.ImageUrl = $"{request.Scheme}://{request.Host}/_uploads/photos/{fileName}";
+
+            }
+
             user.FullName = updateUserDto.FullName;
             user.UserName = updateUserDto.UserName;
+            user.ImageUrl = updateUserDto.ImageUrl;
 
             IdentityResult updateResult = await _userManager.UpdateAsync(user);
             if (updateResult.Succeeded)
