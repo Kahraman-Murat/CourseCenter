@@ -23,4 +23,8 @@
     <ProjectReference Include="..\CourseCenter.DTO\CourseCenter.DTO.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\_uploads\photos\" />
+  </ItemGroup>
+
 </Project>
