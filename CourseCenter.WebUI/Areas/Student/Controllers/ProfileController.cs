@@ -3,7 +3,6 @@ using CourseCenter.WebUI.DTOs.UserDtos;
 using CourseCenter.WebUI.Helpers;
 using CourseCenter.WebUI.Validators;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CourseCenter.WebUI.Areas.Student.Controllers
 {
@@ -14,21 +13,21 @@ namespace CourseCenter.WebUI.Areas.Student.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            ResultUserWithRolesDto datas =
-                await _httpClientService.SendRequestAsync<string, ResultUserWithRolesDto>(HttpMethod.Get, "Users/userProfile", default);
-            return View(datas);
+            ResultUserWithRolesDto data = await _httpClientService.SendRequestAsync<string, ResultUserWithRolesDto>(HttpMethod.Get, "Users/userProfile", default);
+
+            return View(data);
         }
 
         [HttpGet]
         public async Task<IActionResult> UpdateProfile(int id)
         {
+            UpdateUserDto data = await _httpClientService.SendRequestAsync<string, UpdateUserDto>(HttpMethod.Get, "Users/userProfile", default);
 
-            UpdateUserDto data = await _httpClientService.SendRequestAsync<string, UpdateUserDto>(HttpMethod.Get, $"Users/{id}", default);
             return View(data);
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateProfile(UpdateUserDto updateUserDto)
+        public async Task<IActionResult> UpdateProfile(UpdateUserDto updateUserDto, IFormFile imageFile)
         {
             var validator = new UpdateUserValidator();
             var result = await validator.ValidateAsync(updateUserDto);
@@ -41,7 +40,19 @@ namespace CourseCenter.WebUI.Areas.Student.Controllers
                 return View(updateUserDto);
             }
 
-            ResponseMessageDto resultRequest = await _httpClientService.SendRequestAsync<UpdateUserDto, ResponseMessageDto>(HttpMethod.Put, "Users", updateUserDto);
+            // Resim base64 formatına çevrilir
+            if (imageFile != null && imageFile.Length > 0)
+            {
+                using var ms = new MemoryStream();
+                await imageFile.CopyToAsync(ms);
+                var bytes = ms.ToArray();
+                updateUserDto.Base64Image = Convert.ToBase64String(bytes);
+                updateUserDto.ImageFileName = imageFile.FileName;
+            }
+
+            // JSON olarak gönderilir (multipart yok)
+            var resultRequest = await _httpClientService
+                .SendRequestAsync<UpdateUserDto, ResponseMessageDto>(HttpMethod.Put, "Users", updateUserDto);
 
             if (resultRequest != null)
                 return RedirectToAction(nameof(Index));
