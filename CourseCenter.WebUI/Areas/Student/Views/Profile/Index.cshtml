@@ -9,7 +9,14 @@
     <div class="row g-3 align-items-center">
         <!-- Profil Resmi -->
         <div class="col-12 col-md-2 text-center">
-            <img src="~/matrix-admin-master/assets/images/users/profile.png" class="img-fluid rounded-circle" alt="Profil Resmi">
+            @if (@Model.ImageUrl == null)
+            {
+                <img src="~/matrix-admin-master/assets/images/users/null.png" class="img-fluid rounded-circle" alt="Profil Resmi">
+            }
+            else
+            {
+                <img src="@Model.ImageUrl" class="img-fluid rounded-circle" alt="Profil Resmi">
+            }
         </div>
 
         <!-- Kullanıcı Bilgileri -->
