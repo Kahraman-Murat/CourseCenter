@@ -1,0 +1,55 @@
+﻿@model UpdateUserDto
+@{
+    ViewData["Title"] = "Profil Güncelleme";
+    Layout = "~/Views/Shared/_TeacherLayout.cshtml";
+}
+
+<form method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="Id" />
+
+    <!-- Profil Resmi -->
+    <label>Profil Resmi</label>
+    <br />
+    <!-- img tag – hem mevcut resmi gösterir hem seçileni -->
+    <img id="preview" src="@Model.ImageUrl" alt="Profil Resmi" style="max-width: 200px; max-height: 200px;" class="img-fluid rounded-circle" />
+    <br /><br />
+
+    <input type="file" name="imageFile" class="form-control" accept="image/*" onchange="previewImage(event)" />
+    <br />
+
+    <label>Kullanıcı Adı</label>
+    <input type="text" asp-for="UserName" class="form-control" />
+    <span asp-validation-for="UserName" class="text-danger"></span>
+    <br />
+
+    <label>Adı Soyadı</label>
+    <input type="text" asp-for="FullName" class="form-control" />
+    <span asp-validation-for="FullName" class="text-danger"></span>
+    <br />
+
+    <label>Email Adresi</label>
+    <input type="text" asp-for="Email" class="form-control" />
+    <span asp-validation-for="Email" class="text-danger"></span>
+    <br />
+
+    <button class="btn btn-outline-primary">Güncelle</button>
+    <br /><br />
+    <div style="color:red;">@ViewBag.Errors</div>
+</form>
+
+
+<script>
+    // Yeni seçilen resmi önizlemede göster
+    function previewImage(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const imgElement = document.getElementById('preview');
+                imgElement.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
+
